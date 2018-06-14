@@ -39,7 +39,7 @@ const dashboardRoutes = [
 
   {
     path: "/Transpotation",
-    sidebarName: "Transportation",
+    sidebarName: "Public Transport",
     navbarName: "Transportation",
     icon: Train,
     component: Transportation

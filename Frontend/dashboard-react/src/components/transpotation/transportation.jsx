@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import BVGform from "./BVGform.jsx";
+
 // react plugin for creating charts
 import {
   MoreHoriz,
@@ -31,11 +33,7 @@ class Transportation extends React.Component {
   };
   render() {
     return (
-      <div>
-        <Header />
-        <Grid container>
-        </Grid>
-      </div>
+        <BVGform />
     );
   }
 }

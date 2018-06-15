@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 // creates a beautiful scrollbar
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
-import { Grid, InputLabel, Input,FormControl, TextField, Select,MenuItem,FormHelperText } from "material-ui";
+import { Grid, InputLabel, Input,FormControl, Select,MenuItem,FormHelperText } from "material-ui";
+import TextField from 'material-ui/TextField';
 import {
     ProfileCard,
     RegularCard,
@@ -14,17 +15,12 @@ import {
 
 import appStyle from "../../assets/jss/material-dashboard-react/appStyle.jsx";
 
-const styles = theme => ({
 
-    formControl: {
-        margin: theme.spacing.unit,
-        minWidth: 120,
-        width:50,
-    },
-    TextField: {
-        minWidth: 120,
-    },
-});
+const formControlStyles = {
+    width:600
+
+};
+
 class BVGform extends React.Component {
 
     constructor(props) {
@@ -64,12 +60,10 @@ class BVGform extends React.Component {
     render() {
         const { classes } = this.props;
         return (
-            <Grid item xs={12} sm={12} md={8}>
-                <RegularCard
-                    cardTitle="Configure BVG Rules"
-                    content={ <div className={classes.container}>
+            <Grid item xs={18} sm={12} md={8}>
+                 <div className={classes.container}>
                         <form onSubmit={this.handleSubmit}>
-                            <FormControl className={classes.formControl} style = {{width: 500}}>
+                            <FormControl className={classes.formControl} style = {formControlStyles}>
                                     <InputLabel htmlFor="age-helper">Type of Transport</InputLabel>
                                     <Select
                                         name="transportType"
@@ -86,7 +80,7 @@ class BVGform extends React.Component {
                                     </Select>
                                     {/*<FormHelperText>Some important helper text</FormHelperText>*/}
                             </FormControl>
-                            <FormControl className={classes.formControl} style = {{width: 500}}>
+                            <FormControl className={classes.formControl} style = {formControlStyles}>
                                 <InputLabel htmlFor="age-helper">Amount of Trains/Buses/Trams</InputLabel>
                                 <Select
                                     name="transportValue"
@@ -100,7 +94,7 @@ class BVGform extends React.Component {
                                 </Select>
                                 {/*<FormHelperText>Some important helper text</FormHelperText>*/}
                             </FormControl>
-                            <FormControl className={classes.formControl} style = {{width: 500}}>
+                            <FormControl className={classes.formControl} style = {formControlStyles}>
                                 <TextField
                                     required
                                     id="numberOfTransport-input"
@@ -113,7 +107,7 @@ class BVGform extends React.Component {
                                     margin="normal"
                                 />
                             </FormControl>
-                            <FormControl className={classes.formControl} style = {{width: 500}}>
+                            <FormControl className={classes.formControl} style = {formControlStyles}>
                             <TextField
                                 id="time"
                                 type="time"
@@ -121,7 +115,6 @@ class BVGform extends React.Component {
                                 className={classes.textField}
                                 onChange={e=>this.handleChange(e)}
                                 name="timeOfTransport"
-
 
                             />
 
@@ -134,8 +127,8 @@ class BVGform extends React.Component {
                             </FormControl>
                             <Button label="Submit"  disabled={!this.validateForm()} color='primary' type="submit">Login</Button>
                         </form>
-                    </div>}
-                />
+                    </div>
+
 
             </Grid>
 

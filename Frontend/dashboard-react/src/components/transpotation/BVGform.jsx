@@ -185,7 +185,7 @@ class BVGform extends React.Component {
                                 />
                                 {<FormHelperText>Specify the Time</FormHelperText>}
                             </FormControl>
-                            <Button label="Submit"  disabled={!this.validateForm()} color='primary' type="submit">Login</Button>
+                            <Button label="Submit"  disabled={!this.validateForm()} color="info" type="submit">Login</Button>
                         </form>
                     </div>
 

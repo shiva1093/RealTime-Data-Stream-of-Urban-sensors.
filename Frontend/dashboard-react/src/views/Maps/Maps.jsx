@@ -5,12 +5,14 @@ import {
   GoogleMap,
   Marker
 } from "react-google-maps";
+const { DrawingManager } = require("react-google-maps/lib/components/drawing/DrawingManager");
+/*global google*/
 
 const CustomSkinMap = withScriptjs(
-  withGoogleMap(props => (
+withGoogleMap(props => (
     <GoogleMap
       defaultZoom={13}
-      defaultCenter={{ lat: 40.748817, lng: -73.985428 }}
+      defaultCenter={{ lat: 52.52000659999999, lng: 13.404953999999975 }}
       defaultOptions={{
         scrollwheel: false,
         zoomControl: true,
@@ -76,20 +78,65 @@ const CustomSkinMap = withScriptjs(
         ]
       }}
     >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
+        <DrawingManager
+            onCircleComplete={(googleMap) => {
+               alert('Radius:'+googleMap.getRadius())
+                alert('LatLngBounds of this Circle:'+googleMap.getBounds())
+                alert('Center of this circle:'+googleMap.getCenter())
+            }}
+            defaultDrawingMode='circle'
+            defaultOptions={{
+                drawingControl: true,
+                circleOptions: {
+                    fillColor: `#ffff00`,
+                    fillOpacity: 1,
+                    strokeWeight: 5,
+                    clickable: false,
+                    editable: true,
+                    zIndex: 1,
+                },
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: ['marker','circle'],
+                },
+            }}/>
+
     </GoogleMap>
   ))
 );
 
+
 function Maps({ ...props }) {
   return (
     <CustomSkinMap
-      googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
+      googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnZHCNVuYH8lZSMZtuHzJ4677eUi6AE8w&libraries=drawing"
       loadingElement={<div style={{ height: `100%` }} />}
-      containerElement={<div style={{ height: `100vh` }} />}
+      containerElement={<div style={{ height: `80vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
     />
   );
 }
 
 export default Maps;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

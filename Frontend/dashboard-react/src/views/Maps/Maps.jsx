@@ -10,6 +10,7 @@ const { DrawingManager } = require("react-google-maps/lib/components/drawing/Dra
 
 const CustomSkinMap = withScriptjs(
 withGoogleMap(props => (
+
     <GoogleMap
       defaultZoom={13}
       defaultCenter={{ lat: 52.52000659999999, lng: 13.404953999999975 }}
@@ -80,9 +81,7 @@ withGoogleMap(props => (
     >
         <DrawingManager
             onCircleComplete={(googleMap) => {
-               alert('Radius:'+googleMap.getRadius())
-                alert('LatLngBounds of this Circle:'+googleMap.getBounds())
-                alert('Center of this circle:'+googleMap.getCenter())
+               props.maps(googleMap) // Call to your function to retrieve values
             }}
             defaultDrawingMode='circle'
             defaultOptions={{
@@ -113,6 +112,7 @@ function Maps({ ...props }) {
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={<div style={{ height: `80vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
+      maps={props.maps}
     />
   );
 }

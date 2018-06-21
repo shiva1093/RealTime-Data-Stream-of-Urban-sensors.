@@ -7,6 +7,7 @@ import { Grid, InputLabel, Input,FormControl,MenuItem,FormHelperText,ListItemTex
 import Select from '@material-ui/core/Select';
 import TextField from 'material-ui/TextField';
 import TimePicker from 'material-ui-time-picker';
+import Maps from "../../views/Maps/Maps.jsx";
 import {
     ProfileCard,
     RegularCard,
@@ -20,7 +21,13 @@ import appStyle from "../../assets/jss/material-dashboard-react/appStyle.jsx";
 
 
 const formControlStyles = {
-    width:600
+    width:600,
+
+
+};
+
+const mapsControlStyles = {
+    width:800,
 
 };
 const ITEM_HEIGHT = 48;
@@ -185,7 +192,10 @@ class BVGform extends React.Component {
                                 />
                                 {<FormHelperText>Specify the Time</FormHelperText>}
                             </FormControl>
-                            <Button label="Submit"  disabled={!this.validateForm()} color="info" type="submit">Login</Button>
+                            <FormControl className={classes.formControl} style = {mapsControlStyles}>
+                                <Maps/>
+                            </FormControl>
+                            <Button label="Submit"  disabled={!this.validateForm()} color="info" type="submit">Submit</Button>
                         </form>
                     </div>
 

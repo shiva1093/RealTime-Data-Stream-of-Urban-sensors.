@@ -1,0 +1,73 @@
+[
+  {
+    "label": "All",
+    "value": "All",
+    "key": "0",
+    "children": [
+      {
+        "label": "Bus 183",
+        "value": "Bus 183",
+        "key": "0-0",
+        "children": [
+          {
+            "label": "Berlin HBF",
+            "value": "Berlin HBF",
+            "key": "0-0-0",
+            "parent": "Bus 183"
+          }
+        ]
+      },
+      {
+        "label": "Bus 245",
+        "value": "Bus 245",
+        "key": "0-1",
+        "children": [
+          {
+            "label": "Zoo",
+            "value": "Zoo",
+            "key": "0-1-0",
+            "parent": "Bus 245"
+          },
+          {
+            "label": "HBF",
+            "value": "HBF",
+            "key": "0-1-1",
+            "parent": "Bus 245"
+          },
+          {
+            "label": "Tegel",
+            "value": "Tegel",
+            "key": "0-1-2",
+            "parent": "Bus 245"
+          }
+        ]
+      },
+      {
+        "label": "Bus 120",
+        "value": "Bus 120",
+        "key": "0-2",
+        "children": [
+          {
+            "label": "pot",
+            "value": "pot",
+            "key": "0-2-0",
+            "parent": "Bus 120"
+          },
+          {
+            "label": "alex",
+            "value": "alex",
+            "key": "0-2-1",
+            "parent": "Bus 120"
+          },
+          {
+            "label": "sch",
+            "value": "sch",
+            "key": "0-2-2",
+            "parent": "Bus 120"
+          }
+        ]
+      }
+    ]
+  }
+]
+

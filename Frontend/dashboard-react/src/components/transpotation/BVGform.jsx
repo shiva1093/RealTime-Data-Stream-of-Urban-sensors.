@@ -18,6 +18,7 @@ import {
 } from "../../components/baseItems";
 
 import appStyle from "../../assets/jss/material-dashboard-react/appStyle.jsx";
+import NestedCheckbox from "./NestedCheckbox";
 
 
 const formControlStyles = {
@@ -189,7 +190,6 @@ class BVGform extends React.Component {
                         </FormControl>
                         <FormControl className={classes.formControl} style={formControlStyles}>
                             <TextField
-                                required
                                 id="numberOfTransport-input"
                                 disabled={!this.validateDropdown()}
                                 label="Number of trains/buses/trams"
@@ -199,6 +199,9 @@ class BVGform extends React.Component {
                                 name="numberOfTransport"
                                 margin="normal"
                             />
+                        </FormControl>
+                        <FormControl className={classes.formControl} style={mapsControlStyles}>
+                            <NestedCheckbox/>
                         </FormControl>
                         <FormControl className={classes.formControl} style={formControlStyles}>
                             <TimePicker

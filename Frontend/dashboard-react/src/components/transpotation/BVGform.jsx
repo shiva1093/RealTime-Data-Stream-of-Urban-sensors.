@@ -6,7 +6,6 @@ import {withStyles, Checkbox} from "material-ui";
 import {Grid, InputLabel, Input, FormControl, MenuItem, FormHelperText, ListItemText} from "material-ui";
 import Select from '@material-ui/core/Select';
 import TextField from 'material-ui/TextField';
-import TimePicker from 'material-ui-time-picker';
 import Maps from "../../views/Maps/Maps.jsx";
 import {
     ProfileCard,
@@ -64,7 +63,6 @@ class BVGform extends React.Component {
             transportType: [],
             transportName: 'BUS',
             transportValue: '',
-            timeOfTransport: ''
         };
     }
 
@@ -112,10 +110,6 @@ class BVGform extends React.Component {
         return this.state.transportName.length > 0 && this.state.numberOfTransport.length > 0;
     }
 
-    handleChangeTimePicker = (time) => {
-        console.log(time)
-        this.setState({timeOfTransport: time});
-    };
 
     checkAll() {
         let transportType = this.state.transportType
@@ -202,15 +196,6 @@ class BVGform extends React.Component {
                         </FormControl>
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <NestedCheckbox/>
-                        </FormControl>
-                        <FormControl className={classes.formControl} style={formControlStyles}>
-                            <TimePicker
-                                mode='24h'
-                                name="timeOfTransport"
-                                value={this.state.timeOfTransport}
-                                onChange={e => this.handleChangeTimePicker(e)}
-                            />
-                            {<FormHelperText>Specify the Time</FormHelperText>}
                         </FormControl>
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps}/>

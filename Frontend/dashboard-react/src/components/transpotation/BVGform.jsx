@@ -46,7 +46,8 @@ class BVGform extends React.Component {
             transportName: 'BUS',
             transportValue: '',
             open: false,
-            place: 'bc'
+            place: 'bc',
+            showNumberofTransport: false
         };
     }
 
@@ -60,6 +61,11 @@ class BVGform extends React.Component {
 
     handleChange = e => {
         this.setState({[e.target.name]: e.target.value});
+    }
+
+    onClick() {
+        this.setState({showNumberofTransport: true});
+
     }
 
     /* Retrieve values from Maps.jsx */
@@ -80,10 +86,6 @@ class BVGform extends React.Component {
 
     validateForm() {
         return this.state.transportName.length > 0 && this.state.numberOfTransport.length > 0;
-    }
-
-    validateDropdown() {
-        return this.state.transportValue.length > 0;
     }
 
     render() {
@@ -111,6 +113,7 @@ class BVGform extends React.Component {
                             <InputLabel htmlFor="age-helper">Amount of Trains/Buses/Trams</InputLabel>
                             <Select
                                 name="transportValue"
+                                onClick={this.onClick.bind(this)}
                                 value={this.state.transportValue}
                                 onChange={e => this.handleChange(e)}
                                 input={<Input name="transportValue" id="age-helper"/>}
@@ -121,10 +124,9 @@ class BVGform extends React.Component {
                             </Select>
                             {/*<FormHelperText>Some important helper text</FormHelperText>*/}
                         </FormControl>
-                        <FormControl className={classes.formControl} style={formControlStyles}>
+                        { this.state.showNumberofTransport ?  <FormControl className={classes.formControl} style={formControlStyles}>
                             <TextField
                                 id="numberOfTransport-input"
-                                disabled={!this.validateDropdown()}
                                 label="Number of trains/buses/trams"
                                 className={classes.textField}
                                 onChange={e => this.handleChange(e)}
@@ -132,7 +134,8 @@ class BVGform extends React.Component {
                                 name="numberOfTransport"
                                 margin="normal"
                             />
-                        </FormControl>
+                        </FormControl> : null }
+
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps}/>
                         </FormControl>

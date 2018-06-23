@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 // creates a beautiful scrollbar
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-import {withStyles, Checkbox} from "material-ui";
-import {Grid, InputLabel, Input, FormControl, MenuItem, FormHelperText, ListItemText} from "material-ui";
+import {withStyles} from "material-ui";
+import {Grid, InputLabel, Input, FormControl, MenuItem} from "material-ui";
 import Select from '@material-ui/core/Select';
 import TextField from 'material-ui/TextField';
 import Maps from "../../views/Maps/Maps.jsx";
@@ -30,28 +30,6 @@ const mapsControlStyles = {
     width: 800,
 
 };
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-const busNames = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
 
 class BVGform extends React.Component {
 
@@ -70,27 +48,6 @@ class BVGform extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    handleCheck = e => {
-        const target = e.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-        if (value) {
-            this.checkAll();
-        } else {
-            this.setState(({transportType}) => (
-                {
-                    transportType: [],
-                }
-            ));
-        }
-        this.setState(({checkAll}) => (
-            {
-                checkAll: value,
-            }
-        ));
-    }
-
-
     /* Retrieve values from Maps.jsx */
     maps = (googleMap) => {
         alert('Radius:' + googleMap.getRadius())
@@ -108,15 +65,6 @@ class BVGform extends React.Component {
 
     validateForm() {
         return this.state.transportName.length > 0 && this.state.numberOfTransport.length > 0;
-    }
-
-
-    checkAll() {
-        let transportType = this.state.transportType
-        busNames.forEach((email) => {
-            this.state.transportType.push(email)
-        })
-        this.setState({transportType})
     }
 
     validateDropdown() {
@@ -141,32 +89,8 @@ class BVGform extends React.Component {
                                 disabled
                             />
                         </FormControl>
-                        <FormControl className={classes.formControl} style={formControlStyles}>
-                            <InputLabel htmlFor="age-helper">Type of Transport</InputLabel>
-                            <Select
-                                multiple
-                                name="transportType"
-                                onChange={e => this.handleChange(e)}
-                                value={this.state.transportType}
-                                input={<Input id="select-multiple-checkbox"/>}
-                                renderValue={selected => selected.join(', ')}
-                                MenuProps={MenuProps}
-                            >
-                                <MenuItem key={'All'} value={'All'}>
-                                    <Checkbox color='primary'
-                                              checked={this.state.checkAll} name={'test'}
-                                              onChange={e => this.handleCheck(e)}/>
-                                    <ListItemText primary={'ALL'}/>
-                                </MenuItem>
-                                {busNames.map(name => (
-                                    <MenuItem key={name} value={name}>
-                                        <Checkbox color='primary'
-                                                  checked={this.state.transportType.indexOf(name) > -1}/>
-                                        <ListItemText primary={name}/>
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            {/*<FormHelperText>Some important helper text</FormHelperText>*/}
+                        <FormControl className={classes.formControl} style={mapsControlStyles}>
+                            <NestedCheckbox/>
                         </FormControl>
                         <FormControl className={classes.formControl} style={formControlStyles}>
                             <InputLabel htmlFor="age-helper">Amount of Trains/Buses/Trams</InputLabel>
@@ -193,9 +117,6 @@ class BVGform extends React.Component {
                                 name="numberOfTransport"
                                 margin="normal"
                             />
-                        </FormControl>
-                        <FormControl className={classes.formControl} style={mapsControlStyles}>
-                            <NestedCheckbox/>
                         </FormControl>
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps}/>

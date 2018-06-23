@@ -2,10 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 // creates a beautiful scrollbar
 import "perfect-scrollbar/css/perfect-scrollbar.css";
+import AddAlert from "@material-ui/icons/AddAlert";
 import {withStyles} from "material-ui";
 import {Grid, InputLabel, Input, FormControl, MenuItem} from "material-ui";
 import Select from '@material-ui/core/Select';
 import TextField from 'material-ui/TextField';
+//core components
+import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
+
 import Maps from "../../views/Maps/Maps.jsx";
 import {
     ProfileCard,
@@ -41,7 +45,17 @@ class BVGform extends React.Component {
             transportType: [],
             transportName: 'BUS',
             transportValue: '',
+            open: false,
+            place: 'bc'
         };
+    }
+
+    showNotification(){
+        var type = 'info';
+        this.setState({open: true, color: type});
+        setTimeout(function(){
+            this.setState({open: false});
+        }.bind(this),6000);
     }
 
     handleChange = e => {
@@ -56,6 +70,7 @@ class BVGform extends React.Component {
     }
 
     handleSubmit = e => {
+        this.showNotification();
         alert('TransportType: ' + this.state.transportName);
         alert('numberOfTransport: ' + this.state.transportType);
         alert('transportTime: ' + this.state.timeOfTransport);
@@ -123,6 +138,15 @@ class BVGform extends React.Component {
                         </FormControl>
                         <Button label="Submit" disabled={!this.validateForm()} color="info"
                                 type="submit">Submit</Button>
+                        <Snackbar
+                            place={this.state.place}
+                            color={this.state.color}
+                            icon={AddAlert}
+                            message="New Rule Successfully Added"
+                            open={this.state.open}
+                            closeNotification={() => this.setState({open:false})}
+                            close
+                        />
                     </form>
                 </div>
 

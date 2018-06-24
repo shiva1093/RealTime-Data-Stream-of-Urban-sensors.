@@ -1,14 +1,66 @@
 import React from "react";
-import {withStyles} from "material-ui";
-import { FormControl} from "material-ui";
 import TextField from 'material-ui/TextField';
-import appStyle from "../../../assets/jss/material-dashboard-react/appStyle.jsx";
+import { InputLabel, Input, FormControl, MenuItem} from "material-ui";
+import Select from '@material-ui/core/Select';
+import { Slider } from 'antd';
 const formControlStyles = {
     width: 600,
 };
 
 
-function ShowNumberofTransport (props) {
+
+
+export class ShowNumberofTransportSlider extends React.Component {
+
+
+    onChange = (e) => {
+        this.setState({
+            rangeValue: e,
+        })
+        this.props.numberofTransportSlider(this.state.rangeValue)
+    }
+
+    state = {
+        rangeValue: [1,5],
+    };
+    render(){
+        return (
+            <FormControl style={formControlStyles}>
+                <InputLabel htmlFor="age-helper">Use the Slider to select the value</InputLabel>
+            <Slider onChange={e => this.onChange(e)} range value={this.state.rangeValue} />
+            </FormControl>
+        )}
+}
+
+export class ShowNumberofTransportDropdown extends React.Component {
+    state = {
+        dropdownValue: '',
+    };
+    render(){
+        return (<FormControl style={formControlStyles}>
+            <InputLabel htmlFor="age-helper">Amount of Trains/Buses/Trams</InputLabel>
+            <Select
+                name="transportValue"
+                value={this.state.dropdownValue}
+                onChange={e => {
+                    this.props.numberofTransportDropdown(e.target.value)
+                    this.setState({
+                        dropdownValue: e.target.value,
+                    })
+                }}
+                input={<Input name="transportValue" id="age-helper"/>}
+            >
+                <MenuItem value={'<='}>{'<='}</MenuItem>
+                <MenuItem value={'>='}>{'>='}</MenuItem>
+                <MenuItem value={'=='}>{'=='}</MenuItem>
+            </Select>
+            {/*<FormHelperText>Some important helper text</FormHelperText>*/}
+        </FormControl>);
+    }
+
+}
+
+export function ShowNumberofTransport (props) {
     return (<FormControl className={props.formControl} style={formControlStyles}>
         <TextField
             required
@@ -25,4 +77,25 @@ function ShowNumberofTransport (props) {
     </FormControl>);
 }
 
-export default  withStyles(appStyle)(ShowNumberofTransport);
+/*
+export function ShowNumberofTransportDropdown1 (props) {
+    return (<FormControl className={props.formControl} style={formControlStyles}>
+        <InputLabel htmlFor="age-helper">Amount of Trains/Buses/Trams</InputLabel>
+        <Select
+            name="transportValue"
+            value={'<'}
+            onChange={e => {
+                props.numberofTransportDropdown(e.target.value)
+            }}
+            input={<Input name="transportValue" id="age-helper"/>}
+        >
+            <MenuItem value={'<='}>{'<='}</MenuItem>
+            <MenuItem value={'>='}>{'>='}</MenuItem>
+            <MenuItem value={'=='}>{'=='}</MenuItem>
+        </Select>
+        {/!*<FormHelperText>Some important helper text</FormHelperText>*!/}
+    </FormControl>);
+}
+*/
+
+//export default  withStyles(appStyle)(ShowNumberofTransport,ShowNumberofTransportDropdown);

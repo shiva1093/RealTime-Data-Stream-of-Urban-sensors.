@@ -9,8 +9,9 @@ import Select from '@material-ui/core/Select';
 import TextField from 'material-ui/TextField';
 //core components
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
-import  ShowNumberofTransport from "./transportComponents/numberOfTransportComponent"
+import  {ShowNumberofTransport,ShowNumberofTransportDropdown,ShowNumberofTransportSlider} from "./transportComponents/numberOfTransportComponent"
 import Maps from "../../views/Maps/Maps.jsx";
+import ExampleRadioUsage from "./transportComponents/checkboxTransportComponent"
 import {
     ProfileCard,
     RegularCard,
@@ -26,12 +27,11 @@ import NestedCheckbox from "./NestedCheckbox";
 
 const formControlStyles = {
     width: 600,
-
-
 };
 
 const mapsControlStyles = {
     width: 800,
+    paddingTop: 20,
 
 };
 
@@ -44,10 +44,12 @@ class BVGform extends React.Component {
             numberOfTransport: '',
             transportType: [],
             transportName: 'BUS',
-            transportValue: '',
+            transportValue: '>',
             open: false,
             place: 'bc',
-            showNumberofTransport: false
+            showNumberofTransport: false,
+            toggleRadioDropdown: false,
+            numberofTransportSlider: ''
         };
     }
 
@@ -63,10 +65,6 @@ class BVGform extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    onClick() {
-        this.setState({showNumberofTransport: true});
-
-    }
 
     /* Retrieve values from Maps.jsx */
     maps = (googleMap) => {
@@ -76,9 +74,30 @@ class BVGform extends React.Component {
     }
 
     numberofTransport = (val) => {
-        console.log(val);
-        alert('numberofTransport:' + val)
+        console.log('numberofTransport:' + val)
         this.setState({numberOfTransport: val});
+    }
+
+    numberofTransportDropdown = (val) => {
+        console.log('numberofTransportDropdown:' + val)
+        this.setState({transportValue: val});
+        this.setState({showNumberofTransport: true});
+
+    }
+
+    numberofTransportSlider = (val) => {
+        console.log('numberofTransportSlider:' + val)
+        //this.setState({numberofTransportSlider: val});
+    }
+
+    toggleRadioButton = (val) => {
+        if(val === 'Dropdown')
+        {
+            this.setState({toggleRadioDropdown: true});
+        }else{
+            this.setState({toggleRadioDropdown: false});
+        }
+
     }
 
     handleSubmit = e => {
@@ -112,24 +131,15 @@ class BVGform extends React.Component {
                                 disabled
                             />
                         </FormControl>
+
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <NestedCheckbox/>
                         </FormControl>
-                        <FormControl className={classes.formControl} style={formControlStyles}>
-                            <InputLabel htmlFor="age-helper">Amount of Trains/Buses/Trams</InputLabel>
-                            <Select
-                                name="transportValue"
-                                onClick={this.onClick.bind(this)}
-                                value={this.state.transportValue}
-                                onChange={e => this.handleChange(e)}
-                                input={<Input name="transportValue" id="age-helper"/>}
-                            >
-                                <MenuItem value={'<='}>{'<='}</MenuItem>
-                                <MenuItem value={'>='}>{'>='}</MenuItem>
-                                <MenuItem value={'=='}>{'=='}</MenuItem>
-                            </Select>
-                            {/*<FormHelperText>Some important helper text</FormHelperText>*/}
-                        </FormControl>
+
+                            <ExampleRadioUsage toggleRadioButton ={this.toggleRadioButton}/>
+
+                        { this.state.toggleRadioDropdown ? <ShowNumberofTransportDropdown numberofTransportDropdown ={this.numberofTransportDropdown} />
+                            : <ShowNumberofTransportSlider numberofTransportSlider ={this.numberofTransportSlider}/> }
 
                         { this.state.showNumberofTransport ? <ShowNumberofTransport
                             numberofTransport ={this.numberofTransport}/>  : null }

@@ -9,7 +9,7 @@ import Select from '@material-ui/core/Select';
 import TextField from 'material-ui/TextField';
 //core components
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
-
+import  ShowNumberofTransport from "./transportComponents/numberOfTransportComponent"
 import Maps from "../../views/Maps/Maps.jsx";
 import {
     ProfileCard,
@@ -75,11 +75,16 @@ class BVGform extends React.Component {
         alert('Center of this circle:' + googleMap.getCenter())
     }
 
+    numberofTransport = (val) => {
+        console.log(val);
+        alert('numberofTransport:' + val)
+        this.setState({numberOfTransport: val});
+    }
+
     handleSubmit = e => {
         this.showNotification();
         alert('TransportType: ' + this.state.transportName);
-        alert('numberOfTransport: ' + this.state.transportType);
-        alert('transportTime: ' + this.state.timeOfTransport);
+        alert('numberOfTransport: ' + this.state.numberOfTransport);
         e.preventDefault();
         //redirect to new page
     }
@@ -90,6 +95,7 @@ class BVGform extends React.Component {
 
     render() {
         const {classes} = this.props;
+
         return (
             <Grid item xs={18} sm={12} md={8}>
                 <div className={classes.container}>
@@ -124,17 +130,9 @@ class BVGform extends React.Component {
                             </Select>
                             {/*<FormHelperText>Some important helper text</FormHelperText>*/}
                         </FormControl>
-                        { this.state.showNumberofTransport ?  <FormControl className={classes.formControl} style={formControlStyles}>
-                            <TextField
-                                id="numberOfTransport-input"
-                                label="Number of trains/buses/trams"
-                                className={classes.textField}
-                                onChange={e => this.handleChange(e)}
-                                type="text"
-                                name="numberOfTransport"
-                                margin="normal"
-                            />
-                        </FormControl> : null }
+
+                        { this.state.showNumberofTransport ? <ShowNumberofTransport
+                            numberofTransport ={this.numberofTransport}/>  : null }
 
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps}/>

@@ -44,7 +44,7 @@ class BVGform extends React.Component {
             numberOfTransport: '',
             transportType: [],
             transportName: 'BUS',
-            transportValue: '>',
+            transportValue: '',
             open: false,
             place: 'bc',
             showNumberofTransport: false,
@@ -79,10 +79,13 @@ class BVGform extends React.Component {
     }
 
     numberofTransportDropdown = (val) => {
-        console.log('numberofTransportDropdown:' + val)
+       console.log('numberofTransportDropdown:' + val)
         this.setState({transportValue: val});
-        this.setState({showNumberofTransport: true});
+        if(val)
+        {
+            this.setState({showNumberofTransport: true});
 
+        }
     }
 
     numberofTransportSlider = (val) => {
@@ -95,7 +98,7 @@ class BVGform extends React.Component {
         {
             this.setState({toggleRadioDropdown: true});
         }else{
-            this.setState({toggleRadioDropdown: false});
+            this.setState({toggleRadioDropdown: false,showNumberofTransport: false});
         }
 
     }

@@ -10,7 +10,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 //core components
 class ExampleRadioUsage extends React.Component{
     state = {
-        selectedValue: 'Range',
+        selectedValue: 'Dropdown',
     };
 
     onRadioChange = (e) =>  {
@@ -25,9 +25,9 @@ class ExampleRadioUsage extends React.Component{
         return (
             <div>
                 <FormControlLabel value="1" control={<Radio
-                    checked={this.state.selectedValue === 'Range'}
-                    onChange={(e) => this.onRadioChange('Range')}
-                    value="Range"
+                    checked={this.state.selectedValue === 'Dropdown'}
+                    onChange={(e) => this.onRadioChange('Dropdown')}
+                    value="Dropdown"
                     name="radio button demo"
                     aria-label="A"
                     icon={<FiberManualRecord className={classes.radioUnchecked}/>}
@@ -35,12 +35,12 @@ class ExampleRadioUsage extends React.Component{
                     classes={{
                         checked: classes.radio,
                     }}
-                />} label="Range" />
+                />} label="Dropdown" />
 
                 <FormControlLabel value="2" control={ <Radio
-                    checked={this.state.selectedValue === 'Dropdown'}
-                    onChange={(e) => this.onRadioChange('Dropdown')}
-                    value="Dropdown"
+                    checked={this.state.selectedValue === 'Range'}
+                    onChange={(e) => this.onRadioChange('Range')}
+                    value="Range"
                     name="radio button demo"
                     aria-label="B"
                     icon={<FiberManualRecord className={classes.radioUnchecked}/>}
@@ -48,7 +48,7 @@ class ExampleRadioUsage extends React.Component{
                     classes={{
                         checked: classes.radio
                     }}
-                />} label="Dropdown" />
+                />} label="Range" />
             </div>
         );
     }

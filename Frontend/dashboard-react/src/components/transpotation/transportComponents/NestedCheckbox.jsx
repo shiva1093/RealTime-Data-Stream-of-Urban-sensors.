@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import treeData from './data.json'
+import treeData from '../data.json'
 import { TreeSelect } from 'antd';
 import 'antd/dist/antd.css';
 
@@ -52,11 +52,7 @@ class NestedCheckbox extends React.Component {
 
                 busName.join();
                 uniqueNames =  busName.filter((val,id,array) => array.indexOf(val) == id); // To remove the duplicate names
-                busNamesArray= [
-                    {
-                        'busName': uniqueNames
-                    }
-                ];
+                busNamesArray= uniqueNames
 
 
 
@@ -64,6 +60,7 @@ class NestedCheckbox extends React.Component {
 
         }
         console.log(busNamesArray)
+        this.props.busDirection(busNamesArray);
     };
     onSelect = (value,node,extra) => {
         //console.log('onSelect ', value);

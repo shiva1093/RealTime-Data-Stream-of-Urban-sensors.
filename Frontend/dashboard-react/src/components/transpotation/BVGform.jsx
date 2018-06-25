@@ -22,7 +22,7 @@ import {
 } from "../../components/baseItems";
 
 import appStyle from "../../assets/jss/material-dashboard-react/appStyle.jsx";
-import NestedCheckbox from "./NestedCheckbox";
+import NestedCheckbox from "./transportComponents/NestedCheckbox";
 
 
 const formControlStyles = {
@@ -42,7 +42,7 @@ class BVGform extends React.Component {
         this.state = {
             checkAll: false,
             numberOfTransport: '',
-            transportType: [],
+            busName: [],
             transportName: 'BUS',
             transportValue: '',
             open: false,
@@ -81,6 +81,12 @@ class BVGform extends React.Component {
         this.setState({numberOfTransport: val});
     }
 
+
+    busDirection = (busDirection) => {
+        console.log(busDirection)
+        this.setState({busName: busDirection});
+    }
+
     numberofTransportDropdown = (val) => {
        console.log('numberofTransportDropdown:' + val)
         this.setState({transportValue: val});
@@ -109,6 +115,7 @@ class BVGform extends React.Component {
     handleSubmit = e => {
         this.showNotification();
         console.log('TransportType: ' + this.state.transportName);
+        console.log('points'+ this.state.busName);
         console.log('numberOfTransport: ' + this.state.numberOfTransport);
         console.log('Transport Value' + this.state.transportValue );
         console.log('Slider Value' + this.state.numberofTransportSlider );
@@ -144,7 +151,7 @@ class BVGform extends React.Component {
                         </FormControl>
 
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
-                            <NestedCheckbox/>
+                            <NestedCheckbox busDirection = {this.busDirection}/>
                         </FormControl>
 
                             <ExampleRadioUsage toggleRadioButton ={this.toggleRadioButton}/>
@@ -159,7 +166,7 @@ class BVGform extends React.Component {
                             <Maps maps={this.maps}/>
                         </FormControl>
                         <Button label="Submit" disabled={!this.validateForm()} color="info"
-                                type="submit">Submit</Button>
+                                type="submit">Create</Button>
                         <Snackbar
                             place={this.state.place}
                             color={this.state.color}

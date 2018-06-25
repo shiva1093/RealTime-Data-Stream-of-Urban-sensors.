@@ -48,8 +48,10 @@ class BVGform extends React.Component {
             open: false,
             place: 'bc',
             showNumberofTransport: false,
-            toggleRadioDropdown: false,
-            numberofTransportSlider: ''
+            toggleRadioDropdown: true,
+            numberofTransportSlider: [],
+            radius:'',
+            boundaryPoints: []
         };
     }
 
@@ -68,9 +70,10 @@ class BVGform extends React.Component {
 
     /* Retrieve values from Maps.jsx */
     maps = (googleMap) => {
-        alert('Radius:' + googleMap.getRadius())
-        alert('LatLngBounds of this Circle:' + googleMap.getBounds())
-        alert('Center of this circle:' + googleMap.getCenter())
+        //alert('Radius:' + googleMap.getRadius())
+       // alert('LatLngBounds of this Circle:' + googleMap.getBounds())
+        this.setState({radius: googleMap.getRadius(), boundaryPoints:googleMap.getBounds() });
+       // alert('Center of this circle:' + googleMap.getCenter())
     }
 
     numberofTransport = (val) => {
@@ -90,7 +93,7 @@ class BVGform extends React.Component {
 
     numberofTransportSlider = (val) => {
         console.log('numberofTransportSlider:' + val)
-        //this.setState({numberofTransportSlider: val});
+        this.setState({numberofTransportSlider: val});
     }
 
     toggleRadioButton = (val) => {
@@ -105,14 +108,19 @@ class BVGform extends React.Component {
 
     handleSubmit = e => {
         this.showNotification();
-        alert('TransportType: ' + this.state.transportName);
-        alert('numberOfTransport: ' + this.state.numberOfTransport);
+        console.log('TransportType: ' + this.state.transportName);
+        console.log('numberOfTransport: ' + this.state.numberOfTransport);
+        console.log('Transport Value' + this.state.transportValue );
+        console.log('Slider Value' + this.state.numberofTransportSlider );
+        console.log('radius'+ this.state.radius);
+        console.log('points'+ this.state.boundaryPoints);
         e.preventDefault();
         //redirect to new page
     }
 
     validateForm() {
-        return this.state.transportName.length > 0 && this.state.numberOfTransport.length > 0;
+       // return this.state.transportName.length > 0 && this.state.numberOfTransport.length > 0;
+        return true;
     }
 
     render() {

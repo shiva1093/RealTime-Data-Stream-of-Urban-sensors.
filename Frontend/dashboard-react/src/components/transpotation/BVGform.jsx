@@ -72,7 +72,7 @@ class BVGform extends React.Component {
     maps = (googleMap) => {
         //alert('Radius:' + googleMap.getRadius())
        // alert('LatLngBounds of this Circle:' + googleMap.getBounds())
-        this.setState({radius: googleMap.getRadius(), boundaryPoints:googleMap.getBounds() });
+        this.setState({radius: googleMap.getRadius(), boundaryPoints:googleMap.getCenter() });
        // alert('Center of this circle:' + googleMap.getCenter())
     }
 
@@ -114,15 +114,16 @@ class BVGform extends React.Component {
 
     handleSubmit = e => {
         this.showNotification();
-        console.log('TransportType: ' + this.state.transportName);
+      /*  console.log('TransportType: ' + this.state.transportName);
         console.log('points'+ this.state.busName);
         console.log('numberOfTransport: ' + this.state.numberOfTransport);
         console.log('Transport Value' + this.state.transportValue );
         console.log('Slider Value' + this.state.numberofTransportSlider );
         console.log('radius'+ this.state.radius);
-        console.log('points'+ this.state.boundaryPoints);
+        console.log('points'+ this.state.boundaryPoints);*/
         e.preventDefault();
         //redirect to new page
+        this.props.onSubmitValues(this.state)
     }
 
     validateForm() {

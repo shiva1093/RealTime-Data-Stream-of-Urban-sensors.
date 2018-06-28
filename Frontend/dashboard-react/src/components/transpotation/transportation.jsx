@@ -1,29 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import BVGform from "./BVGform.jsx";
-import { Paper,Tabs,Tab,Typography,AppBar } from "material-ui";
+import {Tabs,Tab,Typography,AppBar } from "material-ui";
 import TrainIcon from '@material-ui/icons/Train';
 import TramIcon from '@material-ui/icons/Tram';
 import BusIcon from '@material-ui/icons/DirectionsBus';
 import SubwayIcon from '@material-ui/icons/Subway';
 import {
-    ProfileCard,
     RegularCard,
-    Button,
-    CustomInput,
-    ItemGrid,
 } from "../../components/baseItems";
 
-// react plugin for creating charts
-import {
-  MoreHoriz,
-  Update,
-  Train
-} from "@material-ui/icons";
-
-import { withStyles, Grid } from "material-ui";
-import Header from './header.jsx';
-
+import { withStyles } from "material-ui";
 function TabContainer(props) {
     return (
         <Typography component="div" style={{ padding: 8 * 3 }}>

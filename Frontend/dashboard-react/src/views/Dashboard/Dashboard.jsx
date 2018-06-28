@@ -30,7 +30,8 @@ import {
 import dashboardStyle from "../../assets/jss/material-dashboard-react/dashboardStyle";
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    transportRules:0,
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -39,6 +40,15 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
+  transportRules = (props) =>{
+      let count = props.length
+      this.setState({
+          transportRules:count
+      })
+  }
+
+
   render() {
     return (
       <div>
@@ -46,11 +56,11 @@ class Dashboard extends React.Component {
           <ItemGrid xs={12} sm={6} md={3}>
             <StatsCard
               icon={Train}
-              iconColor="yellow"
-              title="BVG Rules"
-              description="50"
+              iconColor="blue"
+              title="Transport Rules"
+              description={this.state.transportRules}
               statIcon={Update}
-              statText="Rules for BVG"
+              statText="Total number of rules"
             />
           </ItemGrid>
           <ItemGrid xs={12} sm={6} md={3}>
@@ -91,7 +101,7 @@ class Dashboard extends React.Component {
               cardTitle="Getting Information For BVG"
               cardSubtitle="New Rules Executed on 16th May, 2018"
               content={
-                  <TransportTable transportFront="transport"/>
+                  <TransportTable transportRules={this.transportRules} transportFront="transport"/>
               }
             />
           </ItemGrid>

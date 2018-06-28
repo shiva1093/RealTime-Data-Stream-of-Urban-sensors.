@@ -203,6 +203,7 @@ class TransportTable extends React.Component {
         GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportapi`).then((res) => {
             var results = res.data
             this.setState({data: results, isLoading:true});
+            this.props.transportRules(results);
         })
     }
 

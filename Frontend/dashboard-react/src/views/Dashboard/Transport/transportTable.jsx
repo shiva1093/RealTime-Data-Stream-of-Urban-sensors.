@@ -18,8 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import axios from "axios/index";
-import {ShowNumberofTransport} from "../../components/ApiHandler/genericApiHandler"
+import { busHeader } from "./transportHeader"
+import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -33,15 +33,6 @@ function getSorting(order, orderBy) {
         : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1);
 }
 
-const columnData = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Transport Type' },
-    { id: 'calories', numeric: true, disablePadding: false, label: 'Bus Name' },
-    { id: 'fat', numeric: true, disablePadding: false, label: 'Direction' },
-    { id: 'carbs', numeric: true, disablePadding: false, label: 'Number of vehicles' },
-    { id: 'latitude', numeric: true, disablePadding: false, label: 'Coordinates' },
-    { id: 'protein', numeric: true, disablePadding: false, label: 'Radius' },
-    { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
-];
 
 class EnhancedTableHead extends React.Component {
     createSortHandler = property => event => {
@@ -50,6 +41,7 @@ class EnhancedTableHead extends React.Component {
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
+        const columnData = busHeader;
 
         return (
             <TableHead>
@@ -202,12 +194,10 @@ class TransportTable extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(`https://my-json-server.typicode.com/shiva1093/APICall/transportapi`)
-            .then(res => {
-                let result = res.data;
-                console.log(result)
-                this.setState({ data: result });
-            });
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportapi`).then((res) => {
+            var results = res.data
+            this.setState({data: results});
+        })
     }
 
 

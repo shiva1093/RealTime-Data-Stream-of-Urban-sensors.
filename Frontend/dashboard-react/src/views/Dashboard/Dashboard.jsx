@@ -18,7 +18,7 @@ import {
   Accessibility
 } from "@material-ui/icons";
 import { withStyles, Grid } from "material-ui";
-import TransportTable from "./transportTable";
+import TransportTable from "./Transport/transportTable";
 import {
   StatsCard,
   RegularCard,
@@ -28,7 +28,6 @@ import {
 
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/dashboardStyle";
-//import App from "../../components/transpotation/PostMessagetest"
 class Dashboard extends React.Component {
   state = {
     value: 0
@@ -92,7 +91,7 @@ class Dashboard extends React.Component {
               cardTitle="Getting Information For BVG"
               cardSubtitle="New Rules Executed on 16th May, 2018"
               content={
-                  <TransportTable/>
+                  <TransportTable transportFront="transport"/>
               }
             />
           </ItemGrid>

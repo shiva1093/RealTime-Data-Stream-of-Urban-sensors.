@@ -43,7 +43,6 @@ class BVGform extends React.Component {
             checkAll: false,
             numberOfTransport: '',
             busName: [],
-            transportName: 'BUS',
             transportValue: '',
             open: false,
             place: 'bc',
@@ -123,7 +122,7 @@ class BVGform extends React.Component {
         console.log('points'+ this.state.boundaryPoints);*/
         e.preventDefault();
         //redirect to new page
-        this.props.onSubmitValues(this.state)
+        this.props.onSubmitValues(this.state,this.props.transportName)
     }
 
     validateForm() {
@@ -143,7 +142,7 @@ class BVGform extends React.Component {
                                 id="transportName"
                                 label="Transport Name"
                                 type="text"
-                                defaultValue="BUS"
+                                value={this.props.transportName}
                                 margin="normal"
                                 className={classes.textField}
                                 name="transportName"

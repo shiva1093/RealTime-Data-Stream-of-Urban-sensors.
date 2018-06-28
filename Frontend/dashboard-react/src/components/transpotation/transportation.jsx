@@ -54,11 +54,23 @@ class Transportation extends React.Component {
         formValues:{}
     };
 
-    onSubmitValues = (formValues) => {
-        const jsonValues = [formValues.transportName,formValues.busName,
+    onSubmitValues = (formValues,transportName) => {
+        const jsonValues = [transportName,formValues.busName,
             formValues.transportValue,formValues.numberOfTransport,formValues.radius,formValues.boundaryPoints]
 
-        this.setState({ formValues:jsonValues });
+        this.setState({ formValues:{
+                "bindingID": "1",
+                "settings": "",
+                "condition":[{ "radius": formValues.radius,
+                    "latitudeX": formValues.boundaryPoints[0],
+                    "longitudeY" : formValues.boundaryPoints[1],
+                    "transportType" : transportName,
+                    "transportLine" : formValues.busName,
+                    "direction" : formValues.transportDirection,
+                    "transportAmount" : [formValues.transportValue,formValues.numberOfTransport],
+                }],
+                "command": "CREATE"
+            } });
     }
     handleChange = (event, value) => {
         this.setState({ value });
@@ -85,7 +97,7 @@ class Transportation extends React.Component {
                         <Tab label="Subway" icon={<SubwayIcon />} />
                     </Tabs>
                 </AppBar>
-                {value === 0 && <TabContainer><BVGform onSubmitValues = {this.onSubmitValues}/>
+                {value === 0 && <TabContainer><BVGform transportName={"BUS"} onSubmitValues = {this.onSubmitValues}/>
                     {JSON.stringify(this.state.formValues,null,2)}
                 </TabContainer>}
                 {value === 1 && <TabContainer>train</TabContainer>}

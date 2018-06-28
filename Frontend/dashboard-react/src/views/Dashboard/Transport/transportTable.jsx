@@ -20,6 +20,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { busHeader } from "./transportHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -175,6 +176,9 @@ const styles = theme => ({
     tableWrapper: {
         overflowX: 'auto',
     },
+    progress: {
+        alignContent: 'center',
+    },
 });
 
 class TransportTable extends React.Component {
@@ -184,6 +188,7 @@ class TransportTable extends React.Component {
         this.state = {
             order: 'asc',
             orderBy: 'calories',
+            isLoading: false,
             selected: [],
             data: [
 
@@ -196,7 +201,7 @@ class TransportTable extends React.Component {
     componentDidMount() {
         GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportapi`).then((res) => {
             var results = res.data
-            this.setState({data: results});
+            this.setState({data: results, isLoading:true});
         })
     }
 
@@ -253,10 +258,12 @@ class TransportTable extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const { data, order, orderBy, selected, rowsPerPage, page } = this.state;
+        const { data, order, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
         return (
+
+            this.state.isLoading ?
             <Paper className={classes.root}>
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <div className={classes.tableWrapper}>
@@ -322,7 +329,7 @@ class TransportTable extends React.Component {
                     onChangePage={this.handleChangePage}
                     onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 />
-            </Paper>
+            </Paper> : <LinearProgress className={classes.progress}/>
         );
     }
 }

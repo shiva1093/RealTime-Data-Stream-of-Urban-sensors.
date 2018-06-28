@@ -17,6 +17,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { busHeader } from "./transportHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
@@ -169,7 +170,7 @@ EnhancedTableToolbar = withStyles(toolbarStyles)(EnhancedTableToolbar);
 const styles = theme => ({
     root: {
         width: '100%',
-        marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing.unit * 1,
     },
     table: {
         minWidth: 1020,
@@ -181,7 +182,13 @@ const styles = theme => ({
         alignContent: 'center',
     },
 });
+const refreshIcon = {
+    width: 40,
+    top: 19,
+    left: 34,
+    positionAbsolute: true
 
+}
 class TransportTable extends React.Component {
     constructor(props) {
         super(props);
@@ -200,13 +207,20 @@ class TransportTable extends React.Component {
     }
 
     componentDidMount() {
+        this.ApiHandler()
+    }
+
+    ApiHandler(){
         GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportapi`).then((res) => {
             var results = res.data
             this.setState({data: results, isLoading:true});
             this.props.transportRules(results);
         })
     }
-
+    RefreshFunction = () => {
+        this.setState({isLoading:false});
+       this.ApiHandler();
+    }
 
     handleRequestSort = (event, property) => {
         const orderBy = property;
@@ -274,6 +288,13 @@ class TransportTable extends React.Component {
             this.state.isLoading ?
             <Paper className={classes.root}>
                 <EnhancedTableToolbar numSelected={selected.length} />
+                <div style={refreshIcon}
+                     onClick={this.RefreshFunction}>
+                    <Tooltip title="Refresh">
+                    <IconButton aria-label="Refresh">
+                    <RefreshIcon/>
+                    </IconButton></Tooltip>
+                </div>
                 <div className={classes.tableWrapper}>
                     <Table className={classes.table} aria-labelledby="tableTitle">
                         <EnhancedTableHead

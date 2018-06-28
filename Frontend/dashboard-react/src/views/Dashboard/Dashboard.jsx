@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from 'axios';
 // react plugin for creating charts
 import {
   Train,
@@ -18,7 +19,7 @@ import {
   Accessibility
 } from "@material-ui/icons";
 import { withStyles, Grid } from "material-ui";
-
+import TransportTable from "./transportTable";
 import {
   StatsCard,
   RegularCard,
@@ -28,7 +29,7 @@ import {
 
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/dashboardStyle";
-
+//import App from "../../components/transpotation/PostMessagetest"
 class Dashboard extends React.Component {
   state = {
     value: 0
@@ -92,14 +93,7 @@ class Dashboard extends React.Component {
               cardTitle="Getting Information For BVG"
               cardSubtitle="New Rules Executed on 16th May, 2018"
               content={
-                <Table
-                  tableHeaderColor="warning"
-                  tableHead={["ID", "Type(Sban/Uban/Tram/Bus...)", "Number", "Direction", "CheckStation","Arr Time", "Notification"]}
-                  tableData={[
-                    ["1", "Uban", "U2", "Pankow", "Ernst-Reuter-Platz","12:30","-5 mins"],
-                    ["2", "Sban", "S5", "Strausberg North", "Zoologischer Garten", "12:00", "-3 mins"],
-                  ]}
-                />
+                  <TransportTable/>
               }
             />
           </ItemGrid>

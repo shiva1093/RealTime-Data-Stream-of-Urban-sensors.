@@ -21,7 +21,8 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { busHeader } from "./transportHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
-
+import AddCircle from '@material-ui/icons/CheckBox';
+import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
     counter += 1;
@@ -256,6 +257,12 @@ class TransportTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    checkStatus = (props) => {
+        if(props === true)
+            return <AddCircle color="primary"/>
+        else
+            return <RemoveCircle color="secondary"/>
+    }
     render() {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
@@ -303,7 +310,9 @@ class TransportTable extends React.Component {
                                             <TableCell numeric>{n.transportAmount}</TableCell>
                                             <TableCell numeric>{n.latitudeX},{n.longitudeY}</TableCell>
                                             <TableCell numeric>{n.radius}</TableCell>
-                                            <TableCell numeric>{n.status}</TableCell>
+                                            <TableCell numeric>
+                                                {this.checkStatus(n.status)}
+                                            </TableCell>
                                         </TableRow>
                                     );
                                 })}

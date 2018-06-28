@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import AddAlert from "@material-ui/icons/AddAlert";
 import {withStyles} from "material-ui";
-import {Grid, InputLabel, Input, FormControl, MenuItem} from "material-ui";
-import Select from '@material-ui/core/Select';
+import {Grid,FormControl} from "material-ui";
 import TextField from 'material-ui/TextField';
 //core components
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
@@ -13,12 +12,7 @@ import  {ShowNumberofTransport,ShowNumberofTransportDropdown,ShowNumberofTranspo
 import Maps from "../../views/Maps/Maps.jsx";
 import ExampleRadioUsage from "./transportComponents/checkboxTransportComponent"
 import {
-    ProfileCard,
-    RegularCard,
-    Button,
-    CustomInput,
-    ItemGrid,
-
+    Button
 } from "../../components/baseItems";
 
 import appStyle from "../../assets/jss/material-dashboard-react/appStyle.jsx";

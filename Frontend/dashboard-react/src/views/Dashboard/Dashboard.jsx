@@ -97,9 +97,9 @@ class Dashboard extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
-              headerColor="yellow"
-              cardTitle="Getting Information For BVG"
-              cardSubtitle="New Rules Executed on 16th May, 2018"
+              headerColor="blue"
+              cardTitle="Getting Transport Information"
+              cardSubtitle="Displaying Rules"
               content={
                   <TransportTable transportRules={this.transportRules} transportFront="transport"/>
               }

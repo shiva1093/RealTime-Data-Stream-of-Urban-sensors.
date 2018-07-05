@@ -1,11 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Paper } from "material-ui";
-import { Checkbox } from "material-ui";
 import { withStyles, Grid } from "material-ui";
-//import { TableHead, TableRow, TableBody, TableCell } from "material-ui";
 
-// react plugin for creating charts
+import ConditionForm from "./conditionForm";
+
 import {
   MoreHoriz,
   FilterDrama,
@@ -13,25 +11,28 @@ import {
 } from "@material-ui/icons";
 
 import {
-  StatsCard,
   RegularCard,
   ItemGrid,
   Table
 } from "../../components/baseItems";
 
 import Header from './header';
-import Select from './Selective';
 
-//import tableStyle from "../../assets/jss/material-dashboard-react/tableStyle";
+
+global.conditions = [];
 
 class Weather extends React.Component {
+
+  componentDidUpdate() {
+
+  }
+
   state = {
-    value: 0
+    showedCon: []
   };
 
   render() {
     const { classes } = this.props;
-//    const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
     return (
       <div>
         <Header />
@@ -41,15 +42,12 @@ class Weather extends React.Component {
             headerColor="blue"
             cardTitle="Configure Conditions for Weather"
             content={
-              <Table 
-              tableHeaderColor="warning"
-              tableHead={["Catagory", "Condition", "value", "Location", "Submission"," "]}
-              tableData={[["...", "...", "...", "..."]]}
-              />
-
+              <ConditionForm />
             }
           />
         </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={12}>
+          </ItemGrid>
         </Grid>
       </div>
     );
@@ -62,3 +60,4 @@ Weather.propTypes = {
 
 //export default withStyles(tableStyle)(Weather);
 export default Weather;
+      

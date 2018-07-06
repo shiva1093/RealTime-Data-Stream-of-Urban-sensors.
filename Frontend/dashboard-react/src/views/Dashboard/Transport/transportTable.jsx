@@ -22,7 +22,7 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import { busHeader } from "./transportHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
-import AddCircle from '@material-ui/icons/CheckBox';
+import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
 let counter = 0;
 function createData(name, calories, fat, carbs, protein) {
@@ -276,7 +276,7 @@ class TransportTable extends React.Component {
         if(props === true)
             return <AddCircle color="primary"/>
         else
-            return <RemoveCircle color="secondary"/>
+            return <AddCircle color="secondary"/>
     }
     render() {
         const { classes } = this.props;

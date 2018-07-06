@@ -87,9 +87,12 @@ class Transportation extends React.Component {
                 {value === 0 && <TabContainer><BVGform transportName={"BUS"} onSubmitValues = {this.onSubmitValues}/>
                     {JSON.stringify(this.state.formValues,null,2)}
                 </TabContainer>}
-                {value === 1 && <TabContainer>train</TabContainer>}
-                {value === 2 && <TabContainer>Item Three</TabContainer>}
-                {value === 3 && <TabContainer>Item Four</TabContainer>}
+                {value === 1 && <TabContainer><BVGform transportName={"TRAIN"} onSubmitValues = {this.onSubmitValues}/>
+                    {JSON.stringify(this.state.formValues,null,2)}</TabContainer>}
+                {value === 2 && <TabContainer><BVGform transportName={"TRAM"} onSubmitValues = {this.onSubmitValues}/>
+                    {JSON.stringify(this.state.formValues,null,2)}</TabContainer>}
+                {value === 3 && <TabContainer><BVGform transportName={"UBAHN"} onSubmitValues = {this.onSubmitValues}/>
+                    {JSON.stringify(this.state.formValues,null,2)}</TabContainer>}
             </div>}/>
         );
 

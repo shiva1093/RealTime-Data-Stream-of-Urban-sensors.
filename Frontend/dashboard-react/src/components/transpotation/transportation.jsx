@@ -55,6 +55,7 @@ class Transportation extends React.Component {
                     "transportLine" : formValues.busName,
                     "direction" : formValues.transportDirection,
                     "transportAmount" : [formValues.transportValue,formValues.numberOfTransport],
+                    "transportRange" : formValues.numberofTransportSlider,
                 }],
                 "command": "CREATE"
             } });

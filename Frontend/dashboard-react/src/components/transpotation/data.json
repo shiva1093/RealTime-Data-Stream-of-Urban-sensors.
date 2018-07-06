@@ -48,7 +48,7 @@
         "key": "0-2",
         "children": [
           {
-            "label": "pot",
+            "label": "Bus 120 -> pot",
             "value": "pot",
             "key": "0-2-0",
             "parent": "Bus 120"

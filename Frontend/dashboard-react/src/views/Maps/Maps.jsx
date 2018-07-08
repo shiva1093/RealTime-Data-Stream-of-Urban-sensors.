@@ -86,7 +86,7 @@ withGoogleMap(props => (
             onMarkerComplete={(googleMap) => {
               props.markermaps(googleMap)
             }}
-            defaultDrawingMode='circle'
+            defaultDrawingMode={props.mapOptions}
             defaultOptions={{
                 drawingControl: true,
                 circleOptions: {
@@ -99,7 +99,7 @@ withGoogleMap(props => (
                 },
                 drawingControlOptions: {
                     position: google.maps.ControlPosition.TOP_CENTER,
-                    drawingModes: ['marker','circle'],
+                    drawingModes: props.mapOptions,
                 },
             }}/>
 
@@ -116,6 +116,7 @@ function Maps({ ...props }) {
       containerElement={<div style={{ height: `80vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
       maps={props.maps}
+      mapOptions = {props.mapOptions}
       markermaps={props.markermaps}
     />
   );

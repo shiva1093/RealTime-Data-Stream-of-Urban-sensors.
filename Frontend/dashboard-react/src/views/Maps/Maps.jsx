@@ -83,6 +83,9 @@ withGoogleMap(props => (
             onCircleComplete={(googleMap) => {
                props.maps(googleMap) // Call to your function to retrieve values
             }}
+            onMarkerComplete={(googleMap) => {
+              props.markermaps(googleMap)
+            }}
             defaultDrawingMode='circle'
             defaultOptions={{
                 drawingControl: true,
@@ -113,30 +116,9 @@ function Maps({ ...props }) {
       containerElement={<div style={{ height: `80vh` }} />}
       mapElement={<div style={{ height: `100%` }} />}
       maps={props.maps}
+      markermaps={props.markermaps}
     />
   );
 }
 
 export default Maps;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

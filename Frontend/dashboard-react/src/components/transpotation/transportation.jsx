@@ -55,13 +55,13 @@ class Transportation extends React.Component {
                 "bindingID": uid,
                 "settings": "",
                 "condition":[{ "radius": formValues.radius,
-                    "latitudeX": formValues.boundaryPoints[0],
-                    "longitudeY" : formValues.boundaryPoints[1],
+                    "latitudeX": formValues.boundaryPoints.latitudeX,
+                    "longitudeY" : formValues.boundaryPoints.longitudeY,
                     "transportType" : transportName,
                     "transport" : formValues.busName,
                     "direction" : formValues.transportDirection,
-                    "transportAmount" : [formValues.transportValue,formValues.numberOfTransport],
-                    "transportRange" : formValues.numberofTransportSlider,
+                    "transportAmountLowerBound" :formValues.transportValue =='<='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
+                    "transportAmountUpperBound" :formValues.transportValue =='>='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
                 }],
                 "command": "CREATE"
             } });
@@ -70,13 +70,12 @@ class Transportation extends React.Component {
             "bindingID": uid,
             "settings": "",
             "condition":[{ "radius": formValues.radius,
-                "latitudeX": formValues.boundaryPoints[0],
-                "longitudeY" : formValues.boundaryPoints[1],
+                "latitudeX": formValues.boundaryPoints.latitudeX,
+                "longitudeY" : formValues.boundaryPoints.longitudeY,
                 "transportType" : transportName,
                 "transport" :formValues.busName,
-                "transportAmount" : [formValues.transportValue,formValues.numberOfTransport],
-                "transportAmountLowerBound" : formValues.numberofTransportSlider[0],
-                "transportAmountUpperBound" : formValues.numberofTransportSlider[1]
+                "transportAmountLowerBound" :formValues.transportValue =='<='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
+                "transportAmountUpperBound" :formValues.transportValue =='>='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
             }],
             "command": "CREATE"
         }

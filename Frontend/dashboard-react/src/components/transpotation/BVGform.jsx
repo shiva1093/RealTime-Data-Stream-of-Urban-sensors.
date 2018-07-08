@@ -44,7 +44,7 @@ class BVGform extends React.Component {
             toggleRadioDropdown: true,
             numberofTransportSlider: [],
             radius:'',
-            boundaryPoints: []
+            boundaryPoints: {}
         };
     }
 
@@ -63,15 +63,18 @@ class BVGform extends React.Component {
 
     /* Retrieve values from Maps.jsx */
     maps = (googleMap) => {
-        //alert('Radius:' + googleMap.getRadius())
-       // alert('LatLngBounds of this Circle:' + googleMap.getBounds())
-        this.setState({radius: googleMap.getRadius(), boundaryPoints:googleMap.getCenter() });
-       // alert('Center of this circle:' + googleMap.getCenter())
+        var pos = JSON.stringify(googleMap.getCenter());
+        pos = JSON.parse(pos)
+     //alert('LatLngBounds of this Circle:' + googleMap.getBounds())
+        this.setState({radius: googleMap.getRadius(), boundaryPoints: {
+                latitudeX: pos.lat,
+                longitudeY: pos.lng
+        }});
     }
 
     numberofTransport = (val) => {
         console.log('numberofTransport:' + val)
-        this.setState({numberOfTransport: val});
+        this.setState({numberOfTransport: val,numberofTransportSlider: []});
     }
 
 
@@ -82,7 +85,7 @@ class BVGform extends React.Component {
 
     numberofTransportDropdown = (val) => {
        console.log('numberofTransportDropdown:' + val)
-        this.setState({transportValue: val});
+        this.setState({transportValue: val,numberofTransportSlider: []});
         if(val)
         {
             this.setState({showNumberofTransport: true});
@@ -92,7 +95,7 @@ class BVGform extends React.Component {
 
     numberofTransportSlider = (val) => {
         console.log('numberofTransportSlider:' + val)
-        this.setState({numberofTransportSlider: val});
+        this.setState({numberofTransportSlider: val,numberOfTransport: '',transportValue: ''});
     }
 
     toggleRadioButton = (val) => {

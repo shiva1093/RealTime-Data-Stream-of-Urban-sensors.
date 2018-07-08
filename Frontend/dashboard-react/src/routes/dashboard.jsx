@@ -2,8 +2,8 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import Maps from "views/Maps/Maps.jsx";
 import Weather from "../components/weather/weather.jsx";
 import Transportation from "../components/transpotation/transportation.jsx";
-import Car2go from "../components/sharing/car2go/car2go.jsx";
-import Bikes from "../components/sharing/bike/bike.jsx";
+import TransportSharing from "../components/TransportSharing/TransportSharing.jsx";
+//import Bikes from "../components/sharing/bike/bike.jsx";
 
 
 import {
@@ -46,28 +46,28 @@ const dashboardRoutes = [
   },
   
   {
-    path: "/Car2go",
-    sidebarName: "Car2go",
-    navbarName: "Car2go",
+    path: "/TransportSharing",
+    sidebarName: "Transport Sharing",
+    navbarName: "Transport Sharing",
     icon: DirectionsCar,
-    component: Car2go
+    component: TransportSharing
   },
-  {
-    path: "/Bikes",
-    sidebarName: "Bikes",
-    navbarName: "Bikes",
-    icon: DirectionsBike,
-    component: Bikes
-  },
-  /*
-  {
-    path: "/notifications",
-    sidebarName: "Notifications",
-    navbarName: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage
-  },
-  */
+    /* {
+      path: "/Bikes",
+      sidebarName: "Bikes",
+      navbarName: "Bikes",
+      icon: DirectionsBike,
+      component: Bikes
+    },
+
+    {
+      path: "/notifications",
+      sidebarName: "Notifications",
+      navbarName: "Notifications",
+      icon: Notifications,
+      component: NotificationsPage
+    },
+    */
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
 

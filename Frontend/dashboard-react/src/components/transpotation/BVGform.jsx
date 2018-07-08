@@ -157,7 +157,7 @@ class BVGform extends React.Component {
                             numberofTransport ={this.numberofTransport}/>  : null }
 
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
-                            <Maps maps={this.maps}/>
+                            <Maps maps={this.maps} mapOptions='circle'/>
                         </FormControl>
                         <Button label="Submit" disabled={!this.validateForm()} color="info"
                                 type="submit">Create</Button>

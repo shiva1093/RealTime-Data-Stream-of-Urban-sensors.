@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { withStyles} from "material-ui";
 import {Select, MenuItem, Input, InputLabel, FormControl} from 'material-ui';
+import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 import {
   Button
@@ -35,7 +37,10 @@ class ConditionForm extends React.Component {
             postion: {
               lat: '52.52',
               lon: '13.41'
-            }
+            },
+            open: false,
+            place: 'bc',
+            color: 'green'
         }
         this.handleCatagoryChange = this.handleCatagoryChange.bind(this);
         this.onValueChange = this.onValueChange.bind(this);
@@ -55,6 +60,8 @@ class ConditionForm extends React.Component {
           bindingID: uid,
           setting:"",
           condition: [{
+            lon: this.state.position.lon,
+            lat: this.state.position.lat,
             catagory: this.state.catagory,
             catevalue: this.state.value,
             condition: this.state.condition,
@@ -63,7 +70,6 @@ class ConditionForm extends React.Component {
           command: 'CREATE'
         }
         console.log("send messge:::::" + JSON.stringify(msg));
-        global.conditions.push(msg);
         sendmsg(msg);
     }
 
@@ -103,8 +109,6 @@ class ConditionForm extends React.Component {
 
         return(
           <form className={classes.root} autoComplete="off" onSubmit={this.sendMsg}>
-            <Button label="Submit"  color="info" type="submit">Create</Button>
-
             <FormControl className={classes.formControl}>
             <InputLabel htmlFor="catagory" className={classes.inputLabel} >Catagory</InputLabel>
             <Select className={classes.select}
@@ -168,7 +172,16 @@ class ConditionForm extends React.Component {
         <FormControl style={mapsControlStyles} >
             <Maps markermaps={this.markermaps}/>
         </FormControl>
-        
+        <Button label="Submit"  color="success" type="submit">Create</Button>
+        <Snackbar
+          place={this.state.place}
+          color= "success"
+          icon={AddAlert}
+          message="New Rule Successfully Added"
+          open={this.state.open}
+          closeNotification={() => this.setState({open:false})}
+          close
+        />
         </form>
         )
     }

@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import treeData from '../data.json'
 import { TreeSelect } from 'antd';
 import 'antd/dist/antd.css';
-var inArray = require('in-array');
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
 class NestedCheckbox extends React.Component {

@@ -19,17 +19,7 @@ import {
 import Header from './header';
 
 
-global.conditions = [];
-
 class Weather extends React.Component {
-
-  componentDidUpdate() {
-
-  }
-
-  state = {
-    showedCon: []
-  };
 
   render() {
     const { classes } = this.props;
@@ -39,7 +29,7 @@ class Weather extends React.Component {
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
           <RegularCard
-            headerColor="blue"
+            headerColor="green"
             cardTitle="Configure Conditions for Weather"
             content={
               <ConditionForm />

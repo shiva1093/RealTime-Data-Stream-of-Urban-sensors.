@@ -13,13 +13,13 @@ class NestedCheckbox extends React.Component {
     onChange = (value,label,extra) => {
         this.setState({ value });
         var busName = [];
-        var busNamesArray = [];
+        var busNamesArray = {};
         var uniqueNames = [];
         if(value == 'All'){
-            var valueToPush = []; // or "var valueToPush = new Object();" which is the same
-            console.log('onChange ', value);   /* If the user selects ALL from the dropdown*/
-            valueToPush["busName"] = value[0];
-            valueToPush["busDirection"] = null;
+            var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
+            //console.log('onChange ', value);   /* If the user selects ALL from the dropdown*/
+            valueToPush.transportLine = value[0];
+            valueToPush.direction = null;
             busName.push(valueToPush);
             busNamesArray = busName
         }else if(extra.allCheckedNodes.length >= 1){
@@ -29,22 +29,22 @@ class NestedCheckbox extends React.Component {
                 {
                     var parentBusName = nodes.node.props.parent;
                     var busDirection = nodes.node.props.value;
-                    var valueToPush = []; // or "var valueToPush = new Object();" which is the same
-                    valueToPush["busName"] = parentBusName;
-                    valueToPush["busDirection"] = busDirection;
-                    console.log(parentBusName);
-                    console.log(busDirection);
+                    var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
+                    valueToPush.transportLine = parentBusName;
+                    valueToPush.direction = busDirection;
+                   /* console.log(parentBusName);
+                    console.log(busDirection);*/
                     busName.push(valueToPush);
-                    console.log(busName);
+                    //console.log(busName);
                   //  alert('NodesHasnoChilderen')
                 }else {
                     //console.log(nodes) // prints correct value
                     var parentBusName = nodes.node.props.parent;
-                    var valueToPush = []; // or "var valueToPush = new Object();" which is the same
+                    var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
                     if(parentBusName){
-                        console.log("BusName"+parentBusName)
-                        valueToPush["busName"] = parentBusName;
-                        valueToPush["busDirection"] = null;
+                      //  console.log("BusName"+parentBusName)
+                        valueToPush.transportLine = parentBusName;
+                        valueToPush.direction = null;
                         busName.push(valueToPush);
                       //  alert('else')
                     }else{
@@ -52,22 +52,22 @@ class NestedCheckbox extends React.Component {
                       //  alert('elseif')
                         nodes.children.forEach((parentHasChild) => {
                             var parentHasChild = parentHasChild.node.props.parent;
-                            var valueToPush = []; // or "var valueToPush = new Object();" which is the same
+                            var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
                             var flag = 1;
-                            console.log('parent has child'+ parentHasChild)
+                          //  console.log('parent has child'+ parentHasChild)
                           //  valueToPush["busName"] = parentHasChild;
                             for(var i =0;i<busName.length;i++)
                             {
-                                console.log(busName)
-                                if(busName[i]['busName'] === parentHasChild)
+                                //console.log(busName)
+                                if(busName[i]['transportLine'] === parentHasChild)
                                 {
                                     flag = 0;
 
                                 }
                             }
                             if(flag == 1){
-                                valueToPush["busName"] = parentHasChild;
-                                valueToPush["busDirection"] = null;
+                                valueToPush.transportLine = parentHasChild;
+                                valueToPush.direction = null;
                                 busName.push(valueToPush);
                             }
                            // console.log(busName)
@@ -82,7 +82,7 @@ class NestedCheckbox extends React.Component {
             });
 
         }
-        console.log(busNamesArray)
+       // console.log(busNamesArray)
         this.props.busDirection(busNamesArray);
     };
     onSelect = (value,node,extra) => {

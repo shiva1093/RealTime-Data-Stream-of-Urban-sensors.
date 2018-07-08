@@ -9,6 +9,8 @@ import SubwayIcon from '@material-ui/icons/Subway';
 import {
     RegularCard,
 } from "../../components/baseItems";
+import {connect, sendmsg} from '../../utils/webstomp.js';
+import uuidv1 from 'uuid/v1';
 
 import { withStyles } from "material-ui";
 function TabContainer(props) {
@@ -40,25 +42,46 @@ class Transportation extends React.Component {
         value: 0,
         formValues:{}
     };
-
+    componentWillMount(){
+        connect();
+    }
     onSubmitValues = (formValues,transportName) => {
         const jsonValues = [transportName,formValues.busName,
             formValues.transportValue,formValues.numberOfTransport,formValues.radius,formValues.boundaryPoints]
+        var uid = uuidv1();
+        var topicName = '/topic/transport';
 
         this.setState({ formValues:{
-                "bindingID": "1",
+                "bindingID": uid,
                 "settings": "",
                 "condition":[{ "radius": formValues.radius,
                     "latitudeX": formValues.boundaryPoints[0],
                     "longitudeY" : formValues.boundaryPoints[1],
                     "transportType" : transportName,
-                    "transportLine" : formValues.busName,
+                    "transport" : formValues.busName,
                     "direction" : formValues.transportDirection,
                     "transportAmount" : [formValues.transportValue,formValues.numberOfTransport],
                     "transportRange" : formValues.numberofTransportSlider,
                 }],
                 "command": "CREATE"
             } });
+
+        const jsonArray ={
+            "bindingID": uid,
+            "settings": "",
+            "condition":[{ "radius": formValues.radius,
+                "latitudeX": formValues.boundaryPoints[0],
+                "longitudeY" : formValues.boundaryPoints[1],
+                "transportType" : transportName,
+                "transport" :formValues.busName,
+                "transportAmount" : [formValues.transportValue,formValues.numberOfTransport],
+                "transportAmountLowerBound" : formValues.numberofTransportSlider[0],
+                "transportAmountUpperBound" : formValues.numberofTransportSlider[1]
+            }],
+            "command": "CREATE"
+        }
+        console.log(formValues.busName)
+        sendmsg(jsonArray,topicName);
     }
     handleChange = (event, value) => {
         this.setState({ value });

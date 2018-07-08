@@ -14,9 +14,9 @@ var on_connect = function(msg) {
     console.log("connect successfully!!!!")
 }
 
-var sendmsg = function (msg) {
+var sendmsg = function (msg,topic) {
     // send the text to the destination
-    client.send('/queue/weather', {"content-type":"text/plain"}, JSON.stringify(msg));
+    client.send(topic, {"content-type":"text/plain"}, JSON.stringify(msg));
 
     //client.disconnect();
 }

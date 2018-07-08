@@ -1,0 +1,177 @@
+
+
+<html>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+        <table class="table">
+            <thead>
+            <th>Topic</th>
+            <th>Name</th>
+            <th>Request Type</th>
+            <th>URL</th>
+            <th>Examples</th>
+            <th>Tests</th>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td>
+                    Weather
+                </td>
+                <td>
+                    Weather info using city name
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /weather/{location}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/berlin">/weather/berlin</a>
+                    <br/>
+                    <a target="_blank" href="/weather/munich">/weather/munich</a>
+                    <br/>
+                    <a target="_blank" href="/weather/dallas">/weather/dallas</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/berlin">Weather in Berlin</a>
+                    <br/>
+                    <a target="_blank" href="/weather/munich">Weather in Munich</a>
+                    <br/>
+                    <a target="_blank" href="/weather/dallas">Weather in Dallas</a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    Weather
+                </td>
+                <td>
+                    Weather info using Long Lat
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /weather/{lon}/{lat}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/52.5200/13.4050">/weather/52.5200/13.4050</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/52.5200/13.4050">Weather in Berlin</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Weather
+                </td>
+                <td>
+                    Weather conditions using City Name
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /weather/{location}/condition/{conditions}
+                </td>
+                <td>
+                    <a target="_blank" href="/weather/berlin/condition/main.temp < 20">/weather/berlin/condition/main.temp < 20</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/berlin/condition/main.temp < 20">main.temp < 20 in berlin</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Weather Conditions
+                </td>
+                <td>
+                    Weather condition info using Long Lat
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /weather/{lon}/{lat}/condition/{conditions}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/52.5200/13.4050/condition/main.temp < 20">/weather/52.5200/13.4050/condition/main.temp < 20</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/weather/52.5200/13.4050/condition/main.temp < 20">Weather in Berlin</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Sunrise and Sunset
+                </td>
+                <td>
+                    Sunrise and Sunset conditions using Long Lat
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /sunrise_sunset/{lon}/{lat}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/sunrise_sunset/52.5200/13.4050">/sunrise_sunset/52.5200/13.4050</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/sunrise_sunset/52.5200/13.4050">Sunrise and Sunset Info</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Sunrise and Sunset Condition
+                </td>
+                <td>
+                    Sunrise and Sunset conditions  using Long Lat
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /sunrise_sunset/{lon}/{lat}/condition/{condition}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/sunrise_sunset/52.5200/13.4050/condition/isday">/sunrise_sunset/52.5200/13.4050/condition/isday</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/sunrise_sunset/52.5200/13.4050/condition/isday">Sunrise and Sunset Condition</a>
+                </td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</body>
+</html>

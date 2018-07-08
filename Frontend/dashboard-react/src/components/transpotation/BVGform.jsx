@@ -153,7 +153,7 @@ class BVGform extends React.Component {
 
                             <ExampleRadioUsage toggleRadioButton ={this.toggleRadioButton}/>
 
-                        { this.state.toggleRadioDropdown ? <ShowNumberofTransportDropdown numberofTransportDropdown ={this.numberofTransportDropdown} />
+                        { this.state.toggleRadioDropdown ? <ShowNumberofTransportDropdown componentTitle={'Amount of Vehicles '}numberofTransportDropdown ={this.numberofTransportDropdown} />
                             : <ShowNumberofTransportSlider numberofTransportSlider ={this.numberofTransportSlider}/> }
 
                         { this.state.showNumberofTransport ? <ShowNumberofTransport
@@ -168,7 +168,7 @@ class BVGform extends React.Component {
                             place={this.state.place}
                             color={this.state.color}
                             icon={AddAlert}
-                            message="New Rule Successfully Added"
+                            message="New Condition Successfully Added"
                             open={this.state.open}
                             closeNotification={() => this.setState({open:false})}
                             close

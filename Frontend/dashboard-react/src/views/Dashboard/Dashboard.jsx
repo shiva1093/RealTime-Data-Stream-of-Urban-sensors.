@@ -19,6 +19,8 @@ import {
 } from "@material-ui/icons";
 import { withStyles, Grid } from "material-ui";
 import TransportTable from "./Transport/transportTable";
+import WeatherTable from "./weather/weatherTable";
+
 import {
   StatsCard,
   RegularCard,
@@ -32,6 +34,7 @@ class Dashboard extends React.Component {
   state = {
     value: 0,
     transportRules:0,
+    weatherRules: 0,
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -47,6 +50,13 @@ class Dashboard extends React.Component {
           transportRules:count
       })
   }
+
+  weatherRules = (props) =>{
+    let count = props.length
+    this.setState({
+        weatherRules:count
+    })
+}
 
 
   render() {
@@ -65,6 +75,16 @@ class Dashboard extends React.Component {
           </ItemGrid>
           <ItemGrid xs={12} sm={6} md={3}>
             <StatsCard
+              icon={FilterDrama}
+              iconColor="green"
+              title="Weather Rules"
+              description={this.state.weatherRules}
+              statIcon={Update}
+              statText="Rules for Weather"
+            />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={6} md={3}>
+            <StatsCard
               icon={DirectionsCar}
               iconColor="green"
               title="Car/Bike Rules"
@@ -73,26 +93,7 @@ class Dashboard extends React.Component {
               statText="Rules for Cars / Bikes"
             />
           </ItemGrid>
-          <ItemGrid xs={12} sm={6} md={3}>
-            <StatsCard
-              icon={FilterDrama}
-              iconColor="blue"
-              title="Weather Rules"
-              description="75"
-              statIcon={Update}
-              statText="Rules for Weather"
-            />
-          </ItemGrid>
-          <ItemGrid xs={12} sm={6} md={3}>
-            <StatsCard
-              icon={MoreHoriz}
-              iconColor="red"
-              title="Add More ..."
-              description="0"
-              statIcon={Update}
-              statText="Just Updated"
-            />
-          </ItemGrid>
+          
         </Grid>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
@@ -108,6 +109,16 @@ class Dashboard extends React.Component {
           <ItemGrid xs={12} sm={12} md={12}>
           <RegularCard
             headerColor="green"
+            cardTitle="Getting Information For Weather"
+            cardSubtitle="Displaying Weather Conditions"
+              content={
+                  <WeatherTable weatherRules={this.weatherRules} transportFront="transport"/>
+              }
+          />
+          </ItemGrid>
+          <ItemGrid xs={12} sm={12} md={12}>
+          <RegularCard
+            headerColor="green"
             cardTitle="Getting Information For Cars"
             cardSubtitle="New Rules Executed on 16th May, 2018"
             content={
@@ -117,24 +128,6 @@ class Dashboard extends React.Component {
                 tableData={[
                   ["1", "TU berlin", "Car2Go", "45", "12:00 16.05.2018"],
                   ["2", "TU berlin Telekom Innovation Lab", "Mobike", "5", "16:00 16.05.2018"],
-                  ["3", "...", "...", "..."],
-                ]}
-              />
-            }
-          />
-        </ItemGrid>
-        <ItemGrid xs={12} sm={12} md={12}>
-          <RegularCard
-            headerColor="blue"
-            cardTitle="Getting Information For Weather"
-            cardSubtitle="New Rules Executed on 16th May, 2018"
-            content={
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Condition", "Time", "Notifiation"]}
-                tableData={[
-                  ["1", " > 26 degree", "12:00 16.05.2018", "Yes"],
-                  ["2", " < 10 degree", "8:00 16.05.2018", "Yes"],
                   ["3", "...", "...", "..."],
                 ]}
               />

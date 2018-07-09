@@ -1,6 +1,7 @@
 package de.tub.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class RabbitMessage {
     private List condition;
     private Boolean status;
     private CommandType command;
+    private Date dateCreated;
 
     public RabbitMessage() {
     }
@@ -104,6 +106,20 @@ public class RabbitMessage {
      */
     public void setCommand(CommandType command) {
         this.command = command;
+    }
+
+    /**
+     * @return the dateCreated
+     */
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    /**
+     * @param dateCreated the dateCreated to set
+     */
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
 }

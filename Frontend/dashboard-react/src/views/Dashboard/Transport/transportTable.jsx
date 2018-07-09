@@ -181,6 +181,9 @@ const styles = theme => ({
     progress: {
         alignContent: 'center',
     },
+    busVal: {
+        width  : 100,
+    },
 });
 const refreshIcon = {
     width: 40,
@@ -198,6 +201,7 @@ class TransportTable extends React.Component {
             orderBy: 'calories',
             isLoading: false,
             selected: [],
+            busNames: [],
             data: [
 
             ],
@@ -211,7 +215,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportapi`).then((res) => {
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transport`).then((res) => {
             var results = res.data
             this.setState({data: results, isLoading:true});
             this.props.transportRules(results);
@@ -235,7 +239,7 @@ class TransportTable extends React.Component {
 
     handleSelectAllClick = (event, checked) => {
         if (checked) {
-            this.setState({ selected: this.state.data.map(n => n.id) });
+            this.setState({ selected: this.state.data.map(n => n.bindingID) });
             return;
         }
         this.setState({ selected: [] });
@@ -310,28 +314,36 @@ class TransportTable extends React.Component {
                                 .sort(getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
-                                    const isSelected = this.isSelected(n.id);
+                                    const isSelected = this.isSelected(n.bindingID);
+                                    const transportLine = n.condition[0].transport.map(v => {
+                                        if(v.direction)
+                                        return <li>{v.transportLine} - {v.direction}</li>;
+                                        else
+                                            return <li>{v.transportLine}</li>;
+                                    });
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => this.handleClick(event, n.id)}
+                                            onClick={event => this.handleClick(event, n.bindingID)}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={-1}
-                                            key={n.id}
+                                            key={n.bindingID}
                                             selected={isSelected}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.transportType}
+                                                {n.condition[0].transportType}
                                             </TableCell>
-                                            <TableCell numeric>{n.transportLine}</TableCell>
-                                            <TableCell numeric>{n.direction}</TableCell>
-                                            <TableCell numeric>{n.transportAmount}</TableCell>
-                                            <TableCell numeric>{n.latitudeX},{n.longitudeY}</TableCell>
-                                            <TableCell numeric>{n.radius}</TableCell>
+                                            <TableCell className={classes.busVal} numeric colSpan={1}>
+                                                <ul className="list--tags">  {transportLine}</ul>
+                                            </TableCell>
+                                            <TableCell numeric>{n.condition[0].transportAmountLowerBound}</TableCell>
+                                            <TableCell numeric>{n.condition[0].transportAmountUpperBound}</TableCell>
+                                            <TableCell numeric>{n.condition[0].latitudeX},{n.condition[0].longitudeY}</TableCell>
+                                            <TableCell numeric>{n.condition[0].radius}</TableCell>
                                             <TableCell numeric>
                                                 {this.checkStatus(n.status)}
                                             </TableCell>

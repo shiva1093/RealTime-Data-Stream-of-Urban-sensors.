@@ -8,10 +8,10 @@ repositories {
 
 
 
-mainClassName = 'com.browngrid.app.SampleSpringApplication'
+mainClassName = 'de.tub.app.SampleSpringApplication'
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'com.browngrid.app.SampleSpringApplication'
+    ext.mainClass = 'de.tub.app.SampleSpringApplication'
 }
 
 dependencies {

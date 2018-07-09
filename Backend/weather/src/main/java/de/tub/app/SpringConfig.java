@@ -7,9 +7,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Configuration
 @EnableScheduling
 @ComponentScan(basePackages = {
-    "com.browngrid.app.apputil",
-    "com.browngrid.app.repository",
-    "com.browngrid.app.web"
+    "de.tub.app.apputil",
+    "de.tub.app.repository",
+    "de.tub.app.web"
 })
 public class SpringConfig {
 

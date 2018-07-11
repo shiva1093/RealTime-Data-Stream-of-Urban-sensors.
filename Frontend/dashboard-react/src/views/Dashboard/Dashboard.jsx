@@ -20,7 +20,7 @@ import {
 import { withStyles, Grid } from "material-ui";
 import TransportTable from "./Transport/transportTable";
 import WeatherTable from "./weather/weatherTable";
-
+import VehicleTable from "./VehicleSharing/vehicleTable";
 import {
   StatsCard,
   RegularCard,
@@ -35,6 +35,7 @@ class Dashboard extends React.Component {
     value: 0,
     transportRules:0,
     weatherRules: 0,
+    vehicleRules:0
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -58,6 +59,12 @@ class Dashboard extends React.Component {
     })
 }
 
+   vehicleRules = (props) =>{
+        let count = props.length
+        this.setState({
+           vehicleRules:count
+        })
+    }
 
   render() {
     return (
@@ -67,10 +74,10 @@ class Dashboard extends React.Component {
             <StatsCard
               icon={Train}
               iconColor="blue"
-              title="Transport Rules"
+              title="Transport Conditions"
               description={this.state.transportRules}
               statIcon={Update}
-              statText="Total number of rules"
+              statText="Total number of Conditions"
             />
           </ItemGrid>
           <ItemGrid xs={12} sm={6} md={3}>
@@ -86,11 +93,11 @@ class Dashboard extends React.Component {
           <ItemGrid xs={12} sm={6} md={3}>
             <StatsCard
               icon={DirectionsCar}
-              iconColor="green"
-              title="Car/Bike Rules"
-              description="30"
+              iconColor="orange"
+              title="Car/Bike Conditions"
+              description={this.state.vehicleRules}
               statIcon={Update}
-              statText="Rules for Cars / Bikes"
+              statText="Total number of Conditions"
             />
           </ItemGrid>
           
@@ -99,8 +106,8 @@ class Dashboard extends React.Component {
           <ItemGrid xs={12} sm={12} md={12}>
             <RegularCard
               headerColor="blue"
-              cardTitle="Getting Transport Information"
-              cardSubtitle="Displaying Rules"
+              cardTitle="Getting Information For Transport "
+              cardSubtitle="Displaying Transport Conditions"
               content={
                   <TransportTable transportRules={this.transportRules} transportFront="transport"/>
               }
@@ -118,19 +125,11 @@ class Dashboard extends React.Component {
           </ItemGrid>
           <ItemGrid xs={12} sm={12} md={12}>
           <RegularCard
-            headerColor="green"
-            cardTitle="Getting Information For Cars"
-            cardSubtitle="New Rules Executed on 16th May, 2018"
+            headerColor="orange"
+            cardTitle="Getting Information For Transport Sharing"
+            cardSubtitle="Displaying Transport Sharing Conditions"
             content={
-              <Table
-                tableHeaderColor="warning"
-                tableHead={["ID", "Type", "Location", "Numbers", "Time"]}
-                tableData={[
-                  ["1", "TU berlin", "Car2Go", "45", "12:00 16.05.2018"],
-                  ["2", "TU berlin Telekom Innovation Lab", "Mobike", "5", "16:00 16.05.2018"],
-                  ["3", "...", "...", "..."],
-                ]}
-              />
+                <VehicleTable vehicleRules={this.vehicleRules}/>
             }
           />
         </ItemGrid>

@@ -24,12 +24,6 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
-let counter = 0;
-function createData(name, calories, fat, carbs, protein) {
-    counter += 1;
-    return { id: counter, name, calories, fat, carbs, protein };
-}
-
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -198,7 +192,7 @@ class TransportTable extends React.Component {
 
         this.state = {
             order: 'asc',
-            orderBy: 'calories',
+            orderBy: 'transporttype',
             isLoading: false,
             selected: [],
             busNames: [],

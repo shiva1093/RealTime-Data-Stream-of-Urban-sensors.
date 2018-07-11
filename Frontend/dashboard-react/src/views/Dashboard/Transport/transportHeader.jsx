@@ -1,8 +1,8 @@
 import React from 'react';
 export const busHeader = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'Transport Type' },
-    { id: 'calories', numeric: true, disablePadding: false, label: 'Bus Name' },
-    { id: 'carbs', numeric: true, disablePadding: false, label: 'LowerBound' },
+    { id: 'transporttype', numeric: false, disablePadding: true, label: 'Transport Type' },
+    { id: 'busname', numeric: true, disablePadding: false, label: 'Bus Name' },
+    { id: 'lowerbound', numeric: true, disablePadding: false, label: 'LowerBound' },
     { id: 'upperbound', numeric: true, disablePadding: false, label: 'UpperBound' },
     { id: 'latitude', numeric: true, disablePadding: false, label: 'Coordinates' },
     { id: 'protein', numeric: true, disablePadding: false, label: 'Radius' },

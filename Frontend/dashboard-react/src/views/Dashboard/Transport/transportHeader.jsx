@@ -4,8 +4,8 @@ export const busHeader = [
     { id: 'busname', numeric: true, disablePadding: false, label: 'Bus Name' },
     { id: 'lowerbound', numeric: true, disablePadding: false, label: 'LowerBound' },
     { id: 'upperbound', numeric: true, disablePadding: false, label: 'UpperBound' },
-    { id: 'latitude', numeric: true, disablePadding: false, label: 'Coordinates' },
-    { id: 'protein', numeric: true, disablePadding: false, label: 'Radius' },
+    { id: 'coordinates', numeric: true, disablePadding: false, label: 'Coordinates' },
+    { id: 'radius', numeric: true, disablePadding: false, label: 'Radius' },
     { id: 'status', numeric: true, disablePadding: false, label: 'Status' },
 ];
 /*

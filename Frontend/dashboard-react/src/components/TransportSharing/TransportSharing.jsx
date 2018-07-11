@@ -2,10 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import TransportSharingform from "./TransportSharingform.jsx";
 import {Tabs,Tab,Typography,AppBar } from "material-ui";
-import TrainIcon from '@material-ui/icons/Train';
-import TramIcon from '@material-ui/icons/Tram';
-import BusIcon from '@material-ui/icons/DirectionsBus';
-import SubwayIcon from '@material-ui/icons/Subway';
+import BikeIcon from '@material-ui/icons/DirectionsBike';
+import CarIcon from '@material-ui/icons/DirectionsCar';
 import {
     RegularCard,
 } from "../../components/baseItems";
@@ -46,10 +44,8 @@ class TransportSharing extends React.Component {
         connect();
     }
     onSubmitValues = (formValues,transportName) => {
-        const jsonValues = [transportName,formValues.busName,
-            formValues.transportValue,formValues.numberOfTransport,formValues.radius,formValues.boundaryPoints]
         var uid = uuidv1();
-        var topicName = '/topic/transport';
+        var topicName = '/topic/transportSharing';
 
         this.setState({ formValues:{
                 "bindingID": uid,
@@ -58,28 +54,22 @@ class TransportSharing extends React.Component {
                     "latitudeX": formValues.boundaryPoints.latitudeX,
                     "longitudeY" : formValues.boundaryPoints.longitudeY,
                     "transportType" : transportName,
-                    "transport" : formValues.busName,
-                    "direction" : formValues.transportDirection,
-                    "transportAmountLowerBound" :formValues.transportValue =='<='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
-                    "transportAmountUpperBound" :formValues.transportValue =='>='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
-                }],
+                    "providerName" :formValues.transportProviderName,}],
                 "command": "CREATE"
             } });
 
         const jsonArray ={
             "bindingID": uid,
             "settings": "",
-            "condition":[{ "radius": formValues.radius,
+            "condition":[{
+                "radius": formValues.radius,
                 "latitudeX": formValues.boundaryPoints.latitudeX,
                 "longitudeY" : formValues.boundaryPoints.longitudeY,
                 "transportType" : transportName,
-                "transport" :formValues.busName,
-                "transportAmountLowerBound" :formValues.transportValue =='<='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
-                "transportAmountUpperBound" :formValues.transportValue =='>='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
+                "providerName" :formValues.transportProviderName,
             }],
             "command": "CREATE"
         }
-        console.log(formValues.busName)
         sendmsg(jsonArray,topicName);
     }
     handleChange = (event, value) => {
@@ -101,8 +91,8 @@ class TransportSharing extends React.Component {
                         indicatorColor="#ff9800"
                         textColor="#000"
                     >
-                        <Tab label="Car" icon={<BusIcon />} />
-                        <Tab label="Bikes" icon={<TrainIcon />} />
+                        <Tab label="Car" icon={<CarIcon />} />
+                        <Tab label="Bikes" icon={<BikeIcon />} />
                     </Tabs>
                 </AppBar>
                 {value === 0 && <TabContainer><TransportSharingform transportName={"Cars"} onSubmitValues = {this.onSubmitValues}/>

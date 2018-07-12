@@ -310,10 +310,11 @@ class TransportTable extends React.Component {
                                 .map(n => {
                                     const isSelected = this.isSelected(n.bindingID);
                                     const transportLine = n.condition[0].transport.map(v => {
-                                        if(v.direction)
-                                        return <li>{v.transportLine} - {v.direction}</li>;
-                                        else
                                             return <li>{v.transportLine}</li>;
+                                    });
+                                    const transportDirection = n.condition[0].transport.map(v => {
+                                        if(v.direction)
+                                            return <li>{v.direction}</li>;
                                     });
                                     return (
                                         <TableRow
@@ -334,10 +335,9 @@ class TransportTable extends React.Component {
                                             <TableCell className={classes.busVal} numeric colSpan={1}>
                                                 <ul className="list--tags">  {transportLine}</ul>
                                             </TableCell>
+                                            <TableCell numeric>{transportDirection}</TableCell>
                                             <TableCell numeric>{n.condition[0].transportAmountLowerBound}</TableCell>
                                             <TableCell numeric>{n.condition[0].transportAmountUpperBound}</TableCell>
-                                            <TableCell numeric>{n.condition[0].latitudeX},{n.condition[0].longitudeY}</TableCell>
-                                            <TableCell numeric>{n.condition[0].radius}</TableCell>
                                             <TableCell numeric>
                                                 {this.checkStatus(n.status)}
                                             </TableCell>

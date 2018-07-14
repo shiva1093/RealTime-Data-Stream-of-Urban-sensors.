@@ -103,7 +103,7 @@ export function ShowNumberofTransport (props) {
         <TextField
             required
             id="numberOfTransport-input"
-            label="Number of trains/buses/trams"
+            label={props.transportLabel}
             className={props.textField}
             type="text"
             name="numberOfTransport"

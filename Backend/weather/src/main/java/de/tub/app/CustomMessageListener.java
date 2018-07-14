@@ -46,16 +46,10 @@ public class CustomMessageListener {
             RabbitMessage rabbitMessage = mapper.readValue(msg, RabbitMessage.class);
             System.out.println("CustomMessageListener > Received Message " + rabbitMessage.toString());
 
-            if (rabbitMessage.getCommand() == null || rabbitMessage.getCommand().equals(RabbitMessage.CommandType.CREATE)) {
+            if (rabbitMessage.getCommand() != null && rabbitMessage.getCommand().equals(RabbitMessage.CommandType.CREATE)) {
                 rabbitMessage.setCommand(null);
                 if (rabbitMessage.getCondition() != null && !rabbitMessage.getCondition().isEmpty()) {
-                    LinkedHashMap<String, Object> conditionMap = (LinkedHashMap) rabbitMessage.getCondition().get(0);
-
-                    Condition condition = new Condition();
-                    condition.setLon(Double.parseDouble(conditionMap.get("lon").toString()));
-                    condition.setLat(Double.parseDouble(conditionMap.get("lat").toString()));
-                    condition.setValue((String) conditionMap.get("value"));
-
+                    Condition condition = rabbitMessage.getConditionAsCondition();
                     GeoLocation location = new GeoLocation(condition.getLon(), condition.getLat());
 
                     WeatherDetails weatherDetails = objFactory.getAppUtil().getWeather(location);
@@ -84,7 +78,7 @@ public class CustomMessageListener {
                 channel.basicPublish("", Constants.QUEUE_GENERIC_NAME, null, msg.getBytes());
                 System.out.println(" [x] Sent '" + message + "'");
 
-            } else {
+            } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.DELETE)) {
                 objFactory.getRabbitMessageRepository().delete(rabbitMessage);
 
                 System.out.println("CustomMessageListener > Message saved deleted");

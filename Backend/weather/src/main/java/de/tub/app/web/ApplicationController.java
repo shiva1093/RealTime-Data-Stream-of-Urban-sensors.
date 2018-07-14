@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class SampleController {
+public class ApplicationController {
 
     @Autowired
     private ObjFactory objFactory;
@@ -16,6 +16,12 @@ public class SampleController {
     @ResponseBody
     public String baseLink() {
         return "BrownGrid Server";
+    }
+
+    @GetMapping("/health")
+    @ResponseBody
+    public String health() {
+        return "healthy";
     }
 
     @GetMapping("/ping")

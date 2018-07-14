@@ -42,6 +42,21 @@ public class WeatherController {
         return new Gson().toJson(weatherDetails);
     }
 
+    @RequestMapping(value = "/weather/{lon}/{lat}/{info}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity weatherInfo(
+            @PathVariable(value = "lon", required = true) Double lon,
+            @PathVariable(value = "lat", required = true) Double lat,
+            @PathVariable(name = "info", required = true) String info) {
+
+        String all_json = new Gson().toJson(objFactory.getAppUtil().getWeather(new GeoLocation(lon, lat)));
+
+        Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(null, all_json);
+
+        return new ResponseEntity(conditionsMap.get(info), HttpStatus.OK);
+
+    }
+
     @RequestMapping(value = "/weather/{location}/condition/{conditions}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity check_condition_weather(
             @PathVariable(name = "location", required = true) String location,
@@ -49,11 +64,8 @@ public class WeatherController {
         WeatherDetails weatherDetails = null;
         try {
             weatherDetails = objFactory.getAppUtil().getWeather(location);
-            String all_json = new Gson().toJson(weatherDetails);
 
-            Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(null, all_json);
-
-            return new ResponseEntity(objFactory.getConditionUtil().checkCondition(conditionsMap, conditions), HttpStatus.OK);
+            return new ResponseEntity(objFactory.getConditionUtil().checkCondition(weatherDetails, conditions), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
         }

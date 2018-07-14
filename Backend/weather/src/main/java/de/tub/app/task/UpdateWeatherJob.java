@@ -2,10 +2,12 @@ package de.tub.app.task;
 
 import de.tub.app.Config;
 import de.tub.app.apputil.ObjFactory;
-import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
 import com.datenc.commons.date.DateUtil;
 import com.google.gson.Gson;
+import de.tub.app.domain.Condition;
+import de.tub.app.domain.RabbitMessage;
+import de.tub.app.domain.weather.GeoLocation;
 import java.util.Calendar;
 import java.util.List;
 import org.springframework.beans.BeansException;
@@ -31,9 +33,12 @@ public class UpdateWeatherJob implements Runnable, ApplicationContextAware {
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " UpdateWeatherJob executing .....");
         try {
-            List<GeoLocation> subs = objFactory.getWeatherSubsRepository().findAll();
-            for (GeoLocation location : subs) {
-                WeatherDetails weatherDetails = objFactory.getAppUtil().getWeather(location);
+            List<RabbitMessage> subs = objFactory.getRabbitMessageRepository().findAll();
+            for (RabbitMessage rabbitMessage : subs) {
+                Condition condition = rabbitMessage.getConditionAsCondition();
+
+                WeatherDetails weatherDetails = objFactory.getAppUtil().getWeather(
+                        new GeoLocation(condition.getLon(), condition.getLat()));
 
                 System.out.println("Sending to RabbitMQ ...");
                 objFactory.getRabbitTemplate().convertAndSend("amq.topic", Config.ROUNTING_KEY_BEGIN, new Gson().toJson(weatherDetails));

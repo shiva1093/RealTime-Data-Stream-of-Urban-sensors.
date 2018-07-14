@@ -32,6 +32,17 @@ repositories {
 }
 
 
+//test {
+//    useJUnitPlatform()
+//
+//    testLogging {
+//        events "passed", "skipped", "failed"
+//    }
+//
+//    reports {
+//        html.enabled = true
+//    }
+//}
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -41,7 +52,9 @@ dependencies {
     compile fileTree(dir: 'lib', include: '*.jar')
     runtime fileTree(dir: 'lib', include: '*.jar')
 
-    compile "junit:junit:4.11"
+    //    compile "junit:junit:5.2.0"
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 
     //apache commons
     compile 'org.apache.commons:commons-collections4:4.1'

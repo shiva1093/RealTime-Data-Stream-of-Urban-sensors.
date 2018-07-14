@@ -50,7 +50,8 @@ public class AppUtil {
     }
 
     public WeatherDetails getWeather(GeoLocation location) {
-        List<WeatherDetails> exWeatherDetails = objFactory.getWeatherRepository().findByDateCreatedBetween(getDateMinsBefore(Config.WEATHER_EXPIRTY), Calendar.getInstance().getTime());
+        List<WeatherDetails> exWeatherDetails = objFactory.getWeatherRepository().findByDateCreatedBetween(
+                getDateMinsBefore(Config.WEATHER_EXPIRTY), Calendar.getInstance().getTime());
         WeatherDetails weather = null;
         for (WeatherDetails weatherDetail : exWeatherDetails) {
             if (weatherDetail.getCoord().equals(location)) {

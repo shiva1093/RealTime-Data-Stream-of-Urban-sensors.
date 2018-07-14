@@ -53,7 +53,7 @@ const defaultFont = {
   lineHeight: "1.5em"
 };
 
-const primaryColor = "#9c27b0";
+const primaryColor = "#C2185B";
 const warningColor = "#ff9800";
 const dangerColor = "#f44336";
 const successColor = "#4caf50";
@@ -105,10 +105,17 @@ const blueCardHeader = {
   background: "linear-gradient(60deg, #26c6da, #00acc1)",
   ...infoBoxShadow
 };
+/*
 const purpleCardHeader = {
   background: "linear-gradient(60deg, #ab47bc, #8e24aa)",
   ...primaryBoxShadow
 };
+*/
+
+const roseCardHeader = {
+  background: "linear-gradient(60deg, #e91e63, #C2185B)",
+  ...primaryBoxShadow
+}
 
 const cardActions = {
   margin: "0 20px 10px",
@@ -160,7 +167,7 @@ export {
   greenCardHeader,
   redCardHeader,
   blueCardHeader,
-  purpleCardHeader,
+  roseCardHeader,
   cardActions,
   cardHeader,
   defaultBoxShadow

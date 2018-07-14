@@ -2,11 +2,13 @@ package de.tub.app.web;
 
 import de.tub.app.apputil.JsonUtil;
 import de.tub.app.apputil.ObjFactory;
+import de.tub.app.domain.RabbitMessage;
 import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
-import com.google.gson.Gson;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,21 @@ public class ConditionsController {
 
     @Autowired
     private ObjFactory objFactory;
+
+    @RequestMapping(value = "/condition/{pageSize}/{start}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<RabbitMessage>> check_condition_weather(
+            @PathVariable(name = "pageSize", required = true) int pageSize,
+            @PathVariable(name = "start", required = true) int start) {
+        try {
+            PageRequest pageRequest = PageRequest.of(start, pageSize);
+
+            return new ResponseEntity(objFactory.getRabbitMessageRepository().findAll(pageRequest), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new ResponseEntity(false, HttpStatus.NOT_FOUND);
+        }
+
+    }
 
     /**
      * **********************************************************************

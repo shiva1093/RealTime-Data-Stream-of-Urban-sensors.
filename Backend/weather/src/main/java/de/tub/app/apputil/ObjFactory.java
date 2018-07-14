@@ -2,6 +2,7 @@ package de.tub.app.apputil;
 
 import de.tub.app.message.Receiver;
 import de.tub.app.repository.DayInfoRepository;
+import de.tub.app.repository.RabbitMessageRepository;
 import de.tub.app.repository.WeatherRepository;
 import de.tub.app.repository.WeatherSubsRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,6 +25,8 @@ public class ObjFactory {
     private ConditionUtil conditionUtil;
     @Autowired
     private DayInfoRepository dayInfoRepository;
+    @Autowired
+    private RabbitMessageRepository rabbitMessageRepository;
     @Autowired
     private WeatherRepository weatherRepository;
     @Autowired
@@ -127,6 +130,20 @@ public class ObjFactory {
      */
     public void setConditionUtil(ConditionUtil conditionUtil) {
         this.conditionUtil = conditionUtil;
+    }
+
+    /**
+     * @return the rabbitMessageRepository
+     */
+    public RabbitMessageRepository getRabbitMessageRepository() {
+        return rabbitMessageRepository;
+    }
+
+    /**
+     * @param rabbitMessageRepository the rabbitMessageRepository to set
+     */
+    public void setRabbitMessageRepository(RabbitMessageRepository rabbitMessageRepository) {
+        this.rabbitMessageRepository = rabbitMessageRepository;
     }
 
 }

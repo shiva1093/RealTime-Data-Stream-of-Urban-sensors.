@@ -5,11 +5,7 @@ import {
   Train,
   DirectionsCar,
   FilterDrama,
-  MoreHoriz,
-  InfoOutline,
-  Subject,
-  Tram,
-  Warning,
+  WbSunny,
   DateRange,
   LocalOffer,
   Update,
@@ -20,6 +16,8 @@ import {
 import { withStyles, Grid } from "material-ui";
 import TransportTable from "./Transport/transportTable";
 import WeatherTable from "./weather/weatherTable";
+import {connect} from '../../utils/webstomp.js';
+
 import VehicleTable from "./VehicleSharing/vehicleTable";
 import {
   StatsCard,
@@ -65,6 +63,9 @@ class Dashboard extends React.Component {
            vehicleRules:count
         })
     }
+componentWillMount(){
+  connect();
+}
 
   render() {
     return (
@@ -77,19 +78,18 @@ class Dashboard extends React.Component {
               title="Transport Conditions"
               description={this.state.transportRules}
               statIcon={Update}
-              statText="Total number of Conditions"
             />
           </ItemGrid>
           <ItemGrid xs={12} sm={6} md={3}>
             <StatsCard
               icon={FilterDrama}
               iconColor="green"
-              title="Weather Rules"
+              title="Weather Conditions"
               description={this.state.weatherRules}
               statIcon={Update}
-              statText="Rules for Weather"
             />
           </ItemGrid>
+
           <ItemGrid xs={12} sm={6} md={3}>
             <StatsCard
               icon={DirectionsCar}
@@ -97,10 +97,17 @@ class Dashboard extends React.Component {
               title="Car/Bike Conditions"
               description={this.state.vehicleRules}
               statIcon={Update}
-              statText="Total number of Conditions"
             />
           </ItemGrid>
-          
+            <ItemGrid xs={12} sm={6} md={3}>
+                <StatsCard
+                    icon={WbSunny}
+                    iconColor="rose"
+                    title="Day / Night Conditions"
+                    description="30"
+                    statIcon={Update}
+                />
+            </ItemGrid>
         </Grid>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
@@ -133,6 +140,24 @@ class Dashboard extends React.Component {
             }
           />
         </ItemGrid>
+         <ItemGrid xs={12} sm={12} md={12}>
+                <RegularCard
+                    headerColor="rose"
+                    cardTitle="Getting Information For Day / Night"
+                    cardSubtitle="New Rules Executed on 16th May, 2018"
+                    content={
+                        <Table
+                            tableHeaderColor="black"
+                            tableHead={["ID", "Type", "Location", "Numbers", "Time"]}
+                            tableData={[
+                                ["1", "TU berlin", "Car2Go", "45", "12:00 16.05.2018"],
+                                ["2", "TU berlin Telekom Innovation Lab", "Mobike", "5", "16:00 16.05.2018"],
+                                ["3", "...", "...", "..."],
+                            ]}
+                        />
+                    }
+                />
+            </ItemGrid>
         </Grid>
       </div>
     );

@@ -31,7 +31,6 @@ var receivemsg = function(){
 
 function connect() {
     client.connect('admin','34op/X07b_+4',on_connect, on_error,'contextfencing')
- 
 }
 
 export {connect, sendmsg, receivemsg}

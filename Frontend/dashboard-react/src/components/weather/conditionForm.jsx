@@ -52,6 +52,7 @@ class ConditionForm extends React.Component {
         e.preventDefault();
         console.log('sending message!!!');
         var conditionCata, conditionValue;
+        const topic = 'contextfencing.sensor.weather';
         if(conditions.isCondition.includes(this.state.catagory)) {
           conditionValue = "Is" + " " + this.state.catagory
         }
@@ -76,7 +77,7 @@ class ConditionForm extends React.Component {
           command: 'CREATE'
         }
         console.log("send messge:::::" + JSON.stringify(msg));
-        sendmsg(msg);
+        sendmsg(msg, topic);
     }
 
     handleCatagoryChange = (event) => {

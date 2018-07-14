@@ -44,6 +44,7 @@ class ConditionForm extends React.Component {
         e.preventDefault();
         console.log('sending message!!!');
         var conditionValue;
+        const topic = 'contextfencing.sensor.daylight';
         conditionValue = "Is" + " " + this.state.catagory
         
         var uid = uuidv1();
@@ -58,7 +59,7 @@ class ConditionForm extends React.Component {
           command: 'CREATE'
         }
         console.log("send messge:::::" + JSON.stringify(msg));
-        sendmsg(msg);
+        sendmsg(msg, topic);
     }
 
     handleCatagoryChange = (event) => {

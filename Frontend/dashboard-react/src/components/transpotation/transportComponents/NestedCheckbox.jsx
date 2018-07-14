@@ -14,7 +14,7 @@ class NestedCheckbox extends React.Component {
         var busName = [];
         var busNamesArray = {};
         var uniqueNames = [];
-        if(value == 'All'){
+        if(value == 'all'){
             var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
             //console.log('onChange ', value);   /* If the user selects ALL from the dropdown*/
             valueToPush.transportLine = value[0];

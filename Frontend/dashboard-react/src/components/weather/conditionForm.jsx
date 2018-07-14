@@ -12,7 +12,7 @@ import {
 import Maps from "../../views/Maps/Maps.jsx";
 
 import weatherStyle from './style';
-import {connect, sendmsg} from '../../utils/webstomp.js';
+import {sendmsg} from '../../utils/webstomp.js';
 import uuidv1 from 'uuid/v1';
 
 import { conditions } from './conditionInfo.js'
@@ -48,13 +48,22 @@ class ConditionForm extends React.Component {
         this.sendMsg = this.sendMsg.bind(this);
     }
 
-    componentWillMount(){
-      connect();
-    }
-
     sendMsg(e) {
         e.preventDefault();
         console.log('sending message!!!');
+        var conditionCata, conditionValue;
+        if(conditions.isCondition.includes(this.state.catagory)) {
+          conditionValue = "Is" + " " + this.state.catagory
+        }
+
+        if(this.state.catagory === 'Temperature'){
+          conditionCata = "main.temp";
+        } else if(this.state.catagory === 'Wind.speed'){
+          conditionCata = "wind.speed"
+        } else {
+          conditionCata = (this.state.catagory).toLowerCase() 
+        }
+        
         var uid = uuidv1();
         var msg = {
           bindingID: uid,
@@ -62,10 +71,7 @@ class ConditionForm extends React.Component {
           condition: [{
             lon: this.state.position.lon,
             lat: this.state.position.lat,
-            catagory: this.state.catagory,
-            catevalue: this.state.value,
-            condition: this.state.condition,
-            position: this.state.position,
+            value: conditionValue ? conditionValue : (conditionCata + " " + this.state.condition + " " + this.state.value )
           }],
           command: 'CREATE'
         }
@@ -87,7 +93,8 @@ class ConditionForm extends React.Component {
         } else {
             this.setState({condition: '>'})
         }
-      }
+    }
+    
     onValueChange = (event) => {
       this.setState({
         [event.target.name]: event.target.value
@@ -97,7 +104,6 @@ class ConditionForm extends React.Component {
     markermaps = (googleMap) => {
       var pos = JSON.stringify(googleMap.getPosition());
       pos = JSON.parse(pos);
-      console.log('LatLngBounds of this :' + pos + "........" + pos.lat);
       this.setState({position: {
         lat: pos.lat,
         lon: pos.lng 
@@ -106,7 +112,6 @@ class ConditionForm extends React.Component {
 
     render() {
         const {classes} = this.props;
-
         return(
           <form className={classes.root} autoComplete="off" onSubmit={this.sendMsg}>
             <FormControl className={classes.formControl}>
@@ -170,7 +175,7 @@ class ConditionForm extends React.Component {
           </Select>
         </FormControl>
         <FormControl style={mapsControlStyles} >
-            <Maps markermaps={this.markermaps}/>
+            <Maps markermaps={this.markermaps} mapOptions='marker'/>
         </FormControl>
         <Button label="Submit"  color="success" type="submit">Create</Button>
         <Snackbar

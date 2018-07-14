@@ -1,6 +1,6 @@
 import {defaultFont} from '../../assets/jss/material-dashboard-react'
 
-const weatherStyle = theme => ({
+const daynightStyle = theme => ({
     formControl: {
       margin: theme.spacing.unit * 3,
       minWidth: 240,
@@ -13,4 +13,4 @@ const weatherStyle = theme => ({
     }
   });
 
-export default weatherStyle 
+export default daynightStyle 

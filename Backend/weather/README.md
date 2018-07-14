@@ -25,3 +25,33 @@ Start RabbitMQ using following command:
 
 Help page:
 > http://localhost:8080/help
+
+
+
+
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -aq --filter name=weather_api)
+docker build . -t weather_api
+docker run weather_api
+docker run --name=weather_api -t -p 8080:8080 -d ubuntu
+
+docker logs --tail container weather_api
+
+
+
+
+docker container ls
+
+
+
+## Login to docker instance
+docker exec -it weather_api /bin/bash
+cd /tmp/
+find / -name "weather"
+find /home/username/ -name "*.err"
+
+
+
+
+
+

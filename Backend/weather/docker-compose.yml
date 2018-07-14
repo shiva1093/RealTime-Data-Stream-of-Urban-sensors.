@@ -1,0 +1,38 @@
+version: '3'
+services:
+  rabbitmq-docker:
+    image: rabbitmq:3.7.3-management
+    container_name: rabbitmq-docker
+    ports:
+    - "15672:15672"
+    volumes:
+    - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq.conf:ro
+    - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+  mongo:
+    image: mongo
+    volumes:
+      - mongo-data:/data/db
+    expose:
+      - "27017"
+  nginx:
+    build: ./nginx
+    links:
+        - node1:node1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+  node1:
+    build: .
+    expose:
+      - "1337"
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo/weatherdb
+volumes:
+  mongo-data:

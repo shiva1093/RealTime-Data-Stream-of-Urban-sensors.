@@ -13,9 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ConditionsController {
@@ -23,10 +23,10 @@ public class ConditionsController {
     @Autowired
     private ObjFactory objFactory;
 
-    @RequestMapping(value = "/condition/{pageSize}/{start}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/condition", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<RabbitMessage>> check_condition_weather(
-            @PathVariable(name = "pageSize", required = true) int pageSize,
-            @PathVariable(name = "start", required = true) int start) {
+            @RequestParam(name = "pageSize", required = true) int pageSize,
+            @RequestParam(name = "start", required = true) int start) {
         try {
             PageRequest pageRequest = PageRequest.of(start, pageSize);
 

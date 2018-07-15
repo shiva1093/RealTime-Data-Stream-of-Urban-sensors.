@@ -2,17 +2,17 @@
   {
     "label": "All",
     "value": "all",
-    "key": "0",
+    "key": "1",
     "children": [
       {
         "label": "Bus 183",
         "value": "Bus 183",
-        "key": "0-0",
+        "key": "2",
         "children": [
           {
             "label": "Berlin HBF",
             "value": "Berlin HBF",
-            "key": "0-0-0",
+            "key": "3",
             "parent": "Bus 183"
           }
         ]
@@ -20,24 +20,24 @@
       {
         "label": "Bus 245",
         "value": "Bus 245",
-        "key": "0-1",
+        "key": "4",
         "children": [
           {
             "label": "Zoo",
             "value": "Zoo",
-            "key": "0-1-0",
+            "key": "5",
             "parent": "Bus 245"
           },
           {
             "label": "HBF",
             "value": "HBF",
-            "key": "0-1-1",
+            "key": "6",
             "parent": "Bus 245"
           },
           {
             "label": "Tegel",
             "value": "Tegel",
-            "key": "0-1-2",
+            "key": "7",
             "parent": "Bus 245"
           }
         ]
@@ -45,24 +45,24 @@
       {
         "label": "Bus 120",
         "value": "Bus 120",
-        "key": "0-2",
+        "key": "8",
         "children": [
           {
             "label": "Bus 120 -> pot",
             "value": "pot",
-            "key": "0-2-0",
+            "key": "9",
             "parent": "Bus 120"
           },
           {
             "label": "alex",
             "value": "alex",
-            "key": "0-2-1",
+            "key": "10",
             "parent": "Bus 120"
           },
           {
             "label": "sch",
             "value": "sch",
-            "key": "0-2-2",
+            "key": "11",
             "parent": "Bus 120"
           }
         ]

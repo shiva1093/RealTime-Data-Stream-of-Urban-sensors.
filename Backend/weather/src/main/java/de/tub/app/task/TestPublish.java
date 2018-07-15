@@ -25,7 +25,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
     @Autowired
     private ObjFactory objFactory;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/20 * * * ?")
     @Override
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " TestPublish executing .....");
@@ -44,7 +44,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
                     + "\"status\":true\n"
                     + "}";
 
-            channel.basicPublish("", Constants.QUEUE_GENERIC_NAME, null, message.getBytes());
+            channel.basicPublish("", Constants.QUEUE_NAME_WEATHER, null, message.getBytes());
             System.out.println(" [x] Sent '" + message + "'");
         } catch (Exception ex) {
             ex.printStackTrace();

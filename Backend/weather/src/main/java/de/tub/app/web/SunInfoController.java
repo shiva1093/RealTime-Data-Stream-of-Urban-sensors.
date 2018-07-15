@@ -2,7 +2,7 @@ package de.tub.app.web;
 
 import ca.rmen.sunrisesunset.SunriseSunset;
 import de.tub.app.apputil.ObjFactory;
-import de.tub.app.domain.sun.SunRiseSet;
+import de.tub.app.domain.sun.DayInfo;
 import com.google.gson.Gson;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +30,7 @@ public class SunInfoController {
         System.out.println("Sunrise at: " + sunriseSunset[0].getTime());
         System.out.println("Sunset at: " + sunriseSunset[1].getTime());
 
-        return new ResponseEntity(new Gson().toJson(new SunRiseSet(lat, lon, sunriseSunset[0].getTime(), sunriseSunset[1].getTime())), HttpStatus.OK);
+        return new ResponseEntity(new Gson().toJson(new DayInfo(lat, lon, sunriseSunset[0].getTime(), sunriseSunset[1].getTime())), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/sunrise_sunset/{lon}/{lat}/condition/{conditions}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})

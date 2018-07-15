@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  admindash:
+    container_name: admindash
+    build: ./Frontend/dashboard-react/
+    volumes: 
+      - './Frontend/dashboard-react/:/var/www/admindash'
+    ports:
+      - '3000:3000'
+    restart: always
+    depends_on:
+      - rabbitmq
+  
+
+  rabbitmq:
+    container_name: rabbitmq
+    build: ./microservice_message-broker/
+    ports:
+      - '15672:15672'
+      - '15674:15674'
+      - '1883:1883'
+      - '5672:5672'
+    restart: always
+
+  nginx:
+    build: ./Backend/weather/nginx
+    links:
+        - node1:node1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "80:80"
+  node1:
+    build: ./Backend/weather/
+    expose:
+      - "1337"
+    ports:
+      - "8080:8080"
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+      - rabbitmq
+    environment:
+      - MONGO_URL=mongodb://mongo/weatherapi 
+
+  mongodb:
+    container_name: mongodb
+    image: "mongo:latest"
+    ports: 
+      - "27017:27017"
+    environment:
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+    restart: always  
+

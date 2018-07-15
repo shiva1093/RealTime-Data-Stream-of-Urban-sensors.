@@ -1,21 +1,4 @@
-FROM ubuntu:trusty
-
-#MAINTAINER Sandro Rodriguez Garzon (sandro.rodriguezgarzon@tu-berlin.de)
-
-# Install Nginx.
-RUN \
-    sudo apt-get update && \
-    sudo apt-get install nano && \
-    sudo apt-get install -y nginx 
-
-# For healthcheck
-RUN sudo apt-get update && \
-    sudo apt-get install -y curl
-
-# install nodejs
-RUN \
-    curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash - && \
-    sudo apt-get install -y nodejs
+FROM node:latest
 
 RUN \
     mkdir -p /var/www/admindash/src && \
@@ -23,32 +6,17 @@ RUN \
 
 WORKDIR /var/www/admindash
 
-COPY ./docker/nginx/default /etc/nginx/sites-available/default
-
 # install packets
-COPY ./package.json /var/www/admindash/
-RUN sudo npm install
+ADD package.json /var/www/admindash/
+RUN npm install
 
 # add source file into docker
-
 ADD public/ /var/www/admindash/public/
 ADD src/ /var/www/admindash/src/
-COPY .babelrc /var/www/admindash/
-COPY .env /var/www/admindash/
+ADD .babelrc /var/www/admindash/
+ADD .env /var/www/admindash/
 
-#RUN \
-#    sudo chown -R root:www-data /var/www/admindash/
-
-
-# build production 
-#RUN sudo npm run build
-
-# Expose ports.
 EXPOSE 3000
 
-#EXPOSE 443
-
-# Starts Nginx in the foreground, not as a deamon.
-#ENTRYPOINT ["/usr/sbin/nginx","-g","daemon off;"]
+# start app
 CMD ["npm", "start"]
-

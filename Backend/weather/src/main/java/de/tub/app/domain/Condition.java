@@ -1,6 +1,5 @@
 package de.tub.app.domain;
 
-import de.tub.app.domain.weather.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -10,16 +9,28 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Condition {
 
+    enum ConditionType {
+        WEATHER, DAY_INFO
+    }
+
     private Double lon;
     private Double lat;
     private String value;
+    private ConditionType conditionType;
 
     public Condition() {
     }
 
+    public ConditionType getConditionType() {
+        if (value.startsWith("is_day") || value.startsWith("is_night")) {
+            return ConditionType.DAY_INFO;
+        }
+        return ConditionType.WEATHER;
+    }
+
     @Override
     public String toString() {
-        return "Condition{" + "lon=" + lon + ", lat=" + lat + ", value=" + value + '}';
+        return "Condition{" + "lon=" + lon + ", lat=" + lat + ", value=" + value + ", conditionType=" + conditionType + '}';
     }
 
     /**

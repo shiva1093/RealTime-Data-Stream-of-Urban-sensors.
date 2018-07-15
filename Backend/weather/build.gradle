@@ -1,5 +1,30 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'de.tub'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+mainClassName = 'de.tub.app.WeatherApp'
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'de.tub.app.WeatherApp'
+}
 
 repositories {
     mavenCentral()
@@ -7,18 +32,29 @@ repositories {
 }
 
 
-
-mainClassName = 'de.tub.app.SampleSpringApplication'
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'de.tub.app.SampleSpringApplication'
-}
-
+//test {
+//    useJUnitPlatform()
+//
+//    testLogging {
+//        events "passed", "skipped", "failed"
+//    }
+//
+//    reports {
+//        html.enabled = true
+//    }
+//}
 dependencies {
+    compile('org.springframework.boot:spring-boot-starter')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+
+
     compile fileTree(dir: 'lib', include: '*.jar')
     runtime fileTree(dir: 'lib', include: '*.jar')
 
-    compile "junit:junit:4.11"
+    //    compile "junit:junit:5.2.0"
+    testCompile('org.junit.jupiter:junit-jupiter-api:5.2.0')
+    testRuntime('org.junit.jupiter:junit-jupiter-engine:5.2.0')
 
     //apache commons
     compile 'org.apache.commons:commons-collections4:4.1'
@@ -56,5 +92,4 @@ dependencies {
 
     //RabbitMq
     compile group: 'com.rabbitmq', name: 'amqp-client', version: '5.2.0'
-
 }

@@ -26,7 +26,7 @@ public class WeatherController {
     @ResponseBody
     public String weather(
             @PathVariable(value = "location", required = true) String location) {
-        WeatherDetails weatherDetails = objFactory.getAppUtil().getWeather(location);
+        WeatherDetails weatherDetails = objFactory.getWeatherUtil().getWeather(location);
 
         return new Gson().toJson(weatherDetails);
     }
@@ -37,9 +37,24 @@ public class WeatherController {
             @PathVariable(value = "lon", required = true) Double lon,
             @PathVariable(value = "lat", required = true) Double lat) {
         WeatherDetails weatherDetails
-                = objFactory.getAppUtil().getWeather(new GeoLocation(lon, lat));
+                = objFactory.getWeatherUtil().getWeather(new GeoLocation(lon, lat));
 
         return new Gson().toJson(weatherDetails);
+    }
+
+    @RequestMapping(value = "/weather/{lon}/{lat}/{info}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity weatherInfo(
+            @PathVariable(value = "lon", required = true) Double lon,
+            @PathVariable(value = "lat", required = true) Double lat,
+            @PathVariable(name = "info", required = true) String info) {
+
+        String all_json = new Gson().toJson(objFactory.getWeatherUtil().getWeather(new GeoLocation(lon, lat)));
+
+        Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(null, all_json);
+
+        return new ResponseEntity(conditionsMap.get(info), HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/weather/{location}/condition/{conditions}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -48,12 +63,9 @@ public class WeatherController {
             @PathVariable(name = "conditions", required = true) String conditions) {
         WeatherDetails weatherDetails = null;
         try {
-            weatherDetails = objFactory.getAppUtil().getWeather(location);
-            String all_json = new Gson().toJson(weatherDetails);
+            weatherDetails = objFactory.getWeatherUtil().getWeather(location);
 
-            Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(null, all_json);
-
-            return new ResponseEntity(objFactory.getConditionUtil().checkCondition(conditionsMap, conditions), HttpStatus.OK);
+            return new ResponseEntity(objFactory.getConditionUtil().checkCondition(weatherDetails, conditions), HttpStatus.OK);
         } catch (Exception ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -78,7 +90,7 @@ public class WeatherController {
         try {
             GeoLocation location = new GeoLocation(lon, lat);
 
-            weatherDetails = objFactory.getAppUtil().getWeather(location);
+            weatherDetails = objFactory.getWeatherUtil().getWeather(location);
             String all_json = new Gson().toJson(weatherDetails);
 
             Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(null, all_json);
@@ -103,7 +115,7 @@ public class WeatherController {
 //            objFactory.getWeatherRepository().save(weatherDetails);
 //
 //            System.out.println("Sending message...");
-//            objFactory.getRabbitTemplate().convertAndSend(Constants.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ BrownGrid demo!");
+//            objFactory.getRabbitTemplate().convertAndSend(Constants.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ WeatherAPI demo!");
 //            objFactory.getReceiver().getLatch().await(10000, TimeUnit.MILLISECONDS);
 //
 //            return new Gson().toJson(new AppMessage(true));

@@ -5,6 +5,7 @@ import de.tub.app.apputil.ObjFactory;
 import de.tub.app.domain.weather.WeatherDetails;
 import com.datenc.commons.date.DateUtil;
 import com.google.gson.Gson;
+import de.tub.app.Constants;
 import de.tub.app.domain.Condition;
 import de.tub.app.domain.RabbitMessage;
 import de.tub.app.domain.weather.GeoLocation;
@@ -41,7 +42,7 @@ public class UpdateWeatherJob implements Runnable, ApplicationContextAware {
                         new GeoLocation(condition.getLon(), condition.getLat()));
 
                 System.out.println("Sending to RabbitMQ ...");
-                objFactory.getRabbitTemplate().convertAndSend("amq.topic", Config.ROUNTING_KEY_BEGIN, new Gson().toJson(weatherDetails));
+                objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Config.ROUNTING_KEY_BEGIN, new Gson().toJson(weatherDetails));
             }
 
         } catch (Exception ex) {

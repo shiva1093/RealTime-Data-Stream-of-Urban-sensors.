@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  admindash:
+    container_name: admindash
+    build: ./Frontend/dashboard-react/
+    volumes: 
+      - './Frontend/dashboard-react/:/var/www/admindash'
+    ports:
+      - '3000:3000'
+    restart: always
+    depends_on:
+      - rabbitmq
+  
+
+  rabbitmq:
+    container_name: rabbitmq
+    build: ./microservice_message-broker/
+    ports:
+      - '15672:15672'
+      - '15674:15674'
+      - '1883:1883'
+      - '5672:5672'
+    restart: always
+

@@ -1,7 +1,6 @@
 package de.tub.app;
 
 import de.tub.app.apputil.ObjFactory;
-import de.tub.app.domain.weather.WeatherDetails;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;

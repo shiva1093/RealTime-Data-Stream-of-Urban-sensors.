@@ -33,6 +33,6 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URL=mongodb://mongo/weatherdb
+      - MONGO_URL=mongodb://mongo/weatherapi
 volumes:
   mongo-data:

@@ -1,5 +1,6 @@
 <html>
     <head>
+        <base href="http://localhost:8080"/>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -191,6 +192,56 @@
                 </td>
             </tr>
 
+            <tr>
+                <td>
+                    All conditions in database
+                </td>
+                <td>
+                    All conditions in database
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /condition?pageSize=20&start=0
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition?pageSize=20&start=0">/condition?pageSize=20&start=0</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition?pageSize=20&start=0">Load 20 records on page 1</a>
+                    <a target="_blank" href="/condition?pageSize=40&start=3">Load 40 records on page 4</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    All conditions in database
+                </td>
+                <td>
+                    All conditions in database
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /condition/search/{category}?pageSize=20&start=0
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition/search/{category}?pageSize=20&start=0">/condition/search/weather?pageSize=20&start=0</a>
+                    <br/>
+                    <a target="_blank" href="/condition/search/{category}?pageSize=20&start=0">/condition/search/sun_info?pageSize=20&start=0</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition/search/weather?pageSize=20&start=0">Weather Conditions Load 20 records on page 1</a>
+                    <br/>
+                    <a target="_blank" href="/condition/search/sun_info?pageSize=40&start=3">Sun Conditions Load 40 records on page 4</a>
+                </td>
+            </tr>
 
             <tr>
                 <td>

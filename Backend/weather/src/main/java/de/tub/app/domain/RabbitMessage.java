@@ -22,7 +22,7 @@ public class RabbitMessage {
     private Boolean status;
     private CommandType command;
     private String category;
-    private Date dateCreated;
+//    private Date dateCreated;
 
     public RabbitMessage() {
     }
@@ -137,20 +137,6 @@ public class RabbitMessage {
      */
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    /**
-     * @return the dateCreated
-     */
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    /**
-     * @param dateCreated the dateCreated to set
-     */
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
     }
 
 }

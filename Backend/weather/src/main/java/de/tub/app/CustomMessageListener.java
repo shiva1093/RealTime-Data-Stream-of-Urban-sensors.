@@ -15,7 +15,6 @@ import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -43,6 +42,7 @@ public class CustomMessageListener {
 
         try {
             RabbitMessage rabbitMessage = onMessageReceive(message);
+            rabbitMessage.setCategory("weather");
 
             if (rabbitMessage.getCommand() == null) {
                 System.out.println("CustomMessageListener > COMMAND is Null. Possible error from UI");
@@ -86,6 +86,7 @@ public class CustomMessageListener {
 
         try {
             RabbitMessage rabbitMessage = onMessageReceive(message);
+            rabbitMessage.setCategory("day_info");
 
             if (rabbitMessage.getCommand() == null) {
                 System.out.println("CustomMessageListener > COMMAND is Null. Possible error from UI");
@@ -132,7 +133,7 @@ public class CustomMessageListener {
     }
 
     private void save(RabbitMessage rabbitMessage) {
-        rabbitMessage.setDateCreated(Calendar.getInstance().getTime());
+        //rabbitMessage.setDateCreated(Calendar.getInstance().getTime());
         objFactory.getRabbitMessageRepository().save(rabbitMessage);
 
         System.out.println("CustomMessageListener > Message saved in mongo");

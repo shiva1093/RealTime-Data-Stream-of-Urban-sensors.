@@ -50,7 +50,6 @@ class ConditionForm extends React.Component {
     sendMsg(e) {
         e.preventDefault();
         console.log('sending message!!!');
-        const topic = 'contextfencing.sensor.weather';
 
         var conditionCata, conditionValue;
         const topic = 'contextfencing.sensor.weather';

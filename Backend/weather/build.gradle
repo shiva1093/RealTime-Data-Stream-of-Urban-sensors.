@@ -20,10 +20,10 @@ group = 'de.tub'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
-mainClassName = 'de.tub.app.SampleSpringApplication'
+mainClassName = 'de.tub.app.WeatherApp'
 
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'de.tub.app.SampleSpringApplication'
+    ext.mainClass = 'de.tub.app.WeatherApp'
 }
 
 repositories {

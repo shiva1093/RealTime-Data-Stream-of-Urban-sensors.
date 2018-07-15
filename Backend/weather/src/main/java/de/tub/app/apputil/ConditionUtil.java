@@ -1,5 +1,7 @@
 package de.tub.app.apputil;
 
+import com.google.gson.Gson;
+import de.tub.app.domain.weather.WeatherDetails;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +17,14 @@ public class ConditionUtil {
     @Autowired
     private ObjFactory objFactory;
 
-//    enum TokenType {
-//
-//        CONSTANT, VARIABLE, OPERATOR, OPERAND
-//    }
-//
-//    enum Operator {
-//
-//        LT, GT, LT_ET, GT_ET, CONTAINS, NOT
-//    }
+    public boolean checkCondition(WeatherDetails weatherDetails, String conditions) {
+        String all_json = new Gson().toJson(weatherDetails);
+
+        Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(null, all_json);
+
+        return checkCondition(conditionsMap, conditions);
+    }
+
     /**
      * conditions main.temp < 20 in berlin @param
      *

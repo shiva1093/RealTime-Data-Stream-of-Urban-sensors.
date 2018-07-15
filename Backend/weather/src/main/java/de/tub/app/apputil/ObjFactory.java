@@ -4,7 +4,6 @@ import de.tub.app.message.Receiver;
 import de.tub.app.repository.DayInfoRepository;
 import de.tub.app.repository.RabbitMessageRepository;
 import de.tub.app.repository.WeatherRepository;
-import de.tub.app.repository.WeatherSubsRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,57 +23,17 @@ public class ObjFactory {
     @Autowired
     private ConditionUtil conditionUtil;
     @Autowired
+    private WeatherUtil weatherUtil;
+    @Autowired
+    private SunInfoUtil sunInfoUtil;
+    @Autowired
     private DayInfoRepository dayInfoRepository;
     @Autowired
     private RabbitMessageRepository rabbitMessageRepository;
     @Autowired
     private WeatherRepository weatherRepository;
     @Autowired
-    private WeatherSubsRepository weatherSubsRepository;
-    @Autowired
     private Receiver receiver;
-
-    /**
-     * @return the appUtil
-     */
-    public AppUtil getAppUtil() {
-        return appUtil;
-    }
-
-    /**
-     * @param appUtil the appUtil to set
-     */
-    public void setAppUtil(AppUtil appUtil) {
-        this.appUtil = appUtil;
-    }
-
-    /**
-     * @return the weatherRepository
-     */
-    public WeatherRepository getWeatherRepository() {
-        return weatherRepository;
-    }
-
-    /**
-     * @param weatherRepository the weatherRepository to set
-     */
-    public void setWeatherRepository(WeatherRepository weatherRepository) {
-        this.weatherRepository = weatherRepository;
-    }
-
-    /**
-     * @return the weatherSubsRepository
-     */
-    public WeatherSubsRepository getWeatherSubsRepository() {
-        return weatherSubsRepository;
-    }
-
-    /**
-     * @param weatherSubsRepository the weatherSubsRepository to set
-     */
-    public void setWeatherSubsRepository(WeatherSubsRepository weatherSubsRepository) {
-        this.weatherSubsRepository = weatherSubsRepository;
-    }
 
     /**
      * @return the rabbitTemplate
@@ -91,31 +50,17 @@ public class ObjFactory {
     }
 
     /**
-     * @return the dayInfoRepository
+     * @return the appUtil
      */
-    public DayInfoRepository getDayInfoRepository() {
-        return dayInfoRepository;
+    public AppUtil getAppUtil() {
+        return appUtil;
     }
 
     /**
-     * @param dayInfoRepository the dayInfoRepository to set
+     * @param appUtil the appUtil to set
      */
-    public void setDayInfoRepository(DayInfoRepository dayInfoRepository) {
-        this.dayInfoRepository = dayInfoRepository;
-    }
-
-    /**
-     * @return the receiver
-     */
-    public Receiver getReceiver() {
-        return receiver;
-    }
-
-    /**
-     * @param receiver the receiver to set
-     */
-    public void setReceiver(Receiver receiver) {
-        this.receiver = receiver;
+    public void setAppUtil(AppUtil appUtil) {
+        this.appUtil = appUtil;
     }
 
     /**
@@ -133,6 +78,48 @@ public class ObjFactory {
     }
 
     /**
+     * @return the weatherUtil
+     */
+    public WeatherUtil getWeatherUtil() {
+        return weatherUtil;
+    }
+
+    /**
+     * @param weatherUtil the weatherUtil to set
+     */
+    public void setWeatherUtil(WeatherUtil weatherUtil) {
+        this.weatherUtil = weatherUtil;
+    }
+
+    /**
+     * @return the sunInfoUtil
+     */
+    public SunInfoUtil getSunInfoUtil() {
+        return sunInfoUtil;
+    }
+
+    /**
+     * @param sunInfoUtil the sunInfoUtil to set
+     */
+    public void setSunInfoUtil(SunInfoUtil sunInfoUtil) {
+        this.sunInfoUtil = sunInfoUtil;
+    }
+
+    /**
+     * @return the dayInfoRepository
+     */
+    public DayInfoRepository getDayInfoRepository() {
+        return dayInfoRepository;
+    }
+
+    /**
+     * @param dayInfoRepository the dayInfoRepository to set
+     */
+    public void setDayInfoRepository(DayInfoRepository dayInfoRepository) {
+        this.dayInfoRepository = dayInfoRepository;
+    }
+
+    /**
      * @return the rabbitMessageRepository
      */
     public RabbitMessageRepository getRabbitMessageRepository() {
@@ -144,6 +131,34 @@ public class ObjFactory {
      */
     public void setRabbitMessageRepository(RabbitMessageRepository rabbitMessageRepository) {
         this.rabbitMessageRepository = rabbitMessageRepository;
+    }
+
+    /**
+     * @return the weatherRepository
+     */
+    public WeatherRepository getWeatherRepository() {
+        return weatherRepository;
+    }
+
+    /**
+     * @param weatherRepository the weatherRepository to set
+     */
+    public void setWeatherRepository(WeatherRepository weatherRepository) {
+        this.weatherRepository = weatherRepository;
+    }
+
+    /**
+     * @return the receiver
+     */
+    public Receiver getReceiver() {
+        return receiver;
+    }
+
+    /**
+     * @param receiver the receiver to set
+     */
+    public void setReceiver(Receiver receiver) {
+        this.receiver = receiver;
     }
 
 }

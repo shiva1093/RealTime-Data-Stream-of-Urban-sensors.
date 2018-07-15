@@ -1,0 +1,26 @@
+FROM openjdk:8-jdk-alpine
+#VOLUME /tmp
+
+RUN mkdir -p ~/app/
+COPY /build ~/app/build
+COPY /gradle ~/app/gradle
+COPY build.gradle ~/app/build.gradle
+ADD /build/libs/weather.jar ~/app/weather.jar
+
+#RUN bash -c 'mkdir /opt/gradle'
+
+#RUN 'pwd'
+#RUN bash -c 'pwd'
+
+#COPY gradle-4.8.1-bin.zip /app
+#RUN 'mkdir /opt/gradle'
+#RUN bash -c 'unzip -d /opt/gradle /app/gradle-4.8.1-bin.zip'
+#RUN bash -c 'unzip gradle-4.8.1-bin.zip'
+RUN bash -c 'export PATH=$PATH:~/app/gradle/bin'
+#RUN 'export PATH=$PATH:/gradle-4.8.1/bin'
+#RUN bash -c 'rm -rf /opt/gradle/gradle-4.8.1-bin.zip'
+
+#RUN bash -c 'touch /weather.jar'
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","~/app/weather.jar"]
+#CMD ["gradle",":run"]
+ENTRYPOINT ["~/app/gradle/bin/gradle","-b","~/app/build.gradle",":run"]

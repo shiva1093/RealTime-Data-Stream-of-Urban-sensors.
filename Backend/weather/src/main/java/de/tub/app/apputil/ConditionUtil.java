@@ -1,7 +1,11 @@
 package de.tub.app.apputil;
 
 import com.google.gson.Gson;
+import de.tub.app.domain.Condition;
+import de.tub.app.domain.sun.DayInfo;
 import de.tub.app.domain.weather.WeatherDetails;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,20 @@ public class ConditionUtil {
 
     @Autowired
     private ObjFactory objFactory;
+
+    public boolean checkCondition(DayInfo dayInfo, String condition) {
+        Date now = Calendar.getInstance().getTime();
+
+        boolean result = false;
+
+        if (condition.equalsIgnoreCase("is_day") || condition.equalsIgnoreCase("isday")) {
+            result = objFactory.getSunInfoUtil().isDay(dayInfo.getSunrise(), dayInfo.getSunset());
+        } else {
+            result = !objFactory.getSunInfoUtil().isDay(dayInfo.getSunrise(), dayInfo.getSunset());
+        }
+
+        return result;
+    }
 
     public boolean checkCondition(WeatherDetails weatherDetails, String conditions) {
         String all_json = new Gson().toJson(weatherDetails);

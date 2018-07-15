@@ -1,6 +1,8 @@
 package de.tub.app.domain.sun;
 
+import ca.rmen.sunrisesunset.SunriseSunset;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,6 +18,16 @@ public class DayInfo {
     private Date sunset;
 
     public DayInfo() {
+    }
+
+    public DayInfo(Double longitude, Double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+
+        Calendar[] sunriseSunset = SunriseSunset.getSunriseSunset(Calendar.getInstance(), latitude, longitude);
+
+        this.sunrise = sunriseSunset[0].getTime();
+        this.sunset = sunriseSunset[1].getTime();
     }
 
     public DayInfo(Double longitude, Double latitude, Date sunrise, Date sunset) {

@@ -13,7 +13,7 @@ import java.util.List;
 public class RabbitMessage {
 
     public enum CommandType {
-        CREATE, DELETE
+        CREATE, DELETE, PUSH_BACK
     };
 
     private String bindingID;

@@ -5,7 +5,6 @@ import de.tub.app.apputil.ObjFactory;
 import de.tub.app.domain.sun.DayInfo;
 import com.google.gson.Gson;
 import java.util.Calendar;
-import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,32 +37,8 @@ public class SunInfoController {
             @PathVariable(name = "lat", required = true) Double lat,
             @PathVariable(name = "lon", required = true) Double lon,
             @PathVariable(name = "conditions", required = true) String conditions) {
-        Calendar[] sunriseSunset = SunriseSunset.getSunriseSunset(Calendar.getInstance(), lat, lon);
-
-        if (sunriseSunset == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        Date sunrise = sunriseSunset[0].getTime();
-        Date sunset = sunriseSunset[1].getTime();
-
-        Date now = Calendar.getInstance().getTime();
-
-        boolean result = false;
-
-        if (conditions.equals("isday")) {
-            result = isDay(sunrise, sunset, now);
-        } else {
-            result = !isDay(sunrise, sunset, now);
-        }
-
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity(objFactory.getConditionUtil().checkCondition(
+                new DayInfo(lon, lat), conditions), HttpStatus.OK);
     }
 
-    private boolean isDay(Date sunrise, Date sunset, Date now) {
-        if (now.before(sunset) && now.after(sunrise)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

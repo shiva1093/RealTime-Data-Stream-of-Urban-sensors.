@@ -9,6 +9,7 @@ import de.tub.app.apputil.JsonUtil;
 import de.tub.app.apputil.ObjFactory;
 import de.tub.app.domain.Condition;
 import de.tub.app.domain.RabbitMessage;
+import de.tub.app.domain.RabbitMessage.CommandType;
 import de.tub.app.domain.sun.DayInfo;
 import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
@@ -45,6 +46,8 @@ public class CustomMessageListener {
 
             if (rabbitMessage.getCommand() == null) {
                 System.out.println("CustomMessageListener > COMMAND is Null. Possible error from UI");
+            } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.PUSH_BACK)) {
+                System.out.println("CustomMessageListener > PUSH_BACK. Message will be ignored");
             } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.CREATE)) {
                 System.out.println("CustomMessageListener > COMMAND = CREATE");
                 rabbitMessage.setCommand(null);
@@ -58,18 +61,14 @@ public class CustomMessageListener {
                             null, new Gson().toJson(weatherDetails));
 
                     rabbitMessage.setStatus(objFactory.getConditionUtil().checkCondition(conditionsMap, condition.getValue()));
-                    rabbitMessage.setCondition(null);
+                    //rabbitMessage.setCondition(null);
                 }
 
                 this.save(rabbitMessage);
 
-                this.pushBack(Constants.QUEUE_NAME_WEATHER, msg);
+                this.pushBack(Constants.QUEUE_NAME_WEATHER, rabbitMessage);
             } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.DELETE)) {
-                System.out.println("CustomMessageListener > COMMAND = DELETE");
-
-                objFactory.getRabbitMessageRepository().delete(rabbitMessage);
-
-                System.out.println("CustomMessageListener > Message saved deleted");
+                delete(rabbitMessage);
             }
 
         } catch (Exception ex) {
@@ -90,6 +89,8 @@ public class CustomMessageListener {
 
             if (rabbitMessage.getCommand() == null) {
                 System.out.println("CustomMessageListener > COMMAND is Null. Possible error from UI");
+            } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.PUSH_BACK)) {
+                System.out.println("CustomMessageListener > PUSH_BACK. Message will be ignored");
             } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.CREATE)) {
                 System.out.println("CustomMessageListener > COMMAND = CREATE");
                 rabbitMessage.setCommand(null);
@@ -99,22 +100,15 @@ public class CustomMessageListener {
 
                     DayInfo dayInfo = objFactory.getSunInfoUtil().getDayInfo(location);
 
-                    Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(
-                            null, new Gson().toJson(dayInfo));
-
-                    rabbitMessage.setStatus(objFactory.getConditionUtil().checkCondition(conditionsMap, condition.getValue()));
-                    rabbitMessage.setCondition(null);
+                    rabbitMessage.setStatus(objFactory.getConditionUtil().checkCondition(dayInfo, condition.getValue()));
+                    //rabbitMessage.setCondition(null);
                 }
 
                 this.save(rabbitMessage);
 
-                this.pushBack(Constants.QUEUE_NAME_DAY_INFO, msg);
+                this.pushBack(Constants.QUEUE_NAME_DAY_INFO, rabbitMessage);
             } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.DELETE)) {
-                System.out.println("CustomMessageListener > COMMAND = DELETE");
-
-                objFactory.getRabbitMessageRepository().delete(rabbitMessage);
-
-                System.out.println("CustomMessageListener > Message saved deleted");
+                delete(rabbitMessage);
             }
 
         } catch (Exception ex) {
@@ -127,7 +121,7 @@ public class CustomMessageListener {
 
     public RabbitMessage onMessageReceive(byte[] msg) throws IOException {
         System.out.println("CustomMessageListener > Received Message Count: " + count_received);
-        System.out.println("CustomMessageListener > Received message as generic byte:  " + msg);
+        System.out.println("CustomMessageListener > Received message as generic byte:  " + new String(msg));
 
         ObjectMapper mapper = new ObjectMapper();
         RabbitMessage rabbitMessage = mapper.readValue(msg, RabbitMessage.class);
@@ -144,7 +138,18 @@ public class CustomMessageListener {
         System.out.println("CustomMessageListener > Message saved in mongo");
     }
 
-    private void pushBack(String queueName, String message) throws IOException, TimeoutException {
+    private void delete(RabbitMessage rabbitMessage) {
+        System.out.println("CustomMessageListener > COMMAND = DELETE");
+
+        objFactory.getRabbitMessageRepository().delete(rabbitMessage);
+
+        System.out.println("CustomMessageListener > Message saved deleted");
+    }
+
+    private void pushBack(String queueName, RabbitMessage rabbitMessage) throws IOException, TimeoutException {
+        rabbitMessage.setCommand(CommandType.PUSH_BACK);
+        String message = new Gson().toJson(rabbitMessage, RabbitMessage.class);
+
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(Constants.RABBIT_HOST);
         if (Constants.RABBIT_port != -1) {

@@ -3,12 +3,13 @@ import Maps from "views/Maps/Maps.jsx";
 import Weather from "../components/weather/weather.jsx";
 import Transportation from "../components/transpotation/transportation.jsx";
 import TransportSharing from "../components/TransportSharing/TransportSharing.jsx";
-//import Bikes from "../components/sharing/bike/bike.jsx";
+import Daynight from "../components/Daynight/daynight.jsx";
 
 
 import {
   Dashboard,
   FilterDrama,
+  WbSunny,
   Train,
   DirectionsBike,
   DirectionsCar,
@@ -30,19 +31,19 @@ const dashboardRoutes = [
   },
 
   {
-    path: "/weather",
-    sidebarName: "Weather",
-    navbarName: "Weather",
-    icon: FilterDrama,
-    component: Weather
-  },
-
-  {
     path: "/Transpotation",
     sidebarName: "Public Transport",
     navbarName: "Transportation",
     icon: Train,
     component: Transportation
+  },
+
+  {
+    path: "/weather",
+    sidebarName: "Weather",
+    navbarName: "Weather",
+    icon: FilterDrama,
+    component: Weather
   },
   
   {
@@ -52,22 +53,15 @@ const dashboardRoutes = [
     icon: DirectionsCar,
     component: TransportSharing
   },
-    /* {
-      path: "/Bikes",
-      sidebarName: "Bikes",
-      navbarName: "Bikes",
-      icon: DirectionsBike,
-      component: Bikes
-    },
 
-    {
-      path: "/notifications",
-      sidebarName: "Notifications",
-      navbarName: "Notifications",
-      icon: Notifications,
-      component: NotificationsPage
-    },
-    */
+  {
+    path: "/Daynight",
+    sidebarName: "Daynight",
+    navbarName: "Daynight",
+    icon: WbSunny,
+    component: Daynight
+  },
+
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
 

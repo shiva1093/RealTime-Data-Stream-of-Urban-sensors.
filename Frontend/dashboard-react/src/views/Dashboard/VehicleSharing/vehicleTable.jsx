@@ -19,7 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import { busHeader } from "./transportHeader"
+import { busHeader } from "./vehicleHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
@@ -186,13 +186,13 @@ const refreshIcon = {
     positionAbsolute: true
 
 }
-class TransportTable extends React.Component {
+class VehicleTable extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             order: 'asc',
-            orderBy: 'transporttype',
+            orderBy: 'vehicletype',
             isLoading: false,
             selected: [],
             busNames: [],
@@ -209,10 +209,11 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transport`).then((res) => {
-            var results = res.data
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportsharingapi`).then((res) => {
+            var results = res.data;
+            console.log(results)
             this.setState({data: results, isLoading:true});
-            this.props.transportRules(results);
+            this.props.vehicleRules(results);
         })
     }
     RefreshFunction = () => {
@@ -233,7 +234,7 @@ class TransportTable extends React.Component {
 
     handleSelectAllClick = (event, checked) => {
         if (checked) {
-            this.setState({ selected: this.state.data.map(n => n.bindingID) });
+            this.setState({ selected: this.state.data.map(n => n.conditionId) });
             return;
         }
         this.setState({ selected: [] });
@@ -303,41 +304,31 @@ class TransportTable extends React.Component {
                             onRequestSort={this.handleRequestSort}
                             rowCount={data.length}
                         />
-                        <TableBody>
+                      {  <TableBody>
                             {data
                                 .sort(getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
-                                    const isSelected = this.isSelected(n.bindingID);
-                                    const transportLine = n.condition[0].transport.map(v => {
-                                            return <li>{v.transportLine}</li>;
-                                    });
-                                    const transportDirection = n.condition[0].transport.map(v => {
-                                        if(v.direction)
-                                            return <li>{v.direction}</li>;
-                                    });
+                                    const isSelected = this.isSelected(n.conditionId);
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => this.handleClick(event, n.bindingID)}
+                                            onClick={event => this.handleClick(event, n.conditionId)}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={-1}
-                                            key={n.bindingID}
+                                            key={n.conditionId}
                                             selected={isSelected}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.condition[0].transportType}
+                                                {n.vehicleType}
                                             </TableCell>
-                                            <TableCell className={classes.busVal} numeric colSpan={1}>
-                                                <ul className="list--tags">  {transportLine}</ul>
-                                            </TableCell>
-                                            <TableCell numeric>{transportDirection}</TableCell>
-                                            <TableCell numeric>{n.condition[0].transportAmountLowerBound}</TableCell>
-                                            <TableCell numeric>{n.condition[0].transportAmountUpperBound}</TableCell>
+                                            <TableCell numeric>{n.provider}</TableCell>
+                                            <TableCell numeric>{n.latitude},{n.longitude}</TableCell>
+                                            <TableCell numeric>{n.areaRadius}</TableCell>
                                             <TableCell numeric>
                                                 {this.checkStatus(n.status)}
                                             </TableCell>
@@ -349,7 +340,7 @@ class TransportTable extends React.Component {
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
-                        </TableBody>
+                        </TableBody>}
                     </Table>
                 </div>
                 <TablePagination
@@ -371,8 +362,8 @@ class TransportTable extends React.Component {
     }
 }
 
-TransportTable.propTypes = {
+VehicleTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TransportTable);
+export default withStyles(styles)(VehicleTable);

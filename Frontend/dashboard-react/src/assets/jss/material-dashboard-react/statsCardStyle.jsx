@@ -11,7 +11,7 @@ import {
   greenCardHeader,
   redCardHeader,
   blueCardHeader,
-  purpleCardHeader,
+  roseCardHeader,
   cardActions,
   grayColor,
   warningColor,
@@ -19,7 +19,6 @@ import {
   successColor,
   infoColor,
   primaryColor,
-  roseColor
 } from "assets/jss/material-dashboard-react.jsx";
 
 const statsCardStyle = {
@@ -34,7 +33,7 @@ const statsCardStyle = {
   greenCardHeader,
   redCardHeader,
   blueCardHeader,
-  purpleCardHeader,
+  roseCardHeader,
   cardContent: {
     textAlign: "right",
     paddingTop: "10px",
@@ -96,9 +95,6 @@ const statsCardStyle = {
   },
   infoCardStatsIcon: {
     color: infoColor
-  },
-  roseCardStatsIcon: {
-    color: roseColor
   },
   grayCardStatsIcon: {
     color: grayColor

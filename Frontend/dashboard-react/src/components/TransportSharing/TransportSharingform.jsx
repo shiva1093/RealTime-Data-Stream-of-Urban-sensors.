@@ -36,14 +36,10 @@ class BVGform extends React.Component {
         super(props);
         this.state = {
             checkAll: false,
-            numberOfTransport: '',
-            busName: [],
-            transportValue: '',
+            transportProviderName: '',
+            transportName: [],
             open: false,
             place: 'bc',
-            showNumberofTransport: false,
-            toggleRadioDropdown: true,
-            numberofTransportSlider: [],
             radius:'',
             boundaryPoints: {}
         };
@@ -73,51 +69,12 @@ class BVGform extends React.Component {
         }});
     }
 
-    numberofTransport = (val) => {
-        console.log('numberofTransport:' + val)
-        this.setState({numberOfTransport: val,numberofTransportSlider: []});
-    }
-
-
-    busDirection = (busDirection) => {
-        console.log(busDirection)
-        this.setState({busName: busDirection});
-    }
-
-    numberofTransportDropdown = (val) => {
-       console.log('numberofTransportDropdown:' + val)
-        this.setState({transportValue: val,numberofTransportSlider: []});
-        if(val)
-        {
-            this.setState({showNumberofTransport: true});
-
-        }
-    }
-
-    numberofTransportSlider = (val) => {
-        console.log('numberofTransportSlider:' + val)
-        this.setState({numberofTransportSlider: val,numberOfTransport: '',transportValue: ''});
-    }
-
-    toggleRadioButton = (val) => {
-        if(val === 'Dropdown')
-        {
-            this.setState({toggleRadioDropdown: true});
-        }else{
-            this.setState({toggleRadioDropdown: false,showNumberofTransport: false});
-        }
-
+    transportProviderName = (val) => {
+        this.setState({transportProviderName: val});
     }
 
     handleSubmit = e => {
         this.showNotification();
-      /*  console.log('TransportType: ' + this.state.transportName);
-        console.log('points'+ this.state.busName);
-        console.log('numberOfTransport: ' + this.state.numberOfTransport);
-        console.log('Transport Value' + this.state.transportValue );
-        console.log('Slider Value' + this.state.numberofTransportSlider );
-        console.log('radius'+ this.state.radius);
-        console.log('points'+ this.state.boundaryPoints);*/
         e.preventDefault();
         //redirect to new page
         this.props.onSubmitValues(this.state,this.props.transportName)
@@ -148,7 +105,7 @@ class BVGform extends React.Component {
                             />
                         </FormControl>
 
-                        <ShowNumberofProviderDropdown providerType = {this.props.transportName} componentTitle={"Select the Provider"} numberofTransportDropdown ={this.numberofTransportDropdown} />
+                        <ShowNumberofProviderDropdown providerType = {this.props.transportName} componentTitle={"Select the Provider"} numberofTransportDropdown ={this.transportProviderName} />
 
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps} mapOptions='circle'/>
@@ -157,9 +114,9 @@ class BVGform extends React.Component {
                                 type="submit">Create</Button>
                         <Snackbar
                             place={this.state.place}
-                            color={this.state.color}
+                            color={'warning'}
                             icon={AddAlert}
-                            message="New Rule Successfully Added"
+                            message="New Condition Successfully Added"
                             open={this.state.open}
                             closeNotification={() => this.setState({open:false})}
                             close

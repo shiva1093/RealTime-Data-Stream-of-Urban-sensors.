@@ -49,7 +49,7 @@ class Transportation extends React.Component {
         const jsonValues = [transportName,formValues.busName,
             formValues.transportValue,formValues.numberOfTransport,formValues.radius,formValues.boundaryPoints]
         var uid = uuidv1();
-        var topicName = '/topic/transport';
+        var topicName = '/topic/contextfencing.sensor.public-transport';
 
         this.setState({ formValues:{
                 "bindingID": uid,
@@ -60,8 +60,8 @@ class Transportation extends React.Component {
                     "transportType" : transportName,
                     "transport" : formValues.busName,
                     "direction" : formValues.transportDirection,
-                    "transportAmountLowerBound" :formValues.transportValue =='<='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
-                    "transportAmountUpperBound" :formValues.transportValue =='>='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
+                    "transportAmountLowerBound" :formValues.transportValue =='<='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
+                    "transportAmountUpperBound" :formValues.transportValue =='>='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
                 }],
                 "command": "CREATE"
             } });
@@ -74,8 +74,8 @@ class Transportation extends React.Component {
                 "longitudeY" : formValues.boundaryPoints.longitudeY,
                 "transportType" : transportName,
                 "transport" :formValues.busName,
-                "transportAmountLowerBound" :formValues.transportValue =='<='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
-                "transportAmountUpperBound" :formValues.transportValue =='>='?'':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
+                "transportAmountLowerBound" :formValues.transportValue =='<='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
+                "transportAmountUpperBound" :formValues.transportValue =='>='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
             }],
             "command": "CREATE"
         }
@@ -107,14 +107,14 @@ class Transportation extends React.Component {
                         <Tab label="Subway" icon={<SubwayIcon />} />
                     </Tabs>
                 </AppBar>
-                {value === 0 && <TabContainer><BVGform transportName={"BUS"} onSubmitValues = {this.onSubmitValues}/>
+                {value === 0 && <TabContainer><BVGform transportName={"bus"} onSubmitValues = {this.onSubmitValues}/>
                     {JSON.stringify(this.state.formValues,null,2)}
                 </TabContainer>}
-                {value === 1 && <TabContainer><BVGform transportName={"TRAIN"} onSubmitValues = {this.onSubmitValues}/>
+                {value === 1 && <TabContainer><BVGform transportName={"train"} onSubmitValues = {this.onSubmitValues}/>
                     {JSON.stringify(this.state.formValues,null,2)}</TabContainer>}
-                {value === 2 && <TabContainer><BVGform transportName={"TRAM"} onSubmitValues = {this.onSubmitValues}/>
+                {value === 2 && <TabContainer><BVGform transportName={"tram"} onSubmitValues = {this.onSubmitValues}/>
                     {JSON.stringify(this.state.formValues,null,2)}</TabContainer>}
-                {value === 3 && <TabContainer><BVGform transportName={"UBAHN"} onSubmitValues = {this.onSubmitValues}/>
+                {value === 3 && <TabContainer><BVGform transportName={"ubahn"} onSubmitValues = {this.onSubmitValues}/>
                     {JSON.stringify(this.state.formValues,null,2)}</TabContainer>}
             </div>}/>
         );

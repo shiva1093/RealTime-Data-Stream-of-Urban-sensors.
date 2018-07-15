@@ -1,0 +1,28 @@
+FROM ubuntu:trusty
+
+MAINTAINER Sandro Rodriguez Garzon (sandro.rodriguezgarzon@tu-berlin.de)
+
+# Install Nginx.
+RUN \
+    sudo apt-get update && \
+    sudo apt-get install nano && \
+    sudo apt-get install -y nginx && \
+    mkdir /var/www && \
+    mkdir /var/www/admindash
+
+# For healthcheck
+RUN sudo apt-get update && \
+    sudo apt-get install -y curl
+
+COPY ./docker/nginx/default /etc/nginx/sites-available/default
+COPY ./build/ /var/www/admindash/
+
+RUN \
+    sudo chown -R root:www-data /var/www/admindash/
+
+# Expose ports.
+EXPOSE 3000
+#EXPOSE 443
+
+# Starts Nginx in the foreground, not as a deamon.
+ENTRYPOINT ["/usr/sbin/nginx","-g","daemon off;"]

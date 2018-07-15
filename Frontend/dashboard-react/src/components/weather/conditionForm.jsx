@@ -33,7 +33,6 @@ class ConditionForm extends React.Component {
             cata: catavalue[catagory[0]],
             value: catavalue[catagory[0]][0],
             condition: condition[0],
-            location: '',
             postion: {
               lat: '52.52',
               lon: '13.41'
@@ -51,10 +50,11 @@ class ConditionForm extends React.Component {
     sendMsg(e) {
         e.preventDefault();
         console.log('sending message!!!');
+
         var conditionCata, conditionValue;
         const topic = 'contextfencing.sensor.weather';
         if(conditions.isCondition.includes(this.state.catagory)) {
-          conditionValue = "Is" + " " + this.state.catagory
+          conditionValue = conditions.catavalue[this.state.catagory]
         }
 
         if(this.state.catagory === 'Temperature'){
@@ -62,7 +62,7 @@ class ConditionForm extends React.Component {
         } else if(this.state.catagory === 'Wind.speed'){
           conditionCata = "wind.speed"
         } else {
-          conditionCata = (this.state.catagory).toLowerCase() 
+          conditionCata = "main." + (this.state.catagory).toLowerCase() 
         }
         
         var uid = uuidv1();
@@ -78,6 +78,7 @@ class ConditionForm extends React.Component {
         }
         console.log("send messge:::::" + JSON.stringify(msg));
         sendmsg(msg, topic);
+        this.setState({open: true})
     }
 
     handleCatagoryChange = (event) => {
@@ -89,10 +90,19 @@ class ConditionForm extends React.Component {
         });
         if(conditions.isCondition.find(item => {
             return item === value;
-        })){
-            this.setState({condition: 'is'})
+        })){  
+          this.setState({
+            catagory: value,
+            cata: catavalue[value],
+            value: "No Value", 
+            condition: 'is'})
         } else {
-            this.setState({condition: '>'})
+          this.setState({
+            catagory: value,
+            cata: catavalue[value],
+            value: catavalue[value][0],
+            condition: '>='
+          });
         }
     }
     
@@ -191,7 +201,6 @@ class ConditionForm extends React.Component {
         </form>
         )
     }
-
 }
 ConditionForm.propTypes = {
     classes: PropTypes.object.isRequired,

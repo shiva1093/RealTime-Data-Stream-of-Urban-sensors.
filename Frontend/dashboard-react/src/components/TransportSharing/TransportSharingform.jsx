@@ -9,8 +9,9 @@ import TextField from 'material-ui/TextField';
 //core components
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
 import {
-    ShowNumberofProviderDropdown
+    ShowNumberofTransport,ShowNumberofTransportDropdown,ShowNumberofProviderDropdown,ShowNumberofTransportSlider
 } from "../transpotation/transportComponents/numberOfTransportComponent"
+import ExampleRadioUsage from "../transpotation/transportComponents/checkboxTransportComponent"
 import Maps from "../../views/Maps/Maps.jsx";
 import {
     Button
@@ -38,6 +39,9 @@ class BVGform extends React.Component {
             checkAll: false,
             transportProviderName: '',
             transportName: [],
+            showNumberofTransport: false,
+            toggleRadioDropdown: true,
+            numberofTransportSlider: [],
             open: false,
             place: 'bc',
             radius:'',
@@ -57,6 +61,32 @@ class BVGform extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
+    numberofTransport = (val) => {
+        this.setState({numberOfTransport: val,numberofTransportSlider: []});
+    }
+
+    numberofTransportDropdown = (val) => {
+        this.setState({transportValue: val,numberofTransportSlider: []});
+        if(val)
+        {
+            this.setState({showNumberofTransport: true});
+
+        }
+    }
+
+    numberofTransportSlider = (val) => {
+        this.setState({numberofTransportSlider: val,numberOfTransport: '',transportValue: ''});
+    }
+
+    toggleRadioButton = (val) => {
+        if(val === 'Dropdown')
+        {
+            this.setState({toggleRadioDropdown: true});
+        }else{
+            this.setState({toggleRadioDropdown: false,showNumberofTransport: false});
+        }
+
+    }
 
     /* Retrieve values from Maps.jsx */
     maps = (googleMap) => {
@@ -106,7 +136,13 @@ class BVGform extends React.Component {
                         </FormControl>
 
                         <ShowNumberofProviderDropdown providerType = {this.props.transportName} componentTitle={"Select the Provider"} numberofTransportDropdown ={this.transportProviderName} />
+                        <ExampleRadioUsage toggleRadioButton ={this.toggleRadioButton}/>
 
+                        { this.state.toggleRadioDropdown ? <ShowNumberofTransportDropdown componentTitle={"Amount of "+this.props.transportName}numberofTransportDropdown ={this.numberofTransportDropdown} />
+                            : <ShowNumberofTransportSlider numberofTransportSlider ={this.numberofTransportSlider}/> }
+
+                        { this.state.showNumberofTransport ? <ShowNumberofTransport
+                            transportLabel = {"Number of cars/bikes"} numberofTransport ={this.numberofTransport}/>  : null }
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps} mapOptions='circle'/>
                         </FormControl>

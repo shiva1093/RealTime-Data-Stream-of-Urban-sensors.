@@ -54,7 +54,10 @@ class TransportSharing extends React.Component {
                     "latitudeX": formValues.boundaryPoints.latitudeX,
                     "longitudeY" : formValues.boundaryPoints.longitudeY,
                     "transportType" : transportName,
-                    "providerName" :formValues.transportProviderName,}],
+                    "providerName" :formValues.transportProviderName,
+                    "transportAmountLowerBound" :formValues.transportValue =='<='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
+                    "transportAmountUpperBound" :formValues.transportValue =='>='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
+                }],
                 "command": "CREATE"
             } });
 
@@ -67,6 +70,8 @@ class TransportSharing extends React.Component {
                 "longitudeY" : formValues.boundaryPoints.longitudeY,
                 "transportType" : transportName,
                 "providerName" :formValues.transportProviderName,
+                "transportAmountLowerBound" :formValues.transportValue =='<='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : (formValues.transportValue == '>='? formValues.numberOfTransport : formValues.numberofTransportSlider[0])),
+                "transportAmountUpperBound" :formValues.transportValue =='>='?'0':(formValues.transportValue =='=='? formValues.numberOfTransport : ( formValues.transportValue == '<='? formValues.numberOfTransport : formValues.numberofTransportSlider[1])),
             }],
             "command": "CREATE"
         }

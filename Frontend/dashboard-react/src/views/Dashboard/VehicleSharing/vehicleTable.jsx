@@ -263,11 +263,20 @@ class VehicleTable extends React.Component {
 
     handleChangePage = (event, page) => {
         this.setState({ page });
+        this.RefreshApiHandler();
     };
 
     handleChangeRowsPerPage = event => {
         this.setState({ rowsPerPage: event.target.value });
     };
+
+    RefreshApiHandler(){
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+            var results = res.data;
+            console.log(results)
+            this.setState({data: results});
+        })
+    }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 

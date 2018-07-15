@@ -157,7 +157,7 @@ class BVGform extends React.Component {
                             : <ShowNumberofTransportSlider numberofTransportSlider ={this.numberofTransportSlider}/> }
 
                         { this.state.showNumberofTransport ? <ShowNumberofTransport
-                            numberofTransport ={this.numberofTransport}/>  : null }
+                            transportLabel = {"Number of trains/buses/trams"}numberofTransport ={this.numberofTransport}/>  : null }
 
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
                             <Maps maps={this.maps} mapOptions='circle'/>

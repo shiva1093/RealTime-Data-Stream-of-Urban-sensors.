@@ -21,18 +21,11 @@ var sendmsg = function (msg,topic) {
     //client.disconnect();
 }
 
-var receivemsg = function(){
-    // upon connection, subscribe to the destination
-    var sub = client.subscribe('/queue/weather', function(message) {
-        // when a message is received, post it to the current WebWorker
-        //postMessage("message: " + message.body);
-    });
-}
 
 function connect() {
     client.connect('admin','34op/X07b_+4',on_connect, on_error,'contextfencing')
  
 }
 
-export {connect, sendmsg, receivemsg}
+export {connect, sendmsg}
 

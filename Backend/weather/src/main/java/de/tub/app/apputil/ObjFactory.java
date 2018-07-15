@@ -24,6 +24,10 @@ public class ObjFactory {
     @Autowired
     private ConditionUtil conditionUtil;
     @Autowired
+    private WeatherUtil weatherUtil;
+    @Autowired
+    private SunInfoUtil sunInfoUtil;
+    @Autowired
     private DayInfoRepository dayInfoRepository;
     @Autowired
     private RabbitMessageRepository rabbitMessageRepository;
@@ -33,6 +37,20 @@ public class ObjFactory {
     private WeatherSubsRepository weatherSubsRepository;
     @Autowired
     private Receiver receiver;
+
+    /**
+     * @return the rabbitTemplate
+     */
+    public RabbitTemplate getRabbitTemplate() {
+        return rabbitTemplate;
+    }
+
+    /**
+     * @param rabbitTemplate the rabbitTemplate to set
+     */
+    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     /**
      * @return the appUtil
@@ -46,6 +64,76 @@ public class ObjFactory {
      */
     public void setAppUtil(AppUtil appUtil) {
         this.appUtil = appUtil;
+    }
+
+    /**
+     * @return the conditionUtil
+     */
+    public ConditionUtil getConditionUtil() {
+        return conditionUtil;
+    }
+
+    /**
+     * @param conditionUtil the conditionUtil to set
+     */
+    public void setConditionUtil(ConditionUtil conditionUtil) {
+        this.conditionUtil = conditionUtil;
+    }
+
+    /**
+     * @return the weatherUtil
+     */
+    public WeatherUtil getWeatherUtil() {
+        return weatherUtil;
+    }
+
+    /**
+     * @param weatherUtil the weatherUtil to set
+     */
+    public void setWeatherUtil(WeatherUtil weatherUtil) {
+        this.weatherUtil = weatherUtil;
+    }
+
+    /**
+     * @return the sunInfoUtil
+     */
+    public SunInfoUtil getSunInfoUtil() {
+        return sunInfoUtil;
+    }
+
+    /**
+     * @param sunInfoUtil the sunInfoUtil to set
+     */
+    public void setSunInfoUtil(SunInfoUtil sunInfoUtil) {
+        this.sunInfoUtil = sunInfoUtil;
+    }
+
+    /**
+     * @return the dayInfoRepository
+     */
+    public DayInfoRepository getDayInfoRepository() {
+        return dayInfoRepository;
+    }
+
+    /**
+     * @param dayInfoRepository the dayInfoRepository to set
+     */
+    public void setDayInfoRepository(DayInfoRepository dayInfoRepository) {
+        this.dayInfoRepository = dayInfoRepository;
+    }
+
+    /**
+     * @return the rabbitMessageRepository
+     */
+    public RabbitMessageRepository getRabbitMessageRepository() {
+        return rabbitMessageRepository;
+    }
+
+    /**
+     * @param rabbitMessageRepository the rabbitMessageRepository to set
+     */
+    public void setRabbitMessageRepository(RabbitMessageRepository rabbitMessageRepository) {
+        this.rabbitMessageRepository = rabbitMessageRepository;
     }
 
     /**
@@ -77,34 +165,6 @@ public class ObjFactory {
     }
 
     /**
-     * @return the rabbitTemplate
-     */
-    public RabbitTemplate getRabbitTemplate() {
-        return rabbitTemplate;
-    }
-
-    /**
-     * @param rabbitTemplate the rabbitTemplate to set
-     */
-    public void setRabbitTemplate(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
-
-    /**
-     * @return the dayInfoRepository
-     */
-    public DayInfoRepository getDayInfoRepository() {
-        return dayInfoRepository;
-    }
-
-    /**
-     * @param dayInfoRepository the dayInfoRepository to set
-     */
-    public void setDayInfoRepository(DayInfoRepository dayInfoRepository) {
-        this.dayInfoRepository = dayInfoRepository;
-    }
-
-    /**
      * @return the receiver
      */
     public Receiver getReceiver() {
@@ -116,34 +176,6 @@ public class ObjFactory {
      */
     public void setReceiver(Receiver receiver) {
         this.receiver = receiver;
-    }
-
-    /**
-     * @return the conditionUtil
-     */
-    public ConditionUtil getConditionUtil() {
-        return conditionUtil;
-    }
-
-    /**
-     * @param conditionUtil the conditionUtil to set
-     */
-    public void setConditionUtil(ConditionUtil conditionUtil) {
-        this.conditionUtil = conditionUtil;
-    }
-
-    /**
-     * @return the rabbitMessageRepository
-     */
-    public RabbitMessageRepository getRabbitMessageRepository() {
-        return rabbitMessageRepository;
-    }
-
-    /**
-     * @param rabbitMessageRepository the rabbitMessageRepository to set
-     */
-    public void setRabbitMessageRepository(RabbitMessageRepository rabbitMessageRepository) {
-        this.rabbitMessageRepository = rabbitMessageRepository;
     }
 
 }

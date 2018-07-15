@@ -37,7 +37,7 @@ public class UpdateWeatherJob implements Runnable, ApplicationContextAware {
             for (RabbitMessage rabbitMessage : subs) {
                 Condition condition = rabbitMessage.getConditionAsCondition();
 
-                WeatherDetails weatherDetails = objFactory.getAppUtil().getWeather(
+                WeatherDetails weatherDetails = objFactory.getWeatherUtil().getWeather(
                         new GeoLocation(condition.getLon(), condition.getLat()));
 
                 System.out.println("Sending to RabbitMQ ...");

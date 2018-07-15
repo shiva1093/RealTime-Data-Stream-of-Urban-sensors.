@@ -1,25 +1,24 @@
 package de.tub.app.apputil;
 
 import ca.rmen.sunrisesunset.SunriseSunset;
-import de.tub.app.Config;
 import de.tub.app.domain.sun.SunRiseSet;
-import de.tub.app.domain.weather.GeoLocation;
-import de.tub.app.domain.weather.WeatherDetails;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
  * @author Naveed Kamran
  */
 @Component
-public class AppUtil {
+public class SunInfoUtil {
 
     @Autowired
     private ObjFactory objFactory;
 
+    public SunRiseSet getSunriseSunset(Double lon, Double lat) {
+        Calendar[] sunriseSunset = SunriseSunset.getSunriseSunset(Calendar.getInstance(), lat, lon);
+
+        return new SunRiseSet(lon, lat, sunriseSunset[0].getTime(), sunriseSunset[1].getTime());
+    }
 }

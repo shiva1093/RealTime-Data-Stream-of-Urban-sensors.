@@ -52,7 +52,7 @@ public class CustomMessageListener {
                     Condition condition = rabbitMessage.getConditionAsCondition();
                     GeoLocation location = new GeoLocation(condition.getLon(), condition.getLat());
 
-                    WeatherDetails weatherDetails = objFactory.getAppUtil().getWeather(location);
+                    WeatherDetails weatherDetails = objFactory.getWeatherUtil().getWeather(location);
 
                     Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(
                             null, new Gson().toJson(weatherDetails));

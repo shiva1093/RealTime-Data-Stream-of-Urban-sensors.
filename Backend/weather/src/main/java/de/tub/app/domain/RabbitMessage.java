@@ -21,6 +21,7 @@ public class RabbitMessage {
     private List condition;
     private Boolean status;
     private CommandType command;
+    private String category;
     private Date dateCreated;
 
     public RabbitMessage() {
@@ -36,7 +37,7 @@ public class RabbitMessage {
 
     @Override
     public String toString() {
-        return "RabbitMessage{" + "bindingID=" + getBindingID() + ", settings=" + settings + ", condition=" + condition + ", status=" + status + ", command=" + command + '}';
+        return "RabbitMessage{" + "bindingID=" + getBindingID() + ", settings=" + getSettings() + ", condition=" + getCondition() + ", status=" + getStatus() + ", command=" + getCommand() + '}';
     }
 
     public Condition getConditionAsCondition() {
@@ -122,6 +123,20 @@ public class RabbitMessage {
      */
     public void setCommand(CommandType command) {
         this.command = command;
+    }
+
+    /**
+     * @return the category
+     */
+    public String getCategory() {
+        return category;
+    }
+
+    /**
+     * @param category the category to set
+     */
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     /**

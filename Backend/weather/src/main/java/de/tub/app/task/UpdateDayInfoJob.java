@@ -31,11 +31,11 @@ public class UpdateDayInfoJob implements Runnable, ApplicationContextAware {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " UpdateWeatherJob executing .....");
         try {
             for (SunInfo sunInfo : objFactory.getDayInfoRepository().findAll()) {
-                SunRiseSet sunRiseSet = objFactory.getAppUtil().getSunriseSunset(sunInfo.getLongitude(), sunInfo.getLatitude());
+                SunRiseSet sunRiseSet = objFactory.getSunInfoUtil().getSunriseSunset(sunInfo.getLongitude(), sunInfo.getLatitude());
 
             }
             WeatherDetails weatherDetails
-                    = objFactory.getAppUtil().getWeather(new GeoLocation(13.4050, 52.5200));
+                    = objFactory.getWeatherUtil().getWeather(new GeoLocation(13.4050, 52.5200));
 
             System.out.println(weatherDetails.toString());
 

@@ -20,10 +20,10 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 
 @SpringBootApplication
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
-public class SampleSpringApplication implements RabbitListenerConfigurer {
+public class WeatherApp implements RabbitListenerConfigurer {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(SampleSpringApplication.class, args);
+        SpringApplication.run(WeatherApp.class, args);
     }
 
     @Bean

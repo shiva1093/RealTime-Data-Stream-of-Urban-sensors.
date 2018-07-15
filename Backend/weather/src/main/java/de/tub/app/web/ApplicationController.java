@@ -15,7 +15,7 @@ public class ApplicationController {
     @GetMapping("/")
     @ResponseBody
     public String baseLink() {
-        return "BrownGrid Server";
+        return "WeatherAPI Server";
     }
 
     @GetMapping("/health")

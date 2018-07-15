@@ -18,14 +18,14 @@ public class WeatherTests {
 
     @Test
     public void getWeather() {
-        assertEquals(objFactory.getAppUtil().getWeather(TestParams.GEO_LOCATION_BERLIN).getName() != null, true);
-        assertEquals(objFactory.getAppUtil().getWeather(TestParams.GEO_LOCATION_ISLAMABAD).getName() != null, true);
+        assertEquals(objFactory.getWeatherUtil().getWeather(TestParams.GEO_LOCATION_BERLIN).getName() != null, true);
+        assertEquals(objFactory.getWeatherUtil().getWeather(TestParams.GEO_LOCATION_ISLAMABAD).getName() != null, true);
     }
 
     @Test
     public void checkCondition() {
         assertEquals(objFactory.getConditionUtil().checkCondition(
-                objFactory.getAppUtil().getWeather(TestParams.GEO_LOCATION_BERLIN),
+                objFactory.getWeatherUtil().getWeather(TestParams.GEO_LOCATION_BERLIN),
                 TestParams.TEST_CONDITION_TEMP), true);
     }
 

@@ -30,21 +30,11 @@ public class WeatherUtil {
     private void saveWeather(WeatherDetails weather, GeoLocation location) {
         weather.setDateCreated(Calendar.getInstance().getTime());
         objFactory.getWeatherRepository().save(weather);
-
-        GeoLocation gl = objFactory.getWeatherSubsRepository().findOneByLonAndLat(location.getLon(), location.getLat());
-        if (gl == null) {
-            objFactory.getWeatherSubsRepository().save(location);
-        }
     }
 
     private void saveWeather(WeatherDetails weather, String location) {
         weather.setDateCreated(Calendar.getInstance().getTime());
         objFactory.getWeatherRepository().save(weather);
-
-        GeoLocation gl = objFactory.getWeatherSubsRepository().findOneByLocation(location);
-        if (gl == null) {
-            objFactory.getWeatherSubsRepository().save(new GeoLocation(location));
-        }
     }
 
     public WeatherDetails getWeather(GeoLocation location) {

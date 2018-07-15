@@ -8,17 +8,17 @@ import java.util.Date;
  * @author Naveed Kamran
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SunRiseSet {
+public class DayInfo {
 
     private Double longitude;
     private Double latitude;
     private Date sunrise;
     private Date sunset;
 
-    public SunRiseSet() {
+    public DayInfo() {
     }
 
-    public SunRiseSet(Double longitude, Double latitude, Date sunrise, Date sunset) {
+    public DayInfo(Double longitude, Double latitude, Date sunrise, Date sunset) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.sunrise = sunrise;
@@ -27,7 +27,7 @@ public class SunRiseSet {
 
     @Override
     public String toString() {
-        return "SunRiseSet{" + "longitude=" + longitude + ", latitude=" + latitude + ", sunrise=" + sunrise + ", sunset=" + sunset + '}';
+        return "DayInfo{" + "longitude=" + longitude + ", latitude=" + latitude + ", sunrise=" + sunrise + ", sunset=" + sunset + '}';
     }
 
     /**

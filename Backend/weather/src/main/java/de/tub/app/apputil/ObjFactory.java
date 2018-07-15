@@ -4,7 +4,6 @@ import de.tub.app.message.Receiver;
 import de.tub.app.repository.DayInfoRepository;
 import de.tub.app.repository.RabbitMessageRepository;
 import de.tub.app.repository.WeatherRepository;
-import de.tub.app.repository.WeatherSubsRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,8 +32,6 @@ public class ObjFactory {
     private RabbitMessageRepository rabbitMessageRepository;
     @Autowired
     private WeatherRepository weatherRepository;
-    @Autowired
-    private WeatherSubsRepository weatherSubsRepository;
     @Autowired
     private Receiver receiver;
 
@@ -148,20 +145,6 @@ public class ObjFactory {
      */
     public void setWeatherRepository(WeatherRepository weatherRepository) {
         this.weatherRepository = weatherRepository;
-    }
-
-    /**
-     * @return the weatherSubsRepository
-     */
-    public WeatherSubsRepository getWeatherSubsRepository() {
-        return weatherSubsRepository;
-    }
-
-    /**
-     * @param weatherSubsRepository the weatherSubsRepository to set
-     */
-    public void setWeatherSubsRepository(WeatherSubsRepository weatherSubsRepository) {
-        this.weatherSubsRepository = weatherSubsRepository;
     }
 
     /**

@@ -1,8 +1,5 @@
 package de.tub.app;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -31,16 +28,14 @@ public class WeatherApp implements RabbitListenerConfigurer {
         return new TopicExchange(Constants.EXCHANGE_NAME);
     }
 
-    @Bean
-    public Queue appQueueGeneric() {
-        return new Queue(Constants.QUEUE_GENERIC_NAME);
-    }
-
-    @Bean
-    public Binding declareBindingGeneric() {
-        return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(Constants.ROUTING_KEY);
-    }
-
+//    @Bean
+//    public Queue appQueueGeneric() {
+//        return new Queue(Constants.QUEUE_GENERIC_NAME);
+//    }
+//    @Bean
+//    public Binding declareBindingGeneric() {
+//        return BindingBuilder.bind(appQueueGeneric()).to(appExchange()).with(Constants.ROUTING_KEY);
+//    }
     @Bean
     public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);

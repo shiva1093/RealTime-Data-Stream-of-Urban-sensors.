@@ -30,4 +30,13 @@ public class ApplicationController {
         return "Ping response from the controller.";
     }
 
+    @GetMapping("/cleanup")
+    @ResponseBody
+    public String cleanup() {
+        objFactory.getDayInfoRepository().deleteAll();
+        objFactory.getWeatherRepository().deleteAll();
+        objFactory.getRabbitMessageRepository().deleteAll();
+
+        return "Cleanup completed";
+    }
 }

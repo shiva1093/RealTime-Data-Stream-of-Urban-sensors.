@@ -24,13 +24,27 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
+
+import { testData } from './testdata.js';
+
 let counter = 0;
+
 
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
         : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1);
 }
+
+function parseData() {
+    console.log("parse data from test data ............")
+    console.log("lalalalallallll" + JSON.stringify(testData.content[1].conditionAsCondition.conditionType));
+    console.log("lalalalallallll" + JSON.stringify(testData.content[1].condition));
+    console.log("lalalalallallll" + JSON.stringify(testData.content.length));
+    console.log("lalalalallallll" + JSON.stringify(testData.totalElements));
+}
+
+
 
 
 class EnhancedTableHead extends React.Component {
@@ -41,6 +55,7 @@ class EnhancedTableHead extends React.Component {
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
         const columnData = weatherHeader;
+        parseData()
 
         return (
             <div>
@@ -203,14 +218,23 @@ class TransportTable extends React.Component {
     }
 
     componentDidMount() {
-        this.ApiHandler()
+        var results = testData.content
+
+        this.setState({data: results, isLoading:true});
+        this.props.weatherRules(results);
+        
+        //this.ApiHandler()
     }
 
     ApiHandler(){
         GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
+            /*
             var results = res.data
-            this.setState({data: results, isLoading:true});
-            this.props.weatherRules(results);
+            */
+           var results = testData
+
+           this.setState({data: results, isLoading:true});
+           this.props.weatherRules(results);
         })
     }
     RefreshFunction = () => {
@@ -268,6 +292,20 @@ class TransportTable extends React.Component {
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
+    RefreshApiHandler(){
+        var results = testData.content;
+        console.log(results)
+        this.setState({data: results});
+        /*
+        GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
+            //var results = res.data;
+            var results = testData;
+            console.log(results)
+            this.setState({data: results});
+        })
+        */
+    }
+
     checkStatus = (props) => {
         if(props === true)
             return <AddCircle color="primary"/>
@@ -278,6 +316,8 @@ class TransportTable extends React.Component {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+        parseData()
 
         return (
 
@@ -306,26 +346,29 @@ class TransportTable extends React.Component {
                                 .sort(getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
-                                    const isSelected = this.isSelected(n.id);
+                                    const isSelected = this.isSelected(n.bindingID);
+                                    console.log("what is n here : " + JSON.stringify(n));
+                                    console.log("what is n content here : " + JSON.stringify(n.condition[0]));
+
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => this.handleClick(event, n.id)}
+                                            onClick={event => this.handleClick(event, n.bindingID)}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={-1}
-                                            key={n.id}
+                                            key={n.bindingID}
                                             selected={isSelected}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.Type}
+                                                {n.conditionAsCondition.conditionType}
                                             </TableCell>
-                                            <TableCell numeric>{n.Condition}</TableCell>
+                                            <TableCell numeric>{JSON.stringify(n.condition[0].value)}</TableCell>
                                             <TableCell numeric>
-                                                {this.checkStatus(n.status)}
+                                            {this.checkStatus(n.status)}
                                             </TableCell>
                                         </TableRow>
                                     );

@@ -24,6 +24,8 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
+import { testData } from '../weather/testdata.js';
+
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -205,7 +207,11 @@ class DaynightTable extends React.Component {
     }
 
     componentDidMount() {
-        this.ApiHandler()
+        var results = testData.content
+
+        this.setState({data: results, isLoading:true});
+        this.props.daynightRules(results);
+        //this.ApiHandler()
     }
 
     ApiHandler(){
@@ -271,11 +277,16 @@ class DaynightTable extends React.Component {
     };
 
     RefreshApiHandler(){
+        var results = testData.content;
+        console.log(results)
+        this.setState({data: results});
+        /*
         GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results});
         })
+        */
     }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -318,28 +329,26 @@ class DaynightTable extends React.Component {
                                 .sort(getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
-                                    const isSelected = this.isSelected(n.conditionId);
+                                    const isSelected = this.isSelected(n.bindingID);
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={event => this.handleClick(event, n.conditionId)}
+                                            onClick={event => this.handleClick(event, n.bindingID)}
                                             role="checkbox"
                                             aria-checked={isSelected}
                                             tabIndex={-1}
-                                            key={n.conditionId}
+                                            key={n.bindingID}
                                             selected={isSelected}
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.vehicleType}
+                                            {n.conditionAsCondition.conditionType}
                                             </TableCell>
-                                            <TableCell numeric>{n.provider}</TableCell>
-                                            <TableCell numeric>{n.latitude},{n.longitude}</TableCell>
-                                            <TableCell numeric>{n.areaRadius}</TableCell>
+                                            <TableCell numeric>{JSON.stringify(n.condition[0].value)}</TableCell>
                                             <TableCell numeric>
-                                                {this.checkStatus(n.status)}
+                                            {this.checkStatus(n.status)}
                                             </TableCell>
                                         </TableRow>
                                     );

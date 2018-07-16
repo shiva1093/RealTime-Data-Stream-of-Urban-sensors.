@@ -9,7 +9,6 @@ var on_error =  function() {
     console.log('error');
 };
 
-
 var on_connect = function(msg) {
     console.log("connect successfully!!!!")
 }

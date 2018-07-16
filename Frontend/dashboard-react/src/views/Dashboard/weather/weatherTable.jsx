@@ -45,8 +45,6 @@ function parseData() {
 }
 
 
-
-
 class EnhancedTableHead extends React.Component {
     createSortHandler = property => event => {
         this.props.onRequestSort(event, property);
@@ -58,9 +56,9 @@ class EnhancedTableHead extends React.Component {
         parseData()
 
         return (
-            <div>
             <TableHead>
-            <TableCell padding="checkbox">
+            <TableRow>
+                <TableCell padding="checkbox">
                     <Checkbox
                         indeterminate={numSelected > 0 && numSelected < rowCount}
                         checked={numSelected === rowCount}
@@ -91,8 +89,8 @@ class EnhancedTableHead extends React.Component {
                         </TableCell>
                     );
                 }, this)}
-            </TableHead>
-            </div>
+            </TableRow>
+        </TableHead> 
         );
     }
 }

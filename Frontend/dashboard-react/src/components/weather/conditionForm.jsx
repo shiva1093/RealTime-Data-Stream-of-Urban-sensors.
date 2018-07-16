@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import {Select, MenuItem, Input, InputLabel, FormControl} from 'material-ui';
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
 import AddAlert from "@material-ui/icons/AddAlert";
+import {connect} from '../../utils/webstomp.js';
 
 import {
   Button
@@ -49,12 +50,16 @@ class ConditionForm extends React.Component {
         this.sendMsg = this.sendMsg.bind(this);
     }
 
+    componentDidMount(){
+      connect();
+    }
+
     sendMsg(e) {
         e.preventDefault();
         console.log('sending message!!!');
 
         var conditionCata, conditionValue, value;
-        const topic = 'contextfencing.sensor.weather';
+        const topic = '/topic/contextfencing.sensor.weather';
         if(conditions.isCondition.includes(this.state.catagory)) {
           conditionValue = conditions.catavalue[this.state.catagory]
         }

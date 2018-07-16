@@ -132,7 +132,7 @@ let EnhancedTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
-                        Public Transport Dashboard
+                        Weather Conditions Dashboard
                     </Typography>
                 )}
             </div>

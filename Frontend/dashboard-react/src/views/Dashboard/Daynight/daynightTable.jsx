@@ -19,7 +19,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import { busHeader } from "./vehicleHeader"
+import { daynightHeader } from "./daynightHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
@@ -38,7 +38,7 @@ class EnhancedTableHead extends React.Component {
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-        const columnData = busHeader;
+        const columnData = daynightHeader;
 
         return (
             <TableHead>
@@ -186,16 +186,16 @@ const refreshIcon = {
     positionAbsolute: true
 
 }
-class VehicleTable extends React.Component {
+class DaynightTable extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             order: 'asc',
-            orderBy: 'vehicletype',
+            orderBy: 'type',
             isLoading: false,
             selected: [],
-            busNames: [],
+            catagory: [],
             data: [
 
             ],
@@ -213,12 +213,12 @@ class VehicleTable extends React.Component {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});
-            this.props.vehicleRules(results);
+            this.props.daynightRules(results);
         })
     }
     RefreshFunction = () => {
         this.setState({isLoading:false});
-       this.ApiHandler();
+        this.ApiHandler();
     }
 
     handleRequestSort = (event, property) => {
@@ -354,7 +354,7 @@ class VehicleTable extends React.Component {
                 </div>
                 <TablePagination
                     component="div"
-                    count="50"
+                    count= {data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
@@ -371,8 +371,8 @@ class VehicleTable extends React.Component {
     }
 }
 
-VehicleTable.propTypes = {
+DaynightTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(VehicleTable);
+export default withStyles(styles)(DaynightTable);

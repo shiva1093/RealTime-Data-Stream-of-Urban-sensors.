@@ -43,41 +43,41 @@ class EnhancedTableHead extends React.Component {
         const columnData = weatherHeader;
 
         return (
+            <div>
             <TableHead>
-                <TableRow>
-                    <TableCell padding="checkbox">
-                        <Checkbox
-                            indeterminate={numSelected > 0 && numSelected < rowCount}
-                            checked={numSelected === rowCount}
-                            onChange={onSelectAllClick}
-                        />
-                    </TableCell>
-                    {columnData.map(column => {
-                        return (
-                            <TableCell
-                                key={column.id}
-                                numeric={column.numeric}
-                                padding={column.disablePadding ? 'none' : 'default'}
-                                sortDirection={orderBy === column.id ? order : false}
+            <TableCell padding="checkbox">
+                    <Checkbox
+                        indeterminate={numSelected > 0 && numSelected < rowCount}
+                        checked={numSelected === rowCount}
+                        onChange={onSelectAllClick}
+                    />
+                </TableCell>
+                {columnData.map(column => {
+                    return (
+                        <TableCell
+                            key={column.id}
+                            numeric={column.numeric}
+                            padding={column.disablePadding ? 'none' : 'default'}
+                            sortDirection={orderBy === column.id ? order : false}
+                        >
+                            <Tooltip
+                                title="Sort"
+                                placement={column.numeric ? 'bottom-end' : 'bottom-start'}
+                                enterDelay={300}
                             >
-                                <Tooltip
-                                    title="Sort"
-                                    placement={column.numeric ? 'bottom-end' : 'bottom-start'}
-                                    enterDelay={300}
+                                <TableSortLabel
+                                    active={orderBy === column.id}
+                                    direction={order}
+                                    onClick={this.createSortHandler(column.id)}
                                 >
-                                    <TableSortLabel
-                                        active={orderBy === column.id}
-                                        direction={order}
-                                        onClick={this.createSortHandler(column.id)}
-                                    >
-                                        {column.label}
-                                    </TableSortLabel>
-                                </Tooltip>
-                            </TableCell>
-                        );
-                    }, this)}
-                </TableRow>
+                                    {column.label}
+                                </TableSortLabel>
+                            </Tooltip>
+                        </TableCell>
+                    );
+                }, this)}
             </TableHead>
+            </div>
         );
     }
 }
@@ -207,7 +207,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`localhost/APICall/weather`).then((res) => {
+        GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
             var results = res.data
             this.setState({data: results, isLoading:true});
             this.props.weatherRules(results);
@@ -215,7 +215,7 @@ class TransportTable extends React.Component {
     }
     RefreshFunction = () => {
         this.setState({isLoading:false});
-       this.ApiHandler();
+        this.ApiHandler();
     }
 
     handleRequestSort = (event, property) => {

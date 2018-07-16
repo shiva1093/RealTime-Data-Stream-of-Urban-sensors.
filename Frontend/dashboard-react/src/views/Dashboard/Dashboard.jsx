@@ -16,6 +16,7 @@ import {
 import { withStyles, Grid } from "material-ui";
 import TransportTable from "./Transport/transportTable";
 import WeatherTable from "./weather/weatherTable";
+import DaynightTable from "./Daynight/daynightTable"
 import {connect} from '../../utils/webstomp.js';
 
 import VehicleTable from "./VehicleSharing/vehicleTable";
@@ -33,7 +34,8 @@ class Dashboard extends React.Component {
     value: 0,
     transportRules:0,
     weatherRules: 0,
-    vehicleRules:0
+    vehicleRules:0,
+    daynightRules:0
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -55,7 +57,7 @@ class Dashboard extends React.Component {
     this.setState({
         weatherRules:count
     })
-}
+  }
 
    vehicleRules = (props) =>{
         let count = props.length
@@ -63,6 +65,13 @@ class Dashboard extends React.Component {
            vehicleRules:count
         })
     }
+  daynightRules = (props) =>{
+    let count = props.length
+    this.setState({
+        daynightRules:count
+    })
+  }
+
 componentWillMount(){
   connect();
 }
@@ -77,7 +86,6 @@ componentWillMount(){
               iconColor="blue"
               title="Transport Conditions"
               description={this.state.transportRules}
-              statIcon={Update}
             />
           </ItemGrid>
           <ItemGrid xs={12} sm={6} md={3}>
@@ -86,7 +94,6 @@ componentWillMount(){
               iconColor="green"
               title="Weather Conditions"
               description={this.state.weatherRules}
-              statIcon={Update}
             />
           </ItemGrid>
 
@@ -96,18 +103,16 @@ componentWillMount(){
               iconColor="orange"
               title="Car/Bike Conditions"
               description={this.state.vehicleRules}
-              statIcon={Update}
             />
           </ItemGrid>
-            <ItemGrid xs={12} sm={6} md={3}>
-                <StatsCard
-                    icon={WbSunny}
-                    iconColor="rose"
-                    title="Day / Night Conditions"
-                    description="30"
-                    statIcon={Update}
-                />
-            </ItemGrid>
+          <ItemGrid xs={12} sm={6} md={3}>
+            <StatsCard
+              icon={WbSunny}
+              iconColor="rose"
+              title="Day/Night Conditions"
+              description={this.state.daynightRules}
+              />
+          </ItemGrid>
         </Grid>
         <Grid container>
           <ItemGrid xs={12} sm={12} md={12}>
@@ -126,7 +131,7 @@ componentWillMount(){
             cardTitle="Getting Information For Weather"
             cardSubtitle="Displaying Weather Conditions"
               content={
-                  <WeatherTable weatherRules={this.weatherRules} transportFront="transport"/>
+                  <WeatherTable weatherRules={this.weatherRules}/>
               }
           />
           </ItemGrid>
@@ -144,17 +149,9 @@ componentWillMount(){
                 <RegularCard
                     headerColor="rose"
                     cardTitle="Getting Information For Day / Night"
-                    cardSubtitle="New Rules Executed on 16th May, 2018"
+                    cardSubtitle="Displaying Day Night Conditions"
                     content={
-                        <Table
-                            tableHeaderColor="black"
-                            tableHead={["ID", "Type", "Location", "Numbers", "Time"]}
-                            tableData={[
-                                ["1", "TU berlin", "Car2Go", "45", "12:00 16.05.2018"],
-                                ["2", "TU berlin Telekom Innovation Lab", "Mobike", "5", "16:00 16.05.2018"],
-                                ["3", "...", "...", "..."],
-                            ]}
-                        />
+                      <DaynightTable daynightRules={this.daynightRules}/>
                     }
                 />
             </ItemGrid>

@@ -2,70 +2,59 @@
   {
     "label": "All",
     "value": "all",
-    "key": "1",
+    "key": "0-0-0",
     "children": [
       {
-        "label": "Bus 183",
-        "value": "Bus 183",
-        "key": "2",
-        "children": [
+        "children":[
           {
-            "label": "Berlin HBF",
-            "value": "Berlin HBF",
-            "key": "3",
-            "parent": "Bus 183"
+            "parent":"bus282",
+            "key":"0-0",
+            "value":"Mariendorf, Dardanellenweg",
+            "label":"Mariendorf, Dardanellenweg"
           }
-        ]
+        ],
+        "key":"0",
+        "value":"bus282",
+        "label":"bus282"
       },
       {
-        "label": "Bus 245",
-        "value": "Bus 245",
-        "key": "4",
-        "children": [
+        "children":[
           {
-            "label": "Zoo",
-            "value": "Zoo",
-            "key": "5",
-            "parent": "Bus 245"
-          },
-          {
-            "label": "HBF",
-            "value": "HBF",
-            "key": "6",
-            "parent": "Bus 245"
-          },
-          {
-            "label": "Tegel",
-            "value": "Tegel",
-            "key": "7",
-            "parent": "Bus 245"
+            "parent":"bus645",
+            "key":"1-1",
+            "value":"Beelitz-Heilst\u00e4tten Bhf",
+            "label":"Beelitz-Heilst\u00e4tten Bhf"
           }
-        ]
+        ],
+        "key":"1",
+        "value":"bus645",
+        "label":"bus645"
       },
       {
-        "label": "Bus 120",
-        "value": "Bus 120",
-        "key": "8",
-        "children": [
+        "children":[
           {
-            "label": "Bus 120 -> pot",
-            "value": "pot",
-            "key": "9",
-            "parent": "Bus 120"
-          },
-          {
-            "label": "alex",
-            "value": "alex",
-            "key": "10",
-            "parent": "Bus 120"
-          },
-          {
-            "label": "sch",
-            "value": "sch",
-            "key": "11",
-            "parent": "Bus 120"
+            "parent":"bus627",
+            "key":"2-2",
+            "value":"Sputendorf",
+            "label":"Sputendorf"
           }
-        ]
+        ],
+        "key":"2",
+        "value":"bus627",
+        "label":"bus627"
+      },
+      {
+        "children":[
+          {
+            "parent":"bus601",
+            "key":"3-3",
+            "value":"S Potsdam Hbf",
+            "label":"S Potsdam Hbf"
+          }
+        ],
+        "key":"3",
+        "value":"bus601",
+        "label":"bus601"
       }
     ]
   }

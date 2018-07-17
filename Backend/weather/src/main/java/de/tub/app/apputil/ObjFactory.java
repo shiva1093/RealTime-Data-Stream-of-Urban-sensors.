@@ -1,12 +1,12 @@
 package de.tub.app.apputil;
 
 import de.tub.app.message.Receiver;
-import de.tub.app.repository.DayInfoRepository;
 import de.tub.app.repository.RabbitMessageRepository;
 import de.tub.app.repository.WeatherRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import de.tub.app.repository.SunInfoRepository;
 
 /**
  *
@@ -17,6 +17,8 @@ public class ObjFactory {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private RabbitUtil rabbitUtil;
     ////////////////////////////////////////////////////////////////////////////
     @Autowired
     private AppUtil appUtil;
@@ -27,7 +29,7 @@ public class ObjFactory {
     @Autowired
     private SunInfoUtil sunInfoUtil;
     @Autowired
-    private DayInfoRepository dayInfoRepository;
+    private SunInfoRepository dayInfoRepository;
     @Autowired
     private RabbitMessageRepository rabbitMessageRepository;
     @Autowired
@@ -108,14 +110,14 @@ public class ObjFactory {
     /**
      * @return the dayInfoRepository
      */
-    public DayInfoRepository getDayInfoRepository() {
+    public SunInfoRepository getDayInfoRepository() {
         return dayInfoRepository;
     }
 
     /**
      * @param dayInfoRepository the dayInfoRepository to set
      */
-    public void setDayInfoRepository(DayInfoRepository dayInfoRepository) {
+    public void setDayInfoRepository(SunInfoRepository dayInfoRepository) {
         this.dayInfoRepository = dayInfoRepository;
     }
 
@@ -159,6 +161,20 @@ public class ObjFactory {
      */
     public void setReceiver(Receiver receiver) {
         this.receiver = receiver;
+    }
+
+    /**
+     * @return the rabbitUtil
+     */
+    public RabbitUtil getRabbitUtil() {
+        return rabbitUtil;
+    }
+
+    /**
+     * @param rabbitUtil the rabbitUtil to set
+     */
+    public void setRabbitUtil(RabbitUtil rabbitUtil) {
+        this.rabbitUtil = rabbitUtil;
     }
 
 }

@@ -8,17 +8,18 @@ import java.util.Date;
  * @author Naveed Kamran
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DayInfo {
+public class SunInfo {
 
     private Double longitude;
     private Double latitude;
     private Date sunrise;
     private Date sunset;
+    private String info;
 
-    public DayInfo() {
+    public SunInfo() {
     }
 
-    public DayInfo(Double longitude, Double latitude, Date sunrise, Date sunset) {
+    public SunInfo(Double longitude, Double latitude, Date sunrise, Date sunset) {
         this.longitude = longitude;
         this.latitude = latitude;
         this.sunrise = sunrise;
@@ -27,7 +28,21 @@ public class DayInfo {
 
     @Override
     public String toString() {
-        return "DayInfo{" + "longitude=" + longitude + ", latitude=" + latitude + ", sunrise=" + sunrise + ", sunset=" + sunset + '}';
+        return "DayInfo{" + "longitude=" + getLongitude() + ", latitude=" + getLatitude() + ", sunrise=" + getSunrise() + ", sunset=" + getSunset() + '}';
+    }
+
+    /**
+     * @return the longitude
+     */
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     /**
@@ -42,20 +57,6 @@ public class DayInfo {
      */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
-    }
-
-    /**
-     * @return the longitude
-     */
-    public Double getDoubleitude() {
-        return longitude;
-    }
-
-    /**
-     * @param longitude the longitude to set
-     */
-    public void setDoubleitude(Double longitude) {
-        this.longitude = longitude;
     }
 
     /**
@@ -84,6 +85,20 @@ public class DayInfo {
      */
     public void setSunset(Date sunset) {
         this.sunset = sunset;
+    }
+
+    /**
+     * @return the info
+     */
+    public String getInfo() {
+        return info;
+    }
+
+    /**
+     * @param info the info to set
+     */
+    public void setInfo(String info) {
+        this.info = info;
     }
 
 }

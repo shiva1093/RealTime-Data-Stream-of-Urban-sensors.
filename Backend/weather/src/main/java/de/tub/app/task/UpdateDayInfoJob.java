@@ -1,8 +1,7 @@
 package de.tub.app.task;
 
 import de.tub.app.apputil.ObjFactory;
-import de.tub.app.domain.sun.DayInfo;
-import de.tub.app.domain.weather.SunInfo;
+import de.tub.app.domain.sun.SunInfo;
 import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
 import com.datenc.commons.date.DateUtil;
@@ -31,7 +30,7 @@ public class UpdateDayInfoJob implements Runnable, ApplicationContextAware {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " UpdateWeatherJob executing .....");
         try {
             for (SunInfo sunInfo : objFactory.getDayInfoRepository().findAll()) {
-                DayInfo sunRiseSet = objFactory.getSunInfoUtil().getDayInfo(sunInfo.getLongitude(), sunInfo.getLatitude());
+                SunInfo sunRiseSet = objFactory.getSunInfoUtil().getSunInfo(sunInfo.getLongitude(), sunInfo.getLatitude());
 
             }
             WeatherDetails weatherDetails

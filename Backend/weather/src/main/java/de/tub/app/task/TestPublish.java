@@ -4,9 +4,10 @@ import de.tub.app.apputil.ObjFactory;
 import com.datenc.commons.date.DateUtil;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import de.tub.app.Constants;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.concurrent.TimeoutException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -25,32 +26,55 @@ public class TestPublish implements Runnable, ApplicationContextAware {
     @Autowired
     private ObjFactory objFactory;
 
-    @Scheduled(cron = "0 0/20 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     @Override
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " TestPublish executing .....");
         try {
-
-            ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost("localhost");
-            Connection connection = factory.newConnection();
-            Channel channel = connection.createChannel();
-
-            String message = "{\n"
-                    + "\"bindingID\":\"ce081440-82a9-11e8-9b5b-3bfd459ee839\",\n"
-                    + "\"Settings\":\"\",\n"
-                    + "\"condition\":[{\"lon\":139,\"lat\":35,\"value\":\"main.temp < 20\"}],\n"
-                    + "\"command\":\"CREATE\",\n"
-                    + "\"status\":true\n"
-                    + "}";
-
-            channel.basicPublish("", Constants.QUEUE_NAME_WEATHER, null, message.getBytes());
-            System.out.println(" [x] Sent '" + message + "'");
+            testDayInfo();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
+        try {
+            testPushWeather();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         System.out.println("UpdateWeatherJob execution completed");
+    }
+
+    private void testDayInfo() throws IOException, TimeoutException {
+        Connection connection = objFactory.getRabbitUtil().getConnection();
+        Channel channel = connection.createChannel();
+
+        String message = "{\n"
+                + "\"bindingID\":\"ce081440-82a9-11e8-9b5b-3bfd459ee839\",\n"
+                + "\"Settings\":\"\",\n"
+                + "\"condition\":[{\"lon\":139,\"lat\":35,\"value\":\"isday\"}],\n"
+                + "\"command\":\"CREATE\",\n"
+                + "\"status\":\"\"\n"
+                + "}";
+
+        channel.basicPublish("", Constants.QUEUE_NAME_DAY_INFO, null, message.getBytes());
+//        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Constants.QUEUE_NAME_DAY_INFO, message);
+        System.out.println(" [x] Sent '" + message + "'");
+    }
+
+    private void testPushWeather() throws IOException, TimeoutException {
+        Connection connection = objFactory.getRabbitUtil().getConnection();
+        Channel channel = connection.createChannel();
+
+        String message = "{\n"
+                + "\"bindingID\":\"ce081440-82a9-11e8-9b5b-3bfd459ee955\",\n"
+                + "\"Settings\":\"\",\n"
+                + "\"condition\":[{\"lon\":139,\"lat\":35,\"value\":\"main.temp < 20\"}],\n"
+                + "\"command\":\"CREATE\",\n"
+                + "\"status\":\"\"\n"
+                + "}";
+
+        channel.basicPublish("", Constants.QUEUE_NAME_WEATHER, null, message.getBytes());
+//        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Constants.QUEUE_NAME_WEATHER, message);
+        System.out.println(" [x] Sent '" + message + "'");
     }
 
     @Override

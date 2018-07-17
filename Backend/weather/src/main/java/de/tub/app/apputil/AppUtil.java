@@ -2,7 +2,7 @@ package de.tub.app.apputil;
 
 import ca.rmen.sunrisesunset.SunriseSunset;
 import de.tub.app.Config;
-import de.tub.app.domain.sun.DayInfo;
+import de.tub.app.domain.sun.SunInfo;
 import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
 import java.util.Calendar;

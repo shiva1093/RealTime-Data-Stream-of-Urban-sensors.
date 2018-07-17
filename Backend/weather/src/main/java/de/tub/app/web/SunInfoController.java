@@ -2,7 +2,7 @@ package de.tub.app.web;
 
 import ca.rmen.sunrisesunset.SunriseSunset;
 import de.tub.app.apputil.ObjFactory;
-import de.tub.app.domain.sun.DayInfo;
+import de.tub.app.domain.sun.SunInfo;
 import com.google.gson.Gson;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,7 +30,7 @@ public class SunInfoController {
         System.out.println("Sunrise at: " + sunriseSunset[0].getTime());
         System.out.println("Sunset at: " + sunriseSunset[1].getTime());
 
-        return new ResponseEntity(new Gson().toJson(new DayInfo(lat, lon, sunriseSunset[0].getTime(), sunriseSunset[1].getTime())), HttpStatus.OK);
+        return new ResponseEntity(new Gson().toJson(new SunInfo(lat, lon, sunriseSunset[0].getTime(), sunriseSunset[1].getTime())), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/sunrise_sunset/{lon}/{lat}/condition/{conditions}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -43,27 +43,8 @@ public class SunInfoController {
         if (sunriseSunset == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        Date sunrise = sunriseSunset[0].getTime();
-        Date sunset = sunriseSunset[1].getTime();
 
-        Date now = Calendar.getInstance().getTime();
-
-        boolean result = false;
-
-        if (conditions.equals("isday")) {
-            result = isDay(sunrise, sunset, now);
-        } else {
-            result = !isDay(sunrise, sunset, now);
-        }
-
-        return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity(objFactory.getConditionUtil().checkCondtion(conditions, lon, lat), HttpStatus.OK);
     }
 
-    private boolean isDay(Date sunrise, Date sunset, Date now) {
-        if (now.before(sunset) && now.after(sunrise)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

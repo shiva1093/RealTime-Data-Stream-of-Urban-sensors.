@@ -2,14 +2,11 @@ package de.tub.app;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import de.tub.app.apputil.JsonUtil;
 import de.tub.app.apputil.ObjFactory;
 import de.tub.app.domain.Condition;
 import de.tub.app.domain.RabbitMessage;
-import de.tub.app.domain.sun.DayInfo;
+import de.tub.app.domain.sun.SunInfo;
 import de.tub.app.domain.weather.GeoLocation;
 import de.tub.app.domain.weather.WeatherDetails;
 import java.io.IOException;
@@ -19,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +32,16 @@ public class CustomMessageListener {
     private ObjFactory objFactory;
 
     int count_received = 0;
+
+    @RabbitListener
+    public void receiveMessageAll(byte[] message) {
+        System.out.println("Hello");
+    }
+
+    @RabbitListener(queues = Constants.QUEUE_GENERIC_NAME)
+    public void receiveMessage(byte[] message) {
+        System.out.println("CustomMessageListener > receiveMessage");
+    }
 
     @RabbitListener(queues = Constants.QUEUE_NAME_WEATHER)
     public void receiveMessageForWeather(byte[] message) {
@@ -61,6 +69,7 @@ public class CustomMessageListener {
                     rabbitMessage.setCondition(null);
                 }
 
+                rabbitMessage.setCategory("weather");
                 this.save(rabbitMessage);
 
                 this.pushBack(Constants.QUEUE_NAME_WEATHER, msg);
@@ -97,7 +106,7 @@ public class CustomMessageListener {
                     Condition condition = rabbitMessage.getConditionAsCondition();
                     GeoLocation location = new GeoLocation(condition.getLon(), condition.getLat());
 
-                    DayInfo dayInfo = objFactory.getSunInfoUtil().getDayInfo(location);
+                    SunInfo dayInfo = objFactory.getSunInfoUtil().getSunInfo(location);
 
                     Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(
                             null, new Gson().toJson(dayInfo));
@@ -106,6 +115,7 @@ public class CustomMessageListener {
                     rabbitMessage.setCondition(null);
                 }
 
+                rabbitMessage.setCategory("sun_info");
                 this.save(rabbitMessage);
 
                 this.pushBack(Constants.QUEUE_NAME_DAY_INFO, msg);
@@ -144,17 +154,22 @@ public class CustomMessageListener {
         System.out.println("CustomMessageListener > Message saved in mongo");
     }
 
+    private void pushBackOld(String queueName, String message) throws IOException, TimeoutException {
+//        ConnectionFactory factory = new ConnectionFactory();
+//        factory.setHost(Constants.RABBIT_HOST);
+//        if (Constants.RABBIT_port != -1) {
+//            factory.setPort(Constants.RABBIT_port);
+//        }
+//
+//        Connection connection = factory.newConnection();
+//        Channel channel = connection.createChannel();
+//
+//        channel.basicPublish("", queueName, null, message.getBytes());
+//        System.out.println(" [x] Sent '" + message + "'");
+    }
+
     private void pushBack(String queueName, String message) throws IOException, TimeoutException {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(Constants.RABBIT_HOST);
-        if (Constants.RABBIT_port != -1) {
-            factory.setPort(Constants.RABBIT_port);
-        }
-
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
-
-        channel.basicPublish("", queueName, null, message.getBytes());
+        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, queueName, message);
         System.out.println(" [x] Sent '" + message + "'");
     }
 }

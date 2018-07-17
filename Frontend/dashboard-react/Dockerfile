@@ -8,7 +8,7 @@ WORKDIR /var/www/admindash
 
 # install packets
 ADD package.json /var/www/admindash/
-RUN npm install
+RUN npm install -s --save
 
 # add source file into docker
 ADD public/ /var/www/admindash/public/

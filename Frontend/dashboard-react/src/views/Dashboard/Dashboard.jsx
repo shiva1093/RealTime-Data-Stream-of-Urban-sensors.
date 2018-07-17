@@ -6,12 +6,6 @@ import {
   DirectionsCar,
   FilterDrama,
   WbSunny,
-  DateRange,
-  LocalOffer,
-  Update,
-  ArrowUpward,
-  AccessTime,
-  Accessibility
 } from "@material-ui/icons";
 import { withStyles, Grid } from "material-ui";
 import TransportTable from "./Transport/transportTable";
@@ -23,7 +17,6 @@ import VehicleTable from "./VehicleSharing/vehicleTable";
 import {
   StatsCard,
   RegularCard,
-  Table,
   ItemGrid
 } from "../../components/baseItems";
 
@@ -37,16 +30,9 @@ class Dashboard extends React.Component {
     vehicleRules:0,
     daynightRules:0
   };
-  handleChange = (event, value) => {
-    this.setState({ value });
-  };
-
-  handleChangeIndex = index => {
-    this.setState({ value: index });
-  };
 
   transportRules = (props) =>{
-      let count = props.length
+      let count = props
       this.setState({
           transportRules:count
       })

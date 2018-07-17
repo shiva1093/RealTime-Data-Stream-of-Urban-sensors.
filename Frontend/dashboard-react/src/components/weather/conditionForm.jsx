@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { withStyles} from "material-ui";
+import TextField from 'material-ui/TextField';
 import {Select, MenuItem, Input, InputLabel, FormControl} from 'material-ui';
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
 import AddAlert from "@material-ui/icons/AddAlert";
+import {connect} from '../../utils/webstomp.js';
 
 import {
   Button
@@ -32,6 +34,7 @@ class ConditionForm extends React.Component {
             catagory:catagory[0],
             cata: catavalue[catagory[0]],
             value: catavalue[catagory[0]][0],
+            inputValue: 'CustomerInput',
             condition: condition[0],
             postion: {
               lat: '52.52',
@@ -47,12 +50,16 @@ class ConditionForm extends React.Component {
         this.sendMsg = this.sendMsg.bind(this);
     }
 
+    componentDidMount(){
+      connect();
+    }
+
     sendMsg(e) {
         e.preventDefault();
         console.log('sending message!!!');
 
-        var conditionCata, conditionValue;
-        const topic = 'contextfencing.sensor.weather';
+        var conditionCata, conditionValue, value;
+        const topic = '/topic/contextfencing.sensor.weather';
         if(conditions.isCondition.includes(this.state.catagory)) {
           conditionValue = conditions.catavalue[this.state.catagory]
         }
@@ -64,6 +71,11 @@ class ConditionForm extends React.Component {
         } else {
           conditionCata = "main." + (this.state.catagory).toLowerCase() 
         }
+        if(this.state.value === 'CustomerInput') {
+          value = this.state.inputValue
+        } else {
+          value = this.state.value
+        }
         
         var uid = uuidv1();
         var msg = {
@@ -72,7 +84,7 @@ class ConditionForm extends React.Component {
           condition: [{
             lon: this.state.position.lon,
             lat: this.state.position.lat,
-            value: conditionValue ? conditionValue : (conditionCata + " " + this.state.condition + " " + this.state.value )
+            value: conditionValue ? conditionValue : (conditionCata + " " + this.state.condition + " " + value )
           }],
           command: 'CREATE'
         }
@@ -111,6 +123,12 @@ class ConditionForm extends React.Component {
         [event.target.name]: event.target.value
       });
     }
+
+    handleInput = inputValue => (event) => {
+      this.setState({
+        [inputValue]: event.target.value
+      });
+    } 
 
     markermaps = (googleMap) => {
       var pos = JSON.stringify(googleMap.getPosition());
@@ -185,6 +203,19 @@ class ConditionForm extends React.Component {
           }
           </Select>
         </FormControl>
+        {this.state.value === "CustomerInput" ?
+        <FormControl className={classes.formControl}>
+          <TextField
+            id="inputValue"
+            label="inputValue"
+            type="text"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            placeholder="CustomerInput"
+            onChange={this.handleInput('inputValue')}
+          />
+        </FormControl> : null }
         <FormControl style={mapsControlStyles} >
             <Maps markermaps={this.markermaps} mapOptions='marker'/>
         </FormControl>

@@ -48,13 +48,6 @@ function StatsCard({ ...props }) {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <div className={classes.cardStats}>
-          <props.statIcon
-            className={
-              classes.cardStatsIcon +
-              " " +
-              classes[statIconColor + "CardStatsIcon"]
-            }
-          />{" "}
           {statLink !== undefined ? (
             <a href={statLink.href} className={classes.cardStatsLink}>
               {statLink.text}
@@ -80,7 +73,6 @@ StatsCard.propTypes = {
   title: PropTypes.node,
   description: PropTypes.node,
   small: PropTypes.node,
-  statIcon: PropTypes.func.isRequired,
   statIconColor: PropTypes.oneOf([
     "warning",
     "primary",

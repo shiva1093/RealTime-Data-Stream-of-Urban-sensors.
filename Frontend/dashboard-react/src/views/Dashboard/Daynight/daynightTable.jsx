@@ -15,35 +15,21 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import { weatherHeader } from "./weatherHeader"
+import { daynightHeader } from "./daynightHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
-import {connect, sendmsg} from '../../../utils/webstomp.js';
-
-import { testData } from './testdata.js';
-
-let counter = 0;
-
+import { testData } from '../weather/testdata.js';
 
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
         : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1);
-}
-
-function parseData() {
-    console.log("parse data from test data ............")
-    console.log("lalalalallallll" + JSON.stringify(testData.content[1].conditionAsCondition.conditionType));
-    console.log("lalalalallallll" + JSON.stringify(testData.content[1].condition));
-    console.log("lalalalallallll" + JSON.stringify(testData.content.length));
-    console.log("lalalalallallll" + JSON.stringify(testData.totalElements));
 }
 
 
@@ -54,45 +40,44 @@ class EnhancedTableHead extends React.Component {
 
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
-        const columnData = weatherHeader;
-        parseData()
+        const columnData = daynightHeader;
 
         return (
             <TableHead>
-            <TableRow>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                    />
-                </TableCell>
-                {columnData.map(column => {
-                    return (
-                        <TableCell
-                            key={column.id}
-                            numeric={column.numeric}
-                            padding={column.disablePadding ? 'none' : 'default'}
-                            sortDirection={orderBy === column.id ? order : false}
-                        >
-                            <Tooltip
-                                title="Sort"
-                                placement={column.numeric ? 'bottom-end' : 'bottom-start'}
-                                enterDelay={300}
+                <TableRow>
+                    <TableCell padding="checkbox">
+                        <Checkbox
+                            indeterminate={numSelected > 0 && numSelected < rowCount}
+                            checked={numSelected === rowCount}
+                            onChange={onSelectAllClick}
+                        />
+                    </TableCell>
+                    {columnData.map(column => {
+                        return (
+                            <TableCell
+                                key={column.id}
+                                numeric={column.numeric}
+                                padding={column.disablePadding ? 'none' : 'default'}
+                                sortDirection={orderBy === column.id ? order : false}
                             >
-                                <TableSortLabel
-                                    active={orderBy === column.id}
-                                    direction={order}
-                                    onClick={this.createSortHandler(column.id)}
+                                <Tooltip
+                                    title="Sort"
+                                    placement={column.numeric ? 'bottom-end' : 'bottom-start'}
+                                    enterDelay={300}
                                 >
-                                    {column.label}
-                                </TableSortLabel>
-                            </Tooltip>
-                        </TableCell>
-                    );
-                }, this)}
-            </TableRow>
-        </TableHead> 
+                                    <TableSortLabel
+                                        active={orderBy === column.id}
+                                        direction={order}
+                                        onClick={this.createSortHandler(column.id)}
+                                    >
+                                        {column.label}
+                                    </TableSortLabel>
+                                </Tooltip>
+                            </TableCell>
+                        );
+                    }, this)}
+                </TableRow>
+            </TableHead>
         );
     }
 }
@@ -132,12 +117,8 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-    const { numSelected, DeleteFunction, classes } = props;
-    var select= [];
-    Object.keys(numSelected).map(function(i) {
-        select.push(numSelected[i]);
-    })
-    console.log("what is selected::::" + typeof(select) + "......"+ select.length);
+    const { numSelected, classes } = props;
+
     return (
         <Toolbar
             className={classNames(classes.root, {
@@ -145,23 +126,22 @@ let EnhancedTableToolbar = props => {
             })}
         >
             <div className={classes.title}>
-                {select.length > 0 ? (
+                {numSelected > 0 ? (
                     <Typography color="inherit" variant="subheading">
-                        {select.length} selected
+                        {numSelected} selected
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
-                        Weather Conditions Dashboard
+                        Day Night Conditions Dashboard
                     </Typography>
                 )}
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
-                {select.length > 0 ? (
+                {numSelected > 0 ? (
                     <Tooltip title="Delete">
                         <IconButton aria-label="Delete">
-                            <DeleteIcon  onClick={() => DeleteFunction(select)}
-                            />
+                            <DeleteIcon />
                         </IconButton>
                     </Tooltip>
                 ) : (
@@ -197,7 +177,9 @@ const styles = theme => ({
     progress: {
         alignContent: 'center',
     },
-
+    busVal: {
+        width  : 100,
+    },
 });
 const refreshIcon = {
     width: 40,
@@ -206,16 +188,16 @@ const refreshIcon = {
     positionAbsolute: true
 
 }
-
-class TransportTable extends React.Component {
+class DaynightTable extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             order: 'asc',
-            orderBy: 'calories',
+            orderBy: 'type',
             isLoading: false,
             selected: [],
+            catagory: [],
             data: [
 
             ],
@@ -224,54 +206,25 @@ class TransportTable extends React.Component {
         };
     }
 
-    componentDidMount(){
-        connect();
-      }
-
     componentDidMount() {
         var results = testData.content
 
         this.setState({data: results, isLoading:true});
-        this.props.weatherRules(results);
-        
+        this.props.daynightRules(results);
         //this.ApiHandler()
     }
 
     ApiHandler(){
-        var results = testData.content
-
-        this.setState({data: results, isLoading:true});
-        this.props.weatherRules(results);
-
-        /*
-        GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
-            
-            var results = res.data
-            
-           var results = testData
-
-           this.setState({data: results, isLoading:true});
-           this.props.weatherRules(results);
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportsharingapi`).then((res) => {
+            var results = res.data;
+            console.log(results)
+            this.setState({data: results, isLoading:true});
+            this.props.daynightRules(results);
         })
-        */
     }
     RefreshFunction = () => {
         this.setState({isLoading:false});
         this.ApiHandler();
-    }
-    DeleteFunction = (select) => {
-        const topic = '/topic/contextfencing.sensor.weather';
-        var len = select.length;
-        var msg;
-        for (var i = 0; i< len; i++){
-            msg = {
-                bindingID: select[i],
-                command: 'REMOVE'
-            }
-            sendmsg(msg, topic);
-            console.log("in delete function ::::::" + JSON.stringify(msg));
-        }
-
     }
 
     handleRequestSort = (event, property) => {
@@ -281,12 +234,13 @@ class TransportTable extends React.Component {
         if (this.state.orderBy === property && this.state.order === 'desc') {
             order = 'asc';
         }
+
         this.setState({ order, orderBy });
     };
 
     handleSelectAllClick = (event, checked) => {
         if (checked) {
-            this.setState({ selected: this.state.data.map(n => n.bindingID) });
+            this.setState({ selected: this.state.data.map(n => n.conditionId) });
             return;
         }
         this.setState({ selected: [] });
@@ -315,27 +269,27 @@ class TransportTable extends React.Component {
 
     handleChangePage = (event, page) => {
         this.setState({ page });
+        this.RefreshApiHandler();
     };
 
     handleChangeRowsPerPage = event => {
         this.setState({ rowsPerPage: event.target.value });
     };
 
-    isSelected = id => this.state.selected.indexOf(id) !== -1;
-
     RefreshApiHandler(){
         var results = testData.content;
         console.log(results)
         this.setState({data: results});
         /*
-        GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
-            //var results = res.data;
-            var results = testData;
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+            var results = res.data;
             console.log(results)
             this.setState({data: results});
         })
         */
     }
+
+    isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     checkStatus = (props) => {
         if(props === true)
@@ -348,13 +302,11 @@ class TransportTable extends React.Component {
         const { data, order, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
-        parseData()
-
         return (
 
             this.state.isLoading ?
             <Paper className={classes.root}>
-                <EnhancedTableToolbar  DeleteFunction={this.DeleteFunction} numSelected={selected} />
+                <EnhancedTableToolbar numSelected={selected.length} />
                 <div style={refreshIcon}
                      onClick={this.RefreshFunction}>
                     <Tooltip title="Refresh">
@@ -372,15 +324,12 @@ class TransportTable extends React.Component {
                             onRequestSort={this.handleRequestSort}
                             rowCount={data.length}
                         />
-                        <TableBody>
+                      {  <TableBody>
                             {data
                                 .sort(getSorting(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     const isSelected = this.isSelected(n.bindingID);
-                                    console.log("what is n here : " + JSON.stringify(n));
-                                    console.log("what is n content here : " + JSON.stringify(n.condition[0]));
-
                                     return (
                                         <TableRow
                                             hover
@@ -395,7 +344,7 @@ class TransportTable extends React.Component {
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.conditionAsCondition.conditionType}
+                                            {n.conditionAsCondition.conditionType}
                                             </TableCell>
                                             <TableCell numeric>{JSON.stringify(n.condition[0].value)}</TableCell>
                                             <TableCell numeric>
@@ -409,12 +358,12 @@ class TransportTable extends React.Component {
                                     <TableCell colSpan={6} />
                                 </TableRow>
                             )}
-                        </TableBody>
+                        </TableBody>}
                     </Table>
                 </div>
                 <TablePagination
                     component="div"
-                    count={data.length}
+                    count= {data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
@@ -431,8 +380,8 @@ class TransportTable extends React.Component {
     }
 }
 
-TransportTable.propTypes = {
+DaynightTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TransportTable);
+export default withStyles(styles)(DaynightTable);

@@ -23,7 +23,6 @@ import { busHeader } from "./transportHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
-import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -199,6 +198,7 @@ class TransportTable extends React.Component {
             data: [
 
             ],
+            totalConditions: "",
             page: 0,
             rowsPerPage: 5,
         };
@@ -209,10 +209,11 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transport`).then((res) => {
-            var results = res.data
-            this.setState({data: results, isLoading:true});
-            this.props.transportRules(results);
+        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+            var results = res.data.ruleListFactory;
+            var totalRules = res.data.rulesAmount;
+            this.setState({data: results, isLoading:true,totalConditions:totalRules});
+            this.props.transportRules(totalRules);
         })
     }
     RefreshFunction = () => {
@@ -278,7 +279,7 @@ class TransportTable extends React.Component {
     }
     render() {
         const { classes } = this.props;
-        const { data, order, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
+        const { data, order,totalConditions, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
         return (
@@ -309,12 +310,15 @@ class TransportTable extends React.Component {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     const isSelected = this.isSelected(n.bindingID);
-                                    const transportLine = n.condition[0].transport.map(v => {
-                                            return <li>{v.transportLine}</li>;
+                                    const transportLine = n.transport.map((v,i) => {
+
+                                            return <li key={i}>{v.transportLine}</li>;
                                     });
-                                    const transportDirection = n.condition[0].transport.map(v => {
+                                    const transportDirection = n.transport.map((v,j) => {
                                         if(v.direction)
-                                            return <li>{v.direction}</li>;
+                                            return <li key={j}>{v.direction}</li>;
+                                            else
+                                                return "--";
                                     });
                                     return (
                                         <TableRow
@@ -330,14 +334,14 @@ class TransportTable extends React.Component {
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.condition[0].transportType}
+                                                {n.transportType}
                                             </TableCell>
                                             <TableCell className={classes.busVal} numeric colSpan={1}>
                                                 <ul className="list--tags">  {transportLine}</ul>
                                             </TableCell>
                                             <TableCell numeric>{transportDirection}</TableCell>
-                                            <TableCell numeric>{n.condition[0].transportAmountLowerBound}</TableCell>
-                                            <TableCell numeric>{n.condition[0].transportAmountUpperBound}</TableCell>
+                                            <TableCell numeric>{n.transportAmountLowerBound}</TableCell>
+                                            <TableCell numeric>{n.transportAmountUpperBound}</TableCell>
                                             <TableCell numeric>
                                                 {this.checkStatus(n.status)}
                                             </TableCell>
@@ -354,7 +358,7 @@ class TransportTable extends React.Component {
                 </div>
                 <TablePagination
                     component="div"
-                    count={data.length}
+                    count={totalConditions}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{
@@ -375,4 +379,4 @@ TransportTable.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TransportTable);
+export default withStyles(styles)(TransportTable)

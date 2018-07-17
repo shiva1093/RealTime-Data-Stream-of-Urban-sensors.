@@ -354,7 +354,7 @@ class VehicleTable extends React.Component {
                 </div>
                 <TablePagination
                     component="div"
-                    count={data.length}
+                    count="50"
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{

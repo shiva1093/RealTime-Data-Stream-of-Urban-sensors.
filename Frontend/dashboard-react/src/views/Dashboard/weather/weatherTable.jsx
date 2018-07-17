@@ -25,6 +25,7 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
+import {connect, sendmsg} from '../../../utils/webstomp.js';
 
 import { testData } from './testdata.js';
 
@@ -131,8 +132,12 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-    const { numSelected, classes } = props;
-
+    const { numSelected, DeleteFunction, classes } = props;
+    var select= [];
+    Object.keys(numSelected).map(function(i) {
+        select.push(numSelected[i]);
+    })
+    console.log("what is selected::::" + typeof(select) + "......"+ select.length);
     return (
         <Toolbar
             className={classNames(classes.root, {
@@ -140,9 +145,9 @@ let EnhancedTableToolbar = props => {
             })}
         >
             <div className={classes.title}>
-                {numSelected > 0 ? (
+                {select.length > 0 ? (
                     <Typography color="inherit" variant="subheading">
-                        {numSelected} selected
+                        {select.length} selected
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
@@ -152,10 +157,11 @@ let EnhancedTableToolbar = props => {
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
-                {numSelected > 0 ? (
+                {select.length > 0 ? (
                     <Tooltip title="Delete">
                         <IconButton aria-label="Delete">
-                            <DeleteIcon />
+                            <DeleteIcon  onClick={() => DeleteFunction(select)}
+                            />
                         </IconButton>
                     </Tooltip>
                 ) : (
@@ -200,12 +206,6 @@ const refreshIcon = {
     positionAbsolute: true
 
 }
-const deleteIcon = {
-    width: 80,
-    top: 19,
-    left: 34,
-    positionAbsolute: true
-}
 
 class TransportTable extends React.Component {
     constructor(props) {
@@ -224,6 +224,10 @@ class TransportTable extends React.Component {
         };
     }
 
+    componentDidMount(){
+        connect();
+      }
+
     componentDidMount() {
         var results = testData.content
 
@@ -234,19 +238,40 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
+        var results = testData.content
+
+        this.setState({data: results, isLoading:true});
+        this.props.weatherRules(results);
+
+        /*
         GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
-            /*
+            
             var results = res.data
-            */
+            
            var results = testData
 
            this.setState({data: results, isLoading:true});
            this.props.weatherRules(results);
         })
+        */
     }
     RefreshFunction = () => {
         this.setState({isLoading:false});
         this.ApiHandler();
+    }
+    DeleteFunction = (select) => {
+        const topic = '/topic/contextfencing.sensor.weather';
+        var len = select.length;
+        var msg;
+        for (var i = 0; i< len; i++){
+            msg = {
+                bindingID: select[i],
+                command: 'REMOVE'
+            }
+            sendmsg(msg, topic);
+            console.log("in delete function ::::::" + JSON.stringify(msg));
+        }
+
     }
 
     handleRequestSort = (event, property) => {
@@ -256,13 +281,12 @@ class TransportTable extends React.Component {
         if (this.state.orderBy === property && this.state.order === 'desc') {
             order = 'asc';
         }
-
         this.setState({ order, orderBy });
     };
 
     handleSelectAllClick = (event, checked) => {
         if (checked) {
-            this.setState({ selected: this.state.data.map(n => n.id) });
+            this.setState({ selected: this.state.data.map(n => n.bindingID) });
             return;
         }
         this.setState({ selected: [] });
@@ -330,18 +354,12 @@ class TransportTable extends React.Component {
 
             this.state.isLoading ?
             <Paper className={classes.root}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar  DeleteFunction={this.DeleteFunction} numSelected={selected} />
                 <div style={refreshIcon}
                      onClick={this.RefreshFunction}>
                     <Tooltip title="Refresh">
                     <IconButton aria-label="Refresh">
                     <RefreshIcon/>
-                    </IconButton></Tooltip>
-                </div>
-                <div style={deleteIcon}>
-                    <Tooltip title="Delete">
-                    <IconButton aria-label="Delete">
-                    <DeleteIcon/>
                     </IconButton></Tooltip>
                 </div>
                 <div className={classes.tableWrapper}>

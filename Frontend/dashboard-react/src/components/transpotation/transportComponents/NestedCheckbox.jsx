@@ -7,7 +7,7 @@ const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
 class NestedCheckbox extends React.Component {
     state = {
-        value: ['0-0-0'],
+        value: [],
     };
     onChange = (value,label,extra) => {
         this.setState({ value });

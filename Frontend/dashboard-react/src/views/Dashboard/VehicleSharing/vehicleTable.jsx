@@ -337,8 +337,8 @@ class VehicleTable extends React.Component {
                                                 {n.vehicleType}
                                             </TableCell>
                                             <TableCell numeric>{n.provider}</TableCell>
-                                            <TableCell numeric>{n.lowerbound}</TableCell>
-                                            <TableCell numeric>{n.upperbound}</TableCell>
+                                            <TableCell numeric>{n.lowerBound}</TableCell>
+                                            <TableCell numeric>{n.upperBound}</TableCell>
                                             <TableCell numeric>
                                                 {this.checkStatus(n.status)}
                                             </TableCell>

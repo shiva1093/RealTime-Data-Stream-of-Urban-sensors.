@@ -45,7 +45,7 @@ class TransportSharing extends React.Component {
     }
     onSubmitValues = (formValues,transportName) => {
         var uid = uuidv1();
-        var topicName = '/topic/transportSharing';
+        var topicName = 'contextfencing.sensor.car-sharing';
 
         this.setState({ formValues:{
                 "bindingID": uid,

@@ -12,7 +12,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,7 +25,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
     @Autowired
     private ObjFactory objFactory;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+//    @Scheduled(cron = "0 0/1 * * * ?")
     @Override
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " TestPublish executing .....");
@@ -57,7 +56,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
 
         channel.basicPublish("", Constants.QUEUE_NAME_DAY_INFO, null, message.getBytes());
 //        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Constants.QUEUE_NAME_DAY_INFO, message);
-        System.out.println(" [x] Sent '" + message + "'");
+        System.out.println(" [x] Test Message Sent for DayInfo");
     }
 
     private void testPushWeather() throws IOException, TimeoutException {
@@ -74,7 +73,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
 
         channel.basicPublish("", Constants.QUEUE_NAME_WEATHER, null, message.getBytes());
 //        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Constants.QUEUE_NAME_WEATHER, message);
-        System.out.println(" [x] Sent '" + message + "'");
+        System.out.println(" [x] Test Message Sent for Weather");
     }
 
     @Override

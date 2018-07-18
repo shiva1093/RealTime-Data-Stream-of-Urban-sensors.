@@ -1,6 +1,7 @@
 package de.tub.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,8 +18,10 @@ public class RabbitMessage {
     };
 
     private String bindingID;
+    @JsonProperty("Settings")
     private String settings;
     private List condition;
+//    private String conditionStr;
     private Boolean status;
     private CommandType command;
     private String category;
@@ -153,4 +156,17 @@ public class RabbitMessage {
         this.dateCreated = dateCreated;
     }
 
+//    /**
+//     * @return the conditionStr
+//     */
+//    public String getConditionStr() {
+//        return conditionStr;
+//    }
+//
+//    /**
+//     * @param conditionStr the conditionStr to set
+//     */
+//    public void setConditionStr(String conditionStr) {
+//        this.conditionStr = conditionStr;
+//    }
 }

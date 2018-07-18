@@ -1,5 +1,6 @@
 package de.tub.app;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import de.tub.app.apputil.JsonUtil;
@@ -66,7 +67,7 @@ public class CustomMessageListener {
                             null, new Gson().toJson(weatherDetails));
 
                     rabbitMessage.setStatus(objFactory.getConditionUtil().checkCondition(conditionsMap, condition.getValue()));
-                    rabbitMessage.setCondition(null);
+//                    rabbitMessage.setCondition(null);
                 }
 
                 rabbitMessage.setCategory("weather");
@@ -108,11 +109,8 @@ public class CustomMessageListener {
 
                     SunInfo dayInfo = objFactory.getSunInfoUtil().getSunInfo(location);
 
-                    Map<String, Object> conditionsMap = JsonUtil.getInstance().getConditions(
-                            null, new Gson().toJson(dayInfo));
-
-                    rabbitMessage.setStatus(objFactory.getConditionUtil().checkCondition(conditionsMap, condition.getValue()));
-                    rabbitMessage.setCondition(null);
+                    rabbitMessage.setStatus(objFactory.getConditionUtil().checkCondition(dayInfo, condition.getValue()));
+//                    rabbitMessage.setCondition(null);
                 }
 
                 rabbitMessage.setCategory("sun_info");
@@ -147,7 +145,11 @@ public class CustomMessageListener {
 
     }
 
-    private void save(RabbitMessage rabbitMessage) {
+    private void save(RabbitMessage rabbitMessage) throws JsonProcessingException {
+//        ObjectMapper mapper = new ObjectMapper();
+//        String jsonArray = mapper.writeValueAsString(rabbitMessage.getCondition());
+//        rabbitMessage.setConditionStr(jsonArray);
+
         rabbitMessage.setDateCreated(Calendar.getInstance().getTime());
         objFactory.getRabbitMessageRepository().save(rabbitMessage);
 

@@ -273,9 +273,9 @@ class TransportTable extends React.Component {
 
     checkStatus = (props) => {
         if(props === true)
-            return <AddCircle color="primary"/>
+            return <AddCircle nativeColor="green"/>
         else
-            return <AddCircle color="secondary"/>
+            return <AddCircle nativeColor="red"/>
     }
     render() {
         const { classes } = this.props;

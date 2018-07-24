@@ -209,7 +209,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+        GenericAPIHandler(`http://localhost:8099/bvg/pageSize/10/pageNumber/1/sortCriteria/_id/sortType/asc`).then((res) => {
             var results = res.data.ruleListFactory;
             var totalRules = res.data.rulesAmount;
             this.setState({data: results, isLoading:true,totalConditions:totalRules});

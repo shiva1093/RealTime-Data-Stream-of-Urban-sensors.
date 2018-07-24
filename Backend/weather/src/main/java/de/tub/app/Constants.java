@@ -12,7 +12,6 @@ public class Constants {
     public static final String QUEUE_NAME_WEATHER = "contextfencing.sensor.weather";
     public static final String QUEUE_NAME_DAY_INFO = "contextfencing.sensor.daylight";
 
-    public static final String RABBIT_HOST = "localhost";
-    public static final int RABBIT_port = -1; //-1 incase of default port
-
+    public static final String CATEGORY_WEATHER = "weather";
+    public static final String CATEGORY_SUN_INFO = "day_info";
 }

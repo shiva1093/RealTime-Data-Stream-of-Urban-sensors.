@@ -1,7 +1,11 @@
 package de.tub.app.apputil;
 
+import ca.rmen.sunrisesunset.SunriseSunset;
 import com.google.gson.Gson;
+import de.tub.app.domain.sun.SunInfo;
 import de.tub.app.domain.weather.WeatherDetails;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,5 +120,28 @@ public class ConditionUtil {
         } catch (NumberFormatException numberFormatException) {
             return false;
         }
+    }
+
+    public boolean checkCondtion(String conditions, Double lon, Double lat) {
+        Calendar[] sunriseSunset = SunriseSunset.getSunriseSunset(Calendar.getInstance(), lat, lon);
+
+        Date sunrise = sunriseSunset[0].getTime();
+        Date sunset = sunriseSunset[1].getTime();
+
+        Date now = Calendar.getInstance().getTime();
+
+        boolean result = false;
+
+        if (conditions.equals("isday")) {
+            result = objFactory.getSunInfoUtil().isDay(sunrise, sunset, now);
+        } else {
+            result = !objFactory.getSunInfoUtil().isDay(sunrise, sunset, now);
+        }
+
+        return result;
+    }
+
+    public boolean checkCondition(SunInfo sunInfo, String condition) {
+        return checkCondtion(condition, sunInfo.getLongitude(), sunInfo.getLatitude());
     }
 }

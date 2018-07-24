@@ -1,5 +1,6 @@
 <html>
     <head>
+        <base href="http://localhost:9996">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -141,7 +142,9 @@
                 </td>
 
                 <td>
-                    <a target="_blank" href="/weather/52.5200/13.4050/condition/main.temp < 20">Weather in Berlin</a>
+                    <a target="_blank" href="/weather/52.5200/13.4050/condition/main.temp < 20">Evaluate Weather condition for Berlin</a>
+                    <br/>
+                    <a target="_blank" href="/weather/73.0479/33.6844/condition/main.temp < 20">Evaluate Weather condition for Islamabad</a>
                 </td>
             </tr>
 
@@ -187,7 +190,63 @@
                 </td>
 
                 <td>
-                    <a target="_blank" href="/sunrise_sunset/52.5200/13.4050/condition/isday">Sunrise and Sunset Condition</a>
+                    <a target="_blank" href="/sunrise_sunset/52.5200/13.4050/condition/isday">Is day in Berlin</a>
+                    <br/>
+                    <a target="_blank" href="/sunrise_sunset/73.0479/33.6844/condition/isday">Is day in Islamabad</a>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td>
+                    Condition list
+                </td>
+                <td>
+                    List of conditions in database
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /condition?pageSize={pageSize}&start={start}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition?pageSize=10&start=0">/condition?pageSize=10&start=0</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition?pageSize=10&start=0">List of 10 conditons on page 1</a>
+                    <br/>
+                    <a target="_blank" href="/condition?pageSize=10&start=2">List of 10 conditons on page 3</a>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    Condition list by category
+                </td>
+                <td>
+                    List of conditions by category
+                </td>
+                <td>
+                    GET
+                </td>
+                <td>
+                    /condition/search/{category}?pageSize={pageSize}&start={start}
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition/search/weather?pageSize=10&start=0">/condition/search/weather?pageSize=10&start=0</a>
+                </td>
+
+                <td>
+                    <a target="_blank" href="/condition/search/weather?pageSize=10&start=0">Weather Conditons</a>
+                    <br/>
+                    <a target="_blank" href="/condition/search/day_info?pageSize=10&start=2">Day Info Conditons</a>
                 </td>
             </tr>
 
@@ -214,7 +273,6 @@
                     <a target="_blank" href="/health">Health</a>
                 </td>
             </tr>
-
 
         </tbody>
     </table>

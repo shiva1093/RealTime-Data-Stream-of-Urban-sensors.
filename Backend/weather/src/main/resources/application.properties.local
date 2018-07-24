@@ -1,0 +1,19 @@
+server.port=9996
+# MONGODB (MongoProperties)
+#spring.data.mongodb.authentication-database= # Authentication database name.
+# Database name.
+spring.data.mongodb.database=cf-message-broker
+#spring.data.mongodb.field-naming-strategy= # Fully qualified name of the FieldNamingStrategy to use.
+#spring.data.mongodb.grid-fs-database= # GridFS database name.
+#spring.data.mongodb.host=localhost # Mongo server host. Cannot be set with URI.
+#spring.data.mongodb.password= # Login password of the mongo server. Cannot be set with URI.
+#spring.data.mongodb.port=27017 # Mongo server port. Cannot be set with URI.
+#spring.data.mongodb.repositories.type=auto # Type of Mongo repositories to enable.
+# Mongo database URI. Cannot be set with host, port and credentials.
+spring.data.mongodb.uri=mongodb://localhost/cf-message-broker
+#spring.data.mongodb.username= # Login user of the mongo server. Cannot be set with URI.
+
+spring.rabbitmq.host=localhost
+spring.rabbitmq.port=5672
+#spring.rabbitmq.username=
+#spring.rabbitmq.password=

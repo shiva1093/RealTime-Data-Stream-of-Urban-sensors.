@@ -50,6 +50,7 @@ class NestedCheckbox extends React.Component {
                         //console.log( nodes)
                       //  alert('elseif')
                         nodes.children.forEach((parentHasChild) => {
+                            var direction = parentHasChild.node.props.value; /* need to be refractored */
                             var parentHasChild = parentHasChild.node.props.parent;
                             var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
                             var flag = 1;
@@ -66,7 +67,7 @@ class NestedCheckbox extends React.Component {
                             }
                             if(flag == 1){
                                 valueToPush.transportLine = parentHasChild;
-                                valueToPush.direction = null;
+                                valueToPush.direction = direction; /* need to be refractored */
                                 busName.push(valueToPush);
                             }
                            // console.log(busName)

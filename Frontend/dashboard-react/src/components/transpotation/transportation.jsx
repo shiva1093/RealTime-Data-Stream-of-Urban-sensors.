@@ -49,7 +49,7 @@ class Transportation extends React.Component {
         const jsonValues = [transportName,formValues.busName,
             formValues.transportValue,formValues.numberOfTransport,formValues.radius,formValues.boundaryPoints]
         var uid = uuidv1();
-        var topicName = '/topic/contextfencing.sensor.public-transport';
+        var topicName = 'contextfencing.sensor.public-transport';
 
         this.setState({ formValues:{
                 "bindingID": uid,

@@ -4,7 +4,7 @@ import { withStyles} from "material-ui";
 import {Select, MenuItem, Input, InputLabel, FormControl} from 'material-ui';
 import Snackbar from "../../components/baseLayout/Snackbar/Snackbar.jsx";
 import AddAlert from "@material-ui/icons/AddAlert";
-import {connect} from '../../utils/webstomp.js';
+import {connect, sendmsg} from '../../utils/webstomp.js';
 
 import {
   Button
@@ -14,8 +14,9 @@ import Maps from "../../views/Maps/Maps.jsx";
 
 import daynightStyle from './style';
 
-import {sendmsg} from '../../utils/webstomp.js';
 import uuidv1 from 'uuid/v1';
+import {config} from "../../config/default.js"
+var topicName = config.topics.daylight;
 
 const mapsControlStyles = {
   width: 1040,
@@ -49,7 +50,6 @@ class ConditionForm extends React.Component {
         e.preventDefault();
         console.log('sending message!!!');
         var conditionValue;
-        const topic = '/topic/contextfencing.sensor.daylight';
 
         conditionValue = "is_" + this.state.catagory.toLowerCase();
         
@@ -65,7 +65,7 @@ class ConditionForm extends React.Component {
           command: 'CREATE'
         }
         console.log("send messge:::::" + JSON.stringify(msg));
-        sendmsg(msg, topic);
+        sendmsg(msg, topicName);
         this.setState({open: true})
     }
 

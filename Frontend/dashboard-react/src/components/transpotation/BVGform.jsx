@@ -148,7 +148,7 @@ class BVGform extends React.Component {
                         </FormControl>
 
                         <FormControl className={classes.formControl} style={mapsControlStyles}>
-                            <NestedCheckbox busDirection = {this.busDirection}/>
+                            <NestedCheckbox  transportName= {this.props.transportName} busDirection = {this.busDirection}/>
                         </FormControl>
 
                             <ExampleRadioUsage toggleRadioButton ={this.toggleRadioButton}/>

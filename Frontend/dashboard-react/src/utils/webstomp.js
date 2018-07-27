@@ -2,7 +2,7 @@
 
 var Stomp = require('stompjs');
 
-var ws = new WebSocket('ws://' + window.location.hostname + ':15674/ws');
+var ws = new WebSocket('ws://' + window.location.hostname + ':15675/ws');
 var client = Stomp.over(ws);
 
 var on_error =  function() {

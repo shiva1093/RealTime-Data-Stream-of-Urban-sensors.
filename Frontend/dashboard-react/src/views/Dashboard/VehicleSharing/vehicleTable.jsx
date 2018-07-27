@@ -24,6 +24,7 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
+import config from '../../../config/default.js'
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -209,7 +210,7 @@ class VehicleTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`http://localhost:8091/conditions`).then((res) => {
+        GenericAPIHandler(config.URL.vehiclesharing).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});
@@ -271,7 +272,7 @@ class VehicleTable extends React.Component {
     };
 
     RefreshApiHandler(){
-        GenericAPIHandler(`http://localhost:8091/conditions`).then((res) => {
+        GenericAPIHandler().then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});

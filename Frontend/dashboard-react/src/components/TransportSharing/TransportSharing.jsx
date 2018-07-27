@@ -9,6 +9,7 @@ import {
 } from "../../components/baseItems";
 import {connect, sendmsg} from '../../utils/webstomp.js';
 import uuidv1 from 'uuid/v1';
+import config from '../../config/default.js'
 
 import { withStyles } from "material-ui";
 function TabContainer(props) {
@@ -45,7 +46,7 @@ class TransportSharing extends React.Component {
     }
     onSubmitValues = (formValues,transportName) => {
         var uid = uuidv1();
-        var topicName = 'contextfencing.sensor.car-sharing';
+        var topicName = config.topics.vehiclesharing;
 
         this.setState({ formValues:{
                 "bindingID": uid,

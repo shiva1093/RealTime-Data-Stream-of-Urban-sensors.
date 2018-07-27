@@ -13,6 +13,8 @@ import {connect, sendmsg} from '../../utils/webstomp.js';
 import uuidv1 from 'uuid/v1';
 
 import { withStyles } from "material-ui";
+import config from '../../config/default.js'
+
 function TabContainer(props) {
     return (
         <Typography component="div" style={{ padding: 8 * 3 }}>
@@ -49,7 +51,7 @@ class Transportation extends React.Component {
         const jsonValues = [transportName,formValues.busName,
             formValues.transportValue,formValues.numberOfTransport,formValues.radius,formValues.boundaryPoints]
         var uid = uuidv1();
-        var topicName = 'contextfencing.sensor.public-transport';
+        var topicName = config.topics.transport;
 
         this.setState({ formValues:{
                 "bindingID": uid,

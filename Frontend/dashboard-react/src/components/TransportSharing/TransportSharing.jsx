@@ -9,7 +9,7 @@ import {
 } from "../../components/baseItems";
 import {connect, sendmsg} from '../../utils/webstomp.js';
 import uuidv1 from 'uuid/v1';
-import config from '../../config/default.js'
+import {config} from '../../config/default.js'
 
 import { withStyles } from "material-ui";
 function TabContainer(props) {

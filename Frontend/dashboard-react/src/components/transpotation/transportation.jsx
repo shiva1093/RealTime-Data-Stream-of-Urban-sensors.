@@ -13,7 +13,7 @@ import {connect, sendmsg} from '../../utils/webstomp.js';
 import uuidv1 from 'uuid/v1';
 
 import { withStyles } from "material-ui";
-import config from '../../config/default.js'
+import {config} from '../../config/default.js'
 
 function TabContainer(props) {
     return (

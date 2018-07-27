@@ -1,3 +1,4 @@
+import React from 'react';
 export const config = {
     "topics" : {
         "weather": "contextfencing.sensor.weather",

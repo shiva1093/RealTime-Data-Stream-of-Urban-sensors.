@@ -24,7 +24,7 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
-import config from '../../../config/default.js'
+import {config} from '../../../config/default.js'
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)

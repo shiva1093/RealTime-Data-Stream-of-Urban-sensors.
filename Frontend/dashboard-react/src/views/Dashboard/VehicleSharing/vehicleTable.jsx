@@ -272,7 +272,7 @@ class VehicleTable extends React.Component {
     };
 
     RefreshApiHandler(){
-        GenericAPIHandler().then((res) => {
+        GenericAPIHandler(config.URL.vehiclesharing).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});

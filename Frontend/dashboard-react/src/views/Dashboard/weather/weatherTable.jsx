@@ -15,7 +15,6 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import Grid from '@material-ui/core/Grid';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import RefreshIcon from '@material-ui/icons/Refresh';
@@ -24,26 +23,16 @@ import { weatherHeader } from "./weatherHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
-import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
 import {connect, sendmsg} from '../../../utils/webstomp.js';
+import {config} from '../../../config/default.js'
 
 import { testData } from './testdata.js';
-
-let counter = 0;
 
 
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
         : (a, b) => (a[orderBy] < b[orderBy] ? -1 : 1);
-}
-
-function parseData() {
-    console.log("parse data from test data ............")
-    console.log("lalalalallallll" + JSON.stringify(testData.content[1].conditionAsCondition.conditionType));
-    console.log("lalalalallallll" + JSON.stringify(testData.content[1].condition));
-    console.log("lalalalallallll" + JSON.stringify(testData.content.length));
-    console.log("lalalalallallll" + JSON.stringify(testData.totalElements));
 }
 
 
@@ -55,7 +44,6 @@ class EnhancedTableHead extends React.Component {
     render() {
         const { onSelectAllClick, order, orderBy, numSelected, rowCount } = this.props;
         const columnData = weatherHeader;
-        parseData()
 
         return (
             <TableHead>
@@ -229,6 +217,8 @@ class TransportTable extends React.Component {
       }
 
     componentDidMount() {
+
+        // currently here is using test data, it should be changed to call api 
         var results = testData.content
 
         this.setState({data: results, isLoading:true});
@@ -243,8 +233,9 @@ class TransportTable extends React.Component {
         this.setState({data: results, isLoading:true});
         this.props.weatherRules(results);
 
-        /*
-        GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
+        /* 
+        * change to using APIhandler after backend finishes API part
+        GenericAPIHandler(config.URL.weather).then((res) => {
             
             var results = res.data
             
@@ -260,7 +251,7 @@ class TransportTable extends React.Component {
         this.ApiHandler();
     }
     DeleteFunction = (select) => {
-        const topic = '/topic/contextfencing.sensor.weather';
+        const topic = config.topics.weather;
         var len = select.length;
         var msg;
         for (var i = 0; i< len; i++){
@@ -271,7 +262,6 @@ class TransportTable extends React.Component {
             sendmsg(msg, topic);
             console.log("in delete function ::::::" + JSON.stringify(msg));
         }
-
     }
 
     handleRequestSort = (event, property) => {
@@ -328,7 +318,7 @@ class TransportTable extends React.Component {
         console.log(results)
         this.setState({data: results});
         /*
-        GenericAPIHandler(`http://localhost:8080/condition?pageSize0`).then((res) => {
+        GenericAPIHandler(config.URL.weather).then((res) => {
             //var results = res.data;
             var results = testData;
             console.log(results)
@@ -339,16 +329,14 @@ class TransportTable extends React.Component {
 
     checkStatus = (props) => {
         if(props === true)
-            return <AddCircle color="primary"/>
+            return <AddCircle nativeColor="green"/>
         else
-            return <AddCircle color="secondary"/>
+            return <AddCircle nativeColor="red"/>
     }
     render() {
         const { classes } = this.props;
         const { data, order, orderBy, selected, rowsPerPage, page,isLoading } = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
-
-        parseData()
 
         return (
 

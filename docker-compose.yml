@@ -2,18 +2,18 @@ version: '2.1'
 
 services:
    # The Eureka service
-   discovery-service:
-     # Give the container a name. This name can be used by other containers to address the service residing within this container without using an explicit IP address
-     container_name: cf-discovery-service
-     # Location where the Dockerfile is stored
-     build: ./microservice-discovery-service
-     ports:
-     - 8761:8761
-     healthcheck:
-       test: ["CMD", "curl", "-f", "http://localhost:8761"]
-       interval: 5s
-       timeout: 3s
-       retries: 10
+#   discovery-service:
+#     # Give the container a name. This name can be used by other containers to address the service residing within this container without using an explicit IP address
+#     container_name: cf-discovery-service
+#     # Location where the Dockerfile is stored
+#     build: ./microservice-discovery-service
+#     ports:
+#     - 8761:8761
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:8761"]
+#       interval: 5s
+#       timeout: 3s
+#       retries: 10
    message-broker:
      # Give the container a name. This name can be used by other containers to address the service residing in this container without using an IP address
      container_name: cf-message-broker
@@ -31,17 +31,17 @@ services:
        interval: 30s
        timeout: 3s
        retries: 3
-   database:
-      container_name: cf-sensor-database
-      build: ./microservice-sensor-database/docker/development
-      # Does not need to open ports to outside world. Used for debugging only.
-      ports:
-        - 27045:27021
-      healthcheck:
-        test: echo 'db.apps.stats().ok' | mongo localhost:27045/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
-        interval: 5s
-        timeout: 3s
-        retries: 3
+#   database:
+#      container_name: cf-sensor-database
+#      build: ./microservice-sensor-database/docker/development
+#      # Does not need to open ports to outside world. Used for debugging only.
+#      ports:
+#        - 27045:27021
+#      healthcheck:
+#        test: echo 'db.apps.stats().ok' | mongo localhost:27045/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
+#        interval: 5s
+#        timeout: 3s
+#        retries: 3
 #   database2:
 #      container_name: cf-sensor-database2
 #      build: ./microservice-sensor-database/docker/development

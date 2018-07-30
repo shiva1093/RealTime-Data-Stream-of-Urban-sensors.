@@ -131,7 +131,7 @@ let EnhancedTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
-                        Public Transport Dashboard
+                        Transport Sharing Dashboard
                     </Typography>
                 )}
             </div>
@@ -272,7 +272,7 @@ class VehicleTable extends React.Component {
     };
 
     RefreshApiHandler(){
-        GenericAPIHandler(config.URL.vehiclesharing).then((res) => {
+        GenericAPIHandler('https://my-json-server.typicode.com/shiva1093/APICall/transportsharingapi').then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});

@@ -17,9 +17,10 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,10 +28,13 @@ import org.springframework.stereotype.Service;
  * @author naveed
  */
 @Service
+@PropertySource("classpath:application.properties")
 public class CustomMessageListener {
 
     @Autowired
     private ObjFactory objFactory;
+    @Autowired
+    private Environment env;
 
     int count_received = 0;
 
@@ -44,7 +48,7 @@ public class CustomMessageListener {
         System.out.println("CustomMessageListener > receiveMessage");
     }
 
-    @RabbitListener(queues = Constants.QUEUE_NAME_WEATHER)
+    @RabbitListener(queues = "${rabbitmq.queue_name.weather}")
     public void receiveMessageForWeather(byte[] message) {
         count_received++;
         String msg = new String(message, Charset.forName("UTF-8"));
@@ -73,7 +77,7 @@ public class CustomMessageListener {
                 rabbitMessage.setCategory("weather");
                 this.save(rabbitMessage);
 
-                this.pushBack(Constants.QUEUE_NAME_WEATHER, msg);
+                this.pushBack(env.getRequiredProperty("rabbitmq.queue_name.weather"), msg);
             } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.DELETE)) {
                 System.out.println("CustomMessageListener > COMMAND = DELETE");
 
@@ -90,7 +94,7 @@ public class CustomMessageListener {
         }
     }
 
-    @RabbitListener(queues = Constants.QUEUE_NAME_DAY_INFO)
+    @RabbitListener(queues = "${rabbitmq.queue_name.day_info}")
     public void receiveMessageForDayInfo(byte[] message) {
         count_received++;
         String msg = new String(message, Charset.forName("UTF-8"));
@@ -116,7 +120,7 @@ public class CustomMessageListener {
                 rabbitMessage.setCategory("sun_info");
                 this.save(rabbitMessage);
 
-                this.pushBack(Constants.QUEUE_NAME_DAY_INFO, msg);
+                this.pushBack(env.getRequiredProperty("rabbitmq.queue_name.day_info"), msg);
             } else if (rabbitMessage.getCommand().equals(RabbitMessage.CommandType.DELETE)) {
                 System.out.println("CustomMessageListener > COMMAND = DELETE");
 

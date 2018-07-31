@@ -1,6 +1,5 @@
 package de.tub.app.apputil;
 
-import de.tub.app.message.Receiver;
 import de.tub.app.repository.RabbitMessageRepository;
 import de.tub.app.repository.WeatherRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -34,8 +33,6 @@ public class ObjFactory {
     private RabbitMessageRepository rabbitMessageRepository;
     @Autowired
     private WeatherRepository weatherRepository;
-    @Autowired
-    private Receiver receiver;
 
     /**
      * @return the rabbitTemplate
@@ -147,20 +144,6 @@ public class ObjFactory {
      */
     public void setWeatherRepository(WeatherRepository weatherRepository) {
         this.weatherRepository = weatherRepository;
-    }
-
-    /**
-     * @return the receiver
-     */
-    public Receiver getReceiver() {
-        return receiver;
-    }
-
-    /**
-     * @param receiver the receiver to set
-     */
-    public void setReceiver(Receiver receiver) {
-        this.receiver = receiver;
     }
 
     /**

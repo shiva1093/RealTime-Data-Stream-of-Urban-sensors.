@@ -17,3 +17,11 @@ spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
 #spring.rabbitmq.username=
 #spring.rabbitmq.password=
+spring.rabbitmq.dynamic=true
+spring.rabbitmq.virtual-host=contextfencing
+
+security.allowed_origins=http://localhost,https://localhost,http://localhost:9990,https://localhost:9990,http://localhost:9991,https://localhost:9991,http://localhost:9992,https://localhost:9992,http://localhost:9996,https://localhost:9996
+rabbitmq.routing_key_begin=contextfencing.sensor.condition.weather.
+rabbitmq.queue_name.weather=contextfencing.sensor.weather
+rabbitmq.queue_name.day_info=contextfencing.sensor.daylight
+batch_job.conditons_check=0 0/3 * * * ?

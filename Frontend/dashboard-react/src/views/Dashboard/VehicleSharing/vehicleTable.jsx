@@ -219,7 +219,7 @@ class VehicleTable extends React.Component {
             console.log(this.state.orderBy)
             console.log(this.state.order)*/
             this.setState({data: results, isLoading:true,totalElements:totalCount});
-            this.props.vehicleRules(results);
+            this.props.vehicleRules(totalCount);
         })
     }
     RefreshFunction = () => {

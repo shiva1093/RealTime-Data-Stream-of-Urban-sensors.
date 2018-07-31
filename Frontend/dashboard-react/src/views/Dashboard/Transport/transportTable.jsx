@@ -192,7 +192,7 @@ class TransportTable extends React.Component {
 
         this.state = {
             order: 'asc',
-            orderBy: 'transporttype',
+            orderBy: 'transportType',
             isLoading: false,
             selected: [],
             busNames: [],
@@ -200,7 +200,7 @@ class TransportTable extends React.Component {
 
             ],
             totalConditions: "",
-            page: 0,
+            page: 1,
             rowsPerPage: 5,
         };
     }
@@ -210,7 +210,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(config.URL.transport).then((res) => {
+        GenericAPIHandler("http://localhost:18099/bvg?pageSize="+this.state.rowsPerPage+"&pageNumber="+this.state.page+"&sortCriteria="+this.state.orderBy+"&sortType="+this.state.order).then((res) => {
             var results = res.data.ruleListFactory;
             var totalRules = res.data.rulesAmount;
             this.setState({data: results, isLoading:true,totalConditions:totalRules});
@@ -230,7 +230,11 @@ class TransportTable extends React.Component {
             order = 'asc';
         }
 
-        this.setState({ order, orderBy });
+        this.setState({ order, orderBy },() => {
+            /*console.log(this.state.orderBy, 'orderBY');
+            console.log(this.state.order, 'order');*/
+            this.ApiHandler();
+        });
     };
 
     handleSelectAllClick = (event, checked) => {
@@ -263,11 +267,17 @@ class TransportTable extends React.Component {
     };
 
     handleChangePage = (event, page) => {
-        this.setState({ page });
+        this.setState({ page }, () => {
+            //console.log(this.state.page, 'pagestatechanged');
+            this.ApiHandler();
+        });
     };
 
     handleChangeRowsPerPage = event => {
-        this.setState({ rowsPerPage: event.target.value });
+        this.setState({ rowsPerPage: event.target.value }, () => {
+            // console.log(this.state.rowsPerPage, 'rowsperpagestatechanged');
+            this.ApiHandler();
+        });
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -307,8 +317,8 @@ class TransportTable extends React.Component {
                         />
                         <TableBody>
                             {data
-                                .sort(getSorting(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                              /*  .sort(getSorting(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)*/
                                 .map(n => {
                                     const isSelected = this.isSelected(n.bindingID);
                                     const transportLine = n.transport.map((v,i) => {

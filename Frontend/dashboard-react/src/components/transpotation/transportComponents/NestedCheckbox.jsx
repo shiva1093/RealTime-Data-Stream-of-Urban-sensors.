@@ -1,10 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import treeData from '../data.json'
-import bus from './transportJson/bus.json'
+/*import bus from './transportJson/bus.json'
 import train from './transportJson/train.json'
 import tram from './transportJson/tram.json'
-import ubahn from './transportJson/ubahn.json'
+import ubahn from './transportJson/ubahn.json'*/
+import bus from './transportJson/bus_sample.json'
+import train from './transportJson/train_sample.json'
+import tram from './transportJson/tram_sample.json'
+import ubahn from './transportJson/ubahn_sample.json'
+
 import { TreeSelect } from 'antd';
 import 'antd/dist/antd.css';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;

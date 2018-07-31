@@ -1,0 +1,114 @@
+[
+  {
+    "label": "All",
+    "value": "all",
+    "key": "0-0-0",
+    "children": [
+      {
+        "children":[
+          {
+            "parent":"tram99",
+            "key":"0-0",
+            "value":"Potsdam, Fontanestr.",
+            "label":"Potsdam, Fontanestr."
+          }
+        ],
+        "key":"0",
+        "value":"tram99",
+        "label":"tram99"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram6",
+            "key":"1-1",
+            "value":"Brandenburg, Hauptbahnhof",
+            "label":"Brandenburg, Hauptbahnhof"
+          }
+        ],
+        "key":"1",
+        "value":"tram6",
+        "label":"tram6"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram94",
+            "key":"2-2",
+            "value":"Potsdam, Fontanestr.",
+            "label":"Potsdam, Fontanestr."
+          }
+        ],
+        "key":"2",
+        "value":"tram94",
+        "label":"tram94"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram2",
+            "key":"5-5",
+            "value":"Brandenburg, Hauptbahnhof",
+            "label":"Brandenburg, Hauptbahnhof"
+          }
+        ],
+        "key":"5",
+        "value":"tram2",
+        "label":"tram2"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram96",
+            "key":"6-6",
+            "value":"Potsdam, Campus Jungfernsee",
+            "label":"Potsdam, Campus Jungfernsee"
+          }
+        ],
+        "key":"6",
+        "value":"tram96",
+        "label":"tram96"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram68",
+            "key":"32-32",
+            "value":"Alt-Schm\u00f6ckwitz",
+            "label":"Alt-Schm\u00f6ckwitz"
+          }
+        ],
+        "key":"32",
+        "value":"tram68",
+        "label":"tram68"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram67",
+            "key":"37-37",
+            "value":"Krankenhaus K\u00f6penick",
+            "label":"Krankenhaus K\u00f6penick"
+          }
+        ],
+        "key":"37",
+        "value":"tram67",
+        "label":"tram67"
+      },
+      {
+        "children":[
+          {
+            "parent":"tram63",
+            "key":"40-40",
+            "value":"Mahlsdorf Rahnsdorfer Str.",
+            "label":"Mahlsdorf Rahnsdorfer Str."
+          }
+        ],
+        "key":"40",
+        "value":"tram63",
+        "label":"tram63"
+      }
+     ]
+  }
+]
+

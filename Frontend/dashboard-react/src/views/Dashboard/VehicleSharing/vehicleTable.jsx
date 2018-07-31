@@ -24,6 +24,7 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
+import {config} from '../../../config/default.js'
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -130,7 +131,7 @@ let EnhancedTableToolbar = props => {
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
-                        Public Transport Dashboard
+                        Transport Sharing Dashboard
                     </Typography>
                 )}
             </div>
@@ -209,7 +210,7 @@ class VehicleTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportsharingapi`).then((res) => {
+        GenericAPIHandler(config.URL.vehiclesharing).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});
@@ -271,10 +272,11 @@ class VehicleTable extends React.Component {
     };
 
     RefreshApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+        GenericAPIHandler('https://my-json-server.typicode.com/shiva1093/APICall/transportsharingapi').then((res) => {
             var results = res.data;
             console.log(results)
-            this.setState({data: results});
+            this.setState({data: results, isLoading:true});
+            this.props.vehicleRules(results);
         })
     }
 
@@ -282,9 +284,9 @@ class VehicleTable extends React.Component {
 
     checkStatus = (props) => {
         if(props === true)
-            return <AddCircle color="primary"/>
+            return <AddCircle nativeColor="green"/>
         else
-            return <AddCircle color="secondary"/>
+            return <AddCircle nativeColor="red"/>
     }
     render() {
         const { classes } = this.props;
@@ -336,8 +338,8 @@ class VehicleTable extends React.Component {
                                                 {n.vehicleType}
                                             </TableCell>
                                             <TableCell numeric>{n.provider}</TableCell>
-                                            <TableCell numeric>{n.latitude},{n.longitude}</TableCell>
-                                            <TableCell numeric>{n.areaRadius}</TableCell>
+                                            <TableCell numeric>{n.lowerBound}</TableCell>
+                                            <TableCell numeric>{n.upperBound}</TableCell>
                                             <TableCell numeric>
                                                 {this.checkStatus(n.status)}
                                             </TableCell>
@@ -354,7 +356,7 @@ class VehicleTable extends React.Component {
                 </div>
                 <TablePagination
                     component="div"
-                    count="50"
+                    count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     backIconButtonProps={{

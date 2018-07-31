@@ -23,8 +23,9 @@ import { daynightHeader } from "./daynightHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
-import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
 import { testData } from '../weather/testdata.js';
+import {config} from '../../../config/default.js'
+
 
 function getSorting(order, orderBy) {
     return order === 'desc'
@@ -215,7 +216,7 @@ class DaynightTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/transportsharingapi`).then((res) => {
+        GenericAPIHandler(config.URL.daylight).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results, isLoading:true});
@@ -281,7 +282,7 @@ class DaynightTable extends React.Component {
         console.log(results)
         this.setState({data: results});
         /*
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+        GenericAPIHandler(config.URL.daylight).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results});
@@ -293,9 +294,9 @@ class DaynightTable extends React.Component {
 
     checkStatus = (props) => {
         if(props === true)
-            return <AddCircle color="primary"/>
+            return <AddCircle nativeColor="green"/>
         else
-            return <AddCircle color="secondary"/>
+            return <AddCircle nativeColor="red"/>
     }
     render() {
         const { classes } = this.props;

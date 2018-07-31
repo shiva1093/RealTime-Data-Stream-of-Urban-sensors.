@@ -26,8 +26,6 @@ RUN apt-get update && \
 EXPOSE  15672
 # Web-STOMP plugin
 EXPOSE  15674
-# Web-stomp example 
-EXPOSE 15670
 # MQTT:
 EXPOSE  1883
 # AMQP

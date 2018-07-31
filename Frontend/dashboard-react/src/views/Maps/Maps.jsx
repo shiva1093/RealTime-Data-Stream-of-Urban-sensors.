@@ -91,8 +91,9 @@ withGoogleMap(props => (
                 drawingControl: true,
                 circleOptions: {
                     fillColor: `#ffff00`,
-                    fillOpacity: 1,
-                    strokeWeight: 5,
+                    fillOpacity: 0.35,
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
                     clickable: false,
                     editable: true,
                     zIndex: 1,

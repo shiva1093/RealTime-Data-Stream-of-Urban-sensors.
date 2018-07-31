@@ -23,6 +23,7 @@ import { busHeader } from "./transportHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
+import {config} from '../../../config/default.js'
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -209,7 +210,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(`https://my-json-server.typicode.com/shiva1093/APICall/sharingapiPage`).then((res) => {
+        GenericAPIHandler(config.URL.transport).then((res) => {
             var results = res.data.ruleListFactory;
             var totalRules = res.data.rulesAmount;
             this.setState({data: results, isLoading:true,totalConditions:totalRules});
@@ -273,9 +274,9 @@ class TransportTable extends React.Component {
 
     checkStatus = (props) => {
         if(props === true)
-            return <AddCircle color="primary"/>
+            return <AddCircle nativeColor="green"/>
         else
-            return <AddCircle color="secondary"/>
+            return <AddCircle nativeColor="red"/>
     }
     render() {
         const { classes } = this.props;

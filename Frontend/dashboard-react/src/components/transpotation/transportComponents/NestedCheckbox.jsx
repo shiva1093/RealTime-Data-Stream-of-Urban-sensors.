@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import treeData from '../data.json'
+import bus from './transportJson/bus.json'
+import train from './transportJson/train.json'
+import tram from './transportJson/tram.json'
+import ubahn from './transportJson/ubahn.json'
 import { TreeSelect } from 'antd';
 import 'antd/dist/antd.css';
 const SHOW_PARENT = TreeSelect.SHOW_PARENT;
@@ -50,6 +54,7 @@ class NestedCheckbox extends React.Component {
                         //console.log( nodes)
                       //  alert('elseif')
                         nodes.children.forEach((parentHasChild) => {
+                            var direction = parentHasChild.node.props.value; /* need to be refractored */
                             var parentHasChild = parentHasChild.node.props.parent;
                             var valueToPush = {}; // or "var valueToPush = new Object();" which is the same
                             var flag = 1;
@@ -66,7 +71,7 @@ class NestedCheckbox extends React.Component {
                             }
                             if(flag == 1){
                                 valueToPush.transportLine = parentHasChild;
-                                valueToPush.direction = null;
+                                valueToPush.direction = direction; /* need to be refractored */
                                 busName.push(valueToPush);
                             }
                            // console.log(busName)
@@ -90,20 +95,73 @@ class NestedCheckbox extends React.Component {
 
     };
     render() {
-        const tProps = {
-            treeData,
-            value: this.state.value,
-            onChange: this.onChange,
-            treeCheckable: true,
-            showCheckedStrategy: SHOW_PARENT,
-            searchPlaceholder: 'Please select',
-            onSelect: this.onSelect,
-            filterTreeNode: true,
-            style: {
-                width: 300,
-            },
-        };
-        return <TreeSelect {...tProps} />;
+        if(this.props.transportName === 'bus'){
+            var treeData = bus;
+            const tProps = {
+                treeData,
+                value: this.state.value,
+                onChange: this.onChange,
+                treeCheckable: true,
+                showCheckedStrategy: SHOW_PARENT,
+                searchPlaceholder: 'Please select',
+                onSelect: this.onSelect,
+                filterTreeNode: true,
+                style: {
+                    width: 300,
+                },
+            };
+            return <TreeSelect {...tProps} />;
+        }else if(this.props.transportName === 'train'){
+            var treeData = train;
+            const tProps = {
+                treeData,
+                value: this.state.value,
+                onChange: this.onChange,
+                treeCheckable: true,
+                showCheckedStrategy: SHOW_PARENT,
+                searchPlaceholder: 'Please select',
+                onSelect: this.onSelect,
+                filterTreeNode: true,
+                style: {
+                    width: 300,
+                },
+            };
+            return <TreeSelect {...tProps} />;
+        }else if(this.props.transportName === 'tram'){
+            var treeData = tram;
+            const tProps = {
+                treeData,
+                value: this.state.value,
+                onChange: this.onChange,
+                treeCheckable: true,
+                showCheckedStrategy: SHOW_PARENT,
+                searchPlaceholder: 'Please select',
+                onSelect: this.onSelect,
+                filterTreeNode: true,
+                style: {
+                    width: 300,
+                },
+            };
+            return <TreeSelect {...tProps} />;
+        }else {
+            var treeData = ubahn;
+            const tProps = {
+                    treeData,
+                    value: this.state.value,
+                    onChange: this.onChange,
+                    treeCheckable: true,
+                    showCheckedStrategy: SHOW_PARENT,
+                    searchPlaceholder: 'Please select',
+                    onSelect: this.onSelect,
+                    filterTreeNode: true,
+                    style: {
+                        width: 300,
+                    },
+                };
+            return <TreeSelect {...tProps} />;
+        }
+
+
     }
 }
 

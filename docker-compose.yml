@@ -1,57 +1,157 @@
-version: '3'
+version: '2.1'
 
 services:
-  admindash:
-    container_name: admindash
-    build: ./Frontend/dashboard-react/
-    volumes: 
-      - './Frontend/dashboard-react/:/var/www/admindash'
-    ports:
-      - '3000:3000'
-    restart: always
-    depends_on:
-      - rabbitmq
-  
-
-  rabbitmq:
-    container_name: rabbitmq
-    build: ./microservice_message-broker/
-    ports:
-      - '15672:15672'
-      - '15674:15674'
-      - '1883:1883'
-      - '5672:5672'
-    restart: always
-
-  nginx:
-    build: ./Backend/weather/nginx
-    links:
-        - node1:node1
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "80:80"
-  node1:
-    build: ./Backend/weather/
-    expose:
-      - "1337"
-    ports:
-      - "8080:8080"
-    links:
-      - mongodb
-    depends_on:
-      - mongodb
-      - rabbitmq
-    environment:
-      - MONGO_URL=mongodb://mongo/weatherapi 
-
-  mongodb:
-    container_name: mongodb
-    image: "mongo:latest"
-    ports: 
-      - "27017:27017"
-    environment:
-      - MONGO_HOST=mongodb
-      - MONGO_PORT=27017
-    restart: always  
-
+   # The Eureka service
+#   discovery-service:
+#     # Give the container a name. This name can be used by other containers to address the service residing within this container without using an explicit IP address
+#     container_name: cf-discovery-service
+#     # Location where the Dockerfile is stored
+#     build: ./microservice-discovery-service
+#     ports:
+#     - 8761:8761
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:8761"]
+#       interval: 5s
+#       timeout: 3s
+#       retries: 10
+   message-broker:
+     # Give the container a name. This name can be used by other containers to address the service residing in this container without using an IP address
+     container_name: cf-message-broker
+     # Location where the Dockerfile is stored
+     build: ./microservice-message-broker/docker/development
+     # Allow to access the message broker from outside of container via port 15673, 1884, 15675 and 5673
+     ports:
+       - 15673:15672
+       - 1884:1883
+       - 15675:15674
+       - 5673:5672
+     healthcheck:
+       # Check if message broker is reachable respectively healthy
+       test: ["CMD", "curl", "-f", "http://localhost:15672"]
+       interval: 30s
+       timeout: 3s
+       retries: 3
+#   database:
+#      container_name: cf-sensor-database
+#      build: ./microservice-sensor-database/docker/development
+#      # Does not need to open ports to outside world. Used for debugging only.
+#      ports:
+#        - 27045:27021
+#      healthcheck:
+#        test: echo 'db.apps.stats().ok' | mongo localhost:27045/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
+#        interval: 5s
+#        timeout: 3s
+#        retries: 3
+#   database2:
+#      container_name: cf-sensor-database2
+#      build: ./microservice-sensor-database/docker/development
+      # Does not need to open ports to outside world. Used for debugging only.
+#      ports:
+#        - 27022:27045
+#      healthcheck:
+#        test: echo 'db.apps.stats().ok' | mongo localhost:27045/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
+#        interval: 5s
+#        timeout: 3s
+#        retries: 3           
+#   public-transport:
+     # Give the container a name. This name can be used by other containers to address the service residing in this container without using an IP address
+#     container_name: cf-sensor-public-transport
+     # Location where the Dockerfile is stored
+#     build: ./microservice-public-transport/docker/development
+     # Only start this container if the message broker AND discovery-service started properly
+#     depends_on:
+#       message-broker:
+#         condition: service_healthy
+#       discovery-service:
+#         condition: service_healthy       
+#     ports:
+     # Allow to access the MongoDB for public transport from outside of container via port 27046
+#     - 27046:27021 
+#     healthcheck:
+       # Check if MongoDB within container is working properly
+ #      test: echo 'db.stats().ok' | mongo localhost:27046/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
+       # Check every 5 seconds
+ #      interval: 5s
+       # Check MongoDB does not respond within 3 seconds assume the container to be not functioning
+ #      timeout: 3s
+ #      retries: 3
+ #  car-sharing:
+ #    container_name: cf-sensor-car-sharing
+ #     build: ./microservice-car-sharing/
+ #     depends_on:
+ #      message-broker:
+ #        condition: service_healthy
+ #      discovery-service:
+ #        condition: service_healthy
+ #      database:
+ #        condition: service_healthy       
+ #     ports:
+      # Allow to access the MongoDB for public transport from outside of container via port 27047
+ #    - 27047:27021 
+ #     healthcheck:
+ #       test: ["CMD", "curl", "-f", "http://127.0.0.1:8080/health"]
+ #       interval: 15s
+ #       timeout: 3s
+ #       retries: 3
+ #  bike-sharing:
+ #     container_name: cf-sensor-bike-sharing
+ #     build: ./microservice-bike-sharing/docker/development
+ #     depends_on:
+ #      message-broker:
+ #        condition: service_healthy
+ #        discovery-service:
+#         condition: service_healthy      
+#      ports:
+      # Allow to access the MongoDB for public transport from outside of container via port 27048
+ #     - 27048:27021 
+ #     healthcheck:
+ #       test: echo 'db.stats().ok' | mongo localhost:27046/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
+  #      interval: 15s
+ #       timeout: 3s
+ #       retries: 3     
+#   weather:
+#     container_name: cf-sensor-weather
+#     build: ./microservice-weather
+#     depends_on:
+#       message-broker:
+#         condition: service_healthy
+#       discovery-service:
+#         condition: service_healthy      
+#     ports:
+#       - 9000:9996
+#     healthcheck:
+#       test: ["CMD", "curl", "-f", "http://localhost:9996"]
+#       interval: 5s
+#       timeout: 3s
+#       retries: 10
+##  daylight:
+#     container_name: cf-sensor-daylight
+#     build: ./microservice-daylight
+#     depends_on:
+#       message-broker:
+#         condition: service_healthy
+#       discovery-service:
+#         condition: service_healthy      
+#     ports:
+     # Allow to access the MongoDB for public transport from outside of container via port 27050
+ #     - 27050:27021 
+ #    healthcheck:
+ #      test: echo 'db.stats().ok' | mongo localhost:27046/contextfencing -u frontend -p ob7%93g0-sdfg7 --quiet
+ #      interval: 5s
+#       timeout: 3s
+#       retries: 10    
+   dashboard:
+      container_name: cf-sensor-dashboard
+      build: ./microservice-sensor-dashboard
+      depends_on:
+       message-broker:
+         condition: service_healthy
+      ports:
+      - 80:3000
+#      - 444:443
+      healthcheck:
+#        # Check internally whether the dashboard is reachable
+        test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+        interval: 5s
+        timeout: 3s
+        retries: 10      

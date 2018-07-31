@@ -25,6 +25,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import RemoveCircle from '@material-ui/icons/IndeterminateCheckBox';
 import {config} from '../../../config/default.js'
+import {sendmsg} from "../../../utils/webstomp";
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -116,8 +117,12 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-    const { numSelected, classes } = props;
-
+    const { numSelected, DeleteFunction, classes } = props;
+    var select= [];
+    Object.keys(numSelected).map(function(i) {
+        select.push(numSelected[i]);
+    })
+    console.log("what is selected::::" + typeof(select) + "......"+ select.length);
     return (
         <Toolbar
             className={classNames(classes.root, {
@@ -125,9 +130,9 @@ let EnhancedTableToolbar = props => {
             })}
         >
             <div className={classes.title}>
-                {numSelected > 0 ? (
+                {select.length > 0 ? (
                     <Typography color="inherit" variant="subheading">
-                        {numSelected} selected
+                        {select.length} selected
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
@@ -137,10 +142,10 @@ let EnhancedTableToolbar = props => {
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
-                {numSelected > 0 ? (
+                {select.length > 0 ? (
                     <Tooltip title="Delete">
                         <IconButton aria-label="Delete">
-                            <DeleteIcon />
+                            <DeleteIcon onClick={() => DeleteFunction(select)} />
                         </IconButton>
                     </Tooltip>
                 ) : (
@@ -225,6 +230,20 @@ class VehicleTable extends React.Component {
     RefreshFunction = () => {
         this.setState({isLoading:false});
         this.ApiHandler();
+    }
+
+    DeleteFunction = (select) => {
+        const topic = config.topics.vehiclesharing;
+        var len = select.length;
+        var msg;
+        for (var i = 0; i< len; i++){
+            msg = {
+                bindingID: select[i],
+                command: 'REMOVE'
+            }
+            sendmsg(msg, topic);
+            console.log("in delete function ::::::" + JSON.stringify(msg));
+        }
     }
 
     handleRequestSort = (event, property) => {
@@ -312,7 +331,7 @@ class VehicleTable extends React.Component {
 
             this.state.isLoading ?
                 <Paper className={classes.root}>
-                    <EnhancedTableToolbar numSelected={selected.length} />
+                    <EnhancedTableToolbar DeleteFunction={this.DeleteFunction} numSelected={selected} />
                     <div style={refreshIcon}
                          onClick={this.RefreshFunction}>
                         <Tooltip title="Refresh">

@@ -23,7 +23,7 @@ import { daynightHeader } from "./daynightHeader"
 import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandler"
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
-import { testData } from '../weather/testdata.js';
+import { testData } from './testdata.js';
 import {config} from '../../../config/default.js'
 
 
@@ -208,11 +208,13 @@ class DaynightTable extends React.Component {
     }
 
     componentDidMount() {
+        /*
         var results = testData.content
 
         this.setState({data: results, isLoading:true});
         this.props.daynightRules(results);
-        //this.ApiHandler()
+        */
+        this.ApiHandler()
     }
 
     ApiHandler(){
@@ -278,16 +280,17 @@ class DaynightTable extends React.Component {
     };
 
     RefreshApiHandler(){
+        /*
         var results = testData.content;
         console.log(results)
         this.setState({data: results});
-        /*
+        */
         GenericAPIHandler(config.URL.daylight).then((res) => {
             var results = res.data;
             console.log(results)
             this.setState({data: results});
         })
-        */
+        
     }
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -345,7 +348,7 @@ class DaynightTable extends React.Component {
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                            {n.conditionAsCondition.conditionType}
+                                            {n.category}
                                             </TableCell>
                                             <TableCell numeric>{JSON.stringify(n.condition[0].value)}</TableCell>
                                             <TableCell numeric>

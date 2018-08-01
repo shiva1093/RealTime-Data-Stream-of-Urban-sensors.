@@ -6,7 +6,7 @@ export const testData = {
          "condition":[{"lon":139,"lat":35,"value":"isday"}],
          "status":false,
          "command":null,
-         "category":"dalylight",
+         "category":"sun_info",
          "dateCreated":"2018-07-15T17:26:00.328+0000",
          "conditionAsCondition":{"lon":139.0,"lat":35.0,"value":"is_day","conditionType":"WEATHER"}
         },
@@ -15,7 +15,7 @@ export const testData = {
          "condition":[{"lon":139,"lat":35,"value":"isnight"}],
          "status":false,
          "command":null,
-         "category":"daylight",
+         "category":"sun_info",
          "dateCreated":"2018-07-15T17:29:00.328+0000",
          "conditionAsCondition":{"lon":139.0,"lat":35.0,"value":"is_night","conditionType":"WEATHER"}
         }

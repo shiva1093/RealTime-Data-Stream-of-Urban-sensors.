@@ -219,22 +219,25 @@ class TransportTable extends React.Component {
     componentDidMount() {
 
         // currently here is using test data, it should be changed to call api 
+        /*
         var results = testData.content
 
         this.setState({data: results, isLoading:true});
         this.props.weatherRules(results);
+        */
         
-        //this.ApiHandler()
+        this.ApiHandler()
     }
 
     ApiHandler(){
+        /*
         var results = testData.content
 
         this.setState({data: results, isLoading:true});
         this.props.weatherRules(results);
-
-        /* 
-        * change to using APIhandler after backend finishes API part
+        */
+        
+        //change to using APIhandler after backend finishes API part
         GenericAPIHandler(config.URL.weather).then((res) => {
             
             var results = res.data
@@ -244,7 +247,7 @@ class TransportTable extends React.Component {
            this.setState({data: results, isLoading:true});
            this.props.weatherRules(results);
         })
-        */
+        
     }
     RefreshFunction = () => {
         this.setState({isLoading:false});
@@ -314,17 +317,17 @@ class TransportTable extends React.Component {
     isSelected = id => this.state.selected.indexOf(id) !== -1;
 
     RefreshApiHandler(){
+        /*
         var results = testData.content;
         console.log(results)
         this.setState({data: results});
-        /*
+        */
         GenericAPIHandler(config.URL.weather).then((res) => {
             //var results = res.data;
             var results = testData;
             console.log(results)
             this.setState({data: results});
         })
-        */
     }
 
     checkStatus = (props) => {
@@ -366,7 +369,7 @@ class TransportTable extends React.Component {
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map(n => {
                                     const isSelected = this.isSelected(n.bindingID);
-                                    console.log("what is n here : " + JSON.stringify(n));
+                                    console.log("what is n here : " + JSON.stringify(n.category));
                                     console.log("what is n content here : " + JSON.stringify(n.condition[0]));
 
                                     return (
@@ -383,7 +386,7 @@ class TransportTable extends React.Component {
                                                 <Checkbox checked={isSelected} />
                                             </TableCell>
                                             <TableCell component="th" scope="row" padding="none">
-                                                {n.conditionAsCondition.conditionType}
+                                                {n.category}
                                             </TableCell>
                                             <TableCell numeric>{JSON.stringify(n.condition[0].value)}</TableCell>
                                             <TableCell numeric>

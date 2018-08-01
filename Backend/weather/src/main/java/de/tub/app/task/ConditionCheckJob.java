@@ -1,6 +1,5 @@
 package de.tub.app.task;
 
-import de.tub.app.Config;
 import de.tub.app.apputil.ObjFactory;
 import de.tub.app.domain.weather.WeatherDetails;
 import com.datenc.commons.date.DateUtil;
@@ -16,6 +15,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -24,13 +25,17 @@ import org.springframework.stereotype.Component;
  * @author Naveed Kamran
  */
 @Component
+@PropertySource("classpath:application.properties")
 public class ConditionCheckJob implements Runnable, ApplicationContextAware {
+
+    @Autowired
+    private Environment env;
 
     ApplicationContext applicationContext = null;
     @Autowired
     private ObjFactory objFactory;
 
-    @Scheduled(cron = Config.CRONE_WEATHER_RELOAD)
+    @Scheduled(cron = "${batch_job.conditons_check}")
     @Override
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " UpdateWeatherJob executing .....");
@@ -47,7 +52,7 @@ public class ConditionCheckJob implements Runnable, ApplicationContextAware {
                     if (conditionNewVal != rabbitMessage.getStatus()) {
                         log(rabbitMessage, "Weather conditon is changed. Updating the client for the updated weather using RabbitMQ.");
                         rabbitMessage.setStatus(conditionNewVal);
-                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Config.ROUNTING_KEY_BEGIN, new Gson().toJson(rabbitMessage));
+                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, env.getRequiredProperty("rabbitmq.routing_key_begin"), new Gson().toJson(rabbitMessage));
                     } else {
                         log(rabbitMessage, "Weather conditon did not change. Continuing without doing any further action.");
                     }
@@ -58,7 +63,7 @@ public class ConditionCheckJob implements Runnable, ApplicationContextAware {
                     boolean conditionNewVal = objFactory.getConditionUtil().checkCondition(sunInfo, rabbitMessage.getCondition().get(0).toString());
                     if (conditionNewVal != rabbitMessage.getStatus()) {
                         log(rabbitMessage, "Weather conditon is changed. Updating the client for the updated weather using RabbitMQ.");
-                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Config.ROUNTING_KEY_BEGIN, new Gson().toJson(sunInfo));
+                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, env.getRequiredProperty("rabbitmq.routing_key_begin"), new Gson().toJson(sunInfo));
                     } else {
                         log(rabbitMessage, "Weather conditon did not change. Continuing without doing any further action.");
                     }

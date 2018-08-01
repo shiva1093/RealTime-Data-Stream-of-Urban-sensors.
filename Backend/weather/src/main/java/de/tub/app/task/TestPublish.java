@@ -12,6 +12,8 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +22,11 @@ import org.springframework.stereotype.Component;
  * @author Naveed Kamran
  */
 @Component
+@PropertySource("classpath:application.properties")
 public class TestPublish implements Runnable, ApplicationContextAware {
 
+    @Autowired
+    private Environment env;
     ApplicationContext applicationContext = null;
     @Autowired
     private ObjFactory objFactory;
@@ -55,7 +60,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
                 + "\"status\":\"\"\n"
                 + "}";
 
-        channel.basicPublish("", Constants.QUEUE_NAME_DAY_INFO, null, message.getBytes());
+        channel.basicPublish("", env.getRequiredProperty("rabbitmq.queue_name.day_info"), null, message.getBytes());
 //        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Constants.QUEUE_NAME_DAY_INFO, message);
         System.out.println(" [x] Test Message Sent for DayInfo");
     }
@@ -72,7 +77,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
                 + "\"status\":\"\"\n"
                 + "}";
 
-        channel.basicPublish("", Constants.QUEUE_NAME_WEATHER, null, message.getBytes());
+        channel.basicPublish("", env.getRequiredProperty("rabbitmq.queue_name.weather"), null, message.getBytes());
 //        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, Constants.QUEUE_NAME_WEATHER, message);
         System.out.println(" [x] Test Message Sent for Weather");
     }

@@ -46,7 +46,7 @@ class Dashboard extends React.Component {
   }
 
    vehicleRules = (props) =>{
-        let count = props.length
+        let count = props
         this.setState({
            vehicleRules:count
         })

@@ -1,0 +1,109 @@
+[
+  {
+    "label": "All",
+    "value": "all",
+    "key": "0-0-0",
+    "children": [
+      {
+        "children":[
+          {"parent": "s42", "key": "0-0", "value": "Ringbahn S 42", "label": "Ringbahn S 42"}
+        ],
+        "key":"0",
+        "value":"s42",
+        "label":"s42"
+      },
+      {
+        "children":[
+          {
+            "parent":"s41",
+            "key":"1-1",
+            "value":"Ringbahn S 41",
+            "label":"Ringbahn S 41"
+          }
+        ],
+        "key":"1",
+        "value":"s41",
+        "label":"s41"
+      },
+      {
+        "children":[
+          {
+            "parent":"rb21",
+            "key":"10-10",
+            "value":"S K\u00f6nigs Wusterhausen Bhf",
+            "label":"S K\u00f6nigs Wusterhausen Bhf"
+          }
+        ],
+        "key":"10",
+        "value":"rb21",
+        "label":"rb21"
+      },
+      {
+        "children":[
+          {
+            "parent":"re4",
+            "key":"11-11",
+            "value":"Rathenow, Bahnhof",
+            "label":"Rathenow, Bahnhof"
+          }
+        ],
+        "key":"11",
+        "value":"re4",
+        "label":"re4"
+      },
+      {
+        "children":[
+          {
+            "parent":"rb33",
+            "key":"12-12",
+            "value":"S Wannsee Bhf (Berlin)",
+            "label":"S Wannsee Bhf (Berlin)"
+          }
+        ],
+        "key":"12",
+        "value":"rb33",
+        "label":"rb33"
+      },
+      {
+        "children":[
+          {
+            "parent":"ice1507",
+            "key":"13-13",
+            "value":"M\u00fcnchen, Hauptbahnhof",
+            "label":"M\u00fcnchen, Hauptbahnhof"
+          }
+        ],
+        "key":"13",
+        "value":"ice1507",
+        "label":"ice1507"
+      },
+      {
+        "children":[
+          {
+            "parent":"ice1531",
+            "key":"14-14",
+            "value":"S+U Gesundbrunnen Bhf (Berlin)",
+            "label":"S+U Gesundbrunnen Bhf (Berlin)"
+          }
+        ],
+        "key":"14",
+        "value":"ice1531",
+        "label":"ice1531"
+      },
+      {
+        "children":[
+          {
+            "parent":"s7",
+            "key":"15-15",
+            "value":"S Ahrensfelde Bhf (Berlin)",
+            "label":"S Ahrensfelde Bhf (Berlin)"
+          }
+        ],
+        "key":"15",
+        "value":"s7",
+        "label":"s7"
+      }
+     ]
+  }
+]
+

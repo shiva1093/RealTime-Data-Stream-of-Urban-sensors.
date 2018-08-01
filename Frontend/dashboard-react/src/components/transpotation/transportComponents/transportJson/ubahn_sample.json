@@ -1,0 +1,42 @@
+[
+  {
+    "label": "All",
+    "value": "all",
+    "key": "0-0-0",
+    "children": [
+      {
+        "children":[
+          {
+            "parent":"u9",
+            "key":"0-0",
+            "value":"U Osloer Str. (Berlin)",
+            "label":"U Osloer Str. (Berlin)"
+          }
+        ],
+        "key":"0",
+        "value":"u9",
+        "label":"u9"
+      },
+      {
+        "children":[
+          {
+            "parent":"u7",
+            "key":"3-3",
+            "value":"S+U Rathaus Spandau (Berlin)",
+            "label":"S+U Rathaus Spandau (Berlin)"
+          }
+        ],
+        "key":"3",
+        "value":"u7",
+        "label":"u7"
+      },
+      {"children": [{"parent": "u3", "key": "9-9", "value": "S+U Warschauer Str. (Berlin)", "label": "S+U Warschauer Str. (Berlin)"}], "key": "9", "value": "u3", "label": "u3"},
+      {"children": [{"parent": "u8", "key": "15-15", "value": "S+U Wittenau", "label": "S+U Wittenau"}], "key": "15", "value": "u8", "label": "u8"},
+      {"children": [{"parent": "u6", "key": "28-28", "value": "U Alt-Tegel (Berlin)", "label": "U Alt-Tegel (Berlin)"}], "key": "28", "value": "u6", "label": "u6"},
+      {"children": [{"parent": "u2", "key": "61-61", "value": "S+U Pankow (Berlin)", "label": "S+U Pankow (Berlin)"}], "key": "61", "value": "u2", "label": "u2"},
+      {"children": [{"parent": "u1", "key": "65-65", "value": "S+U Warschauer Str. (Berlin)", "label": "S+U Warschauer Str. (Berlin)"}], "key": "65", "value": "u1", "label": "u1"},
+      {"children": [{"parent": "u5", "key": "86-86", "value": "U Kaulsdorf-Nord (Berlin)", "label": "U Kaulsdorf-Nord (Berlin)"}], "key": "86", "value": "u5", "label": "u5"}
+     ]
+  }
+]
+

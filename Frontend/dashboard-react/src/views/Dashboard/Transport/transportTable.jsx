@@ -24,6 +24,7 @@ import {GenericAPIHandler} from "../../../components/ApiHandler/genericApiHandle
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AddCircle from '@material-ui/icons/Lens';
 import {config} from '../../../config/default.js'
+import {sendmsg} from "../../../utils/webstomp";
 function getSorting(order, orderBy) {
     return order === 'desc'
         ? (a, b) => (b[orderBy] < a[orderBy] ? -1 : 1)
@@ -115,7 +116,12 @@ const toolbarStyles = theme => ({
 });
 
 let EnhancedTableToolbar = props => {
-    const { numSelected, classes } = props;
+    const { numSelected,DeleteFunction, classes } = props;
+    var select= [];
+    Object.keys(numSelected).map(function(i) {
+        select.push(numSelected[i]);
+    })
+    //console.log("what is selected::::" + typeof(select) + "......"+ select.length);
 
     return (
         <Toolbar
@@ -124,9 +130,9 @@ let EnhancedTableToolbar = props => {
             })}
         >
             <div className={classes.title}>
-                {numSelected > 0 ? (
+                {select.length > 0 ? (
                     <Typography color="inherit" variant="subheading">
-                        {numSelected} selected
+                        {select.length} selected
                     </Typography>
                 ) : (
                     <Typography variant="title" id="tableTitle">
@@ -136,10 +142,10 @@ let EnhancedTableToolbar = props => {
             </div>
             <div className={classes.spacer} />
             <div className={classes.actions}>
-                {numSelected > 0 ? (
+                {select.length > 0 ? (
                     <Tooltip title="Delete">
                         <IconButton aria-label="Delete">
-                            <DeleteIcon />
+                            <DeleteIcon onClick={() => DeleteFunction(select)} />
                         </IconButton>
                     </Tooltip>
                 ) : (
@@ -192,7 +198,7 @@ class TransportTable extends React.Component {
 
         this.state = {
             order: 'asc',
-            orderBy: 'transporttype',
+            orderBy: 'transportType',
             isLoading: false,
             selected: [],
             busNames: [],
@@ -200,7 +206,7 @@ class TransportTable extends React.Component {
 
             ],
             totalConditions: "",
-            page: 0,
+            page: 1,
             rowsPerPage: 5,
         };
     }
@@ -210,7 +216,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler(config.URL.transport).then((res) => {
+        GenericAPIHandler("http://localhost:18099/bvg/pageSize="+this.state.rowsPerPage+"&pageNumber="+this.state.page+"&sortCriteria="+this.state.orderBy+"&sortType="+this.state.order).then((res) => {
             var results = res.data.ruleListFactory;
             var totalRules = res.data.rulesAmount;
             this.setState({data: results, isLoading:true,totalConditions:totalRules});
@@ -222,6 +228,20 @@ class TransportTable extends React.Component {
        this.ApiHandler();
     }
 
+    DeleteFunction = (select) => {
+        const topic = config.topics.transport;
+        var len = select.length;
+        var msg;
+        for (var i = 0; i< len; i++){
+            msg = {
+                bindingID: select[i],
+                command: 'REMOVE'
+            }
+            sendmsg(msg, topic);
+            console.log("in delete function ::::::" + JSON.stringify(msg));
+        }
+    }
+
     handleRequestSort = (event, property) => {
         const orderBy = property;
         let order = 'desc';
@@ -230,7 +250,11 @@ class TransportTable extends React.Component {
             order = 'asc';
         }
 
-        this.setState({ order, orderBy });
+        this.setState({ order, orderBy },() => {
+            /*console.log(this.state.orderBy, 'orderBY');
+            console.log(this.state.order, 'order');*/
+            this.ApiHandler();
+        });
     };
 
     handleSelectAllClick = (event, checked) => {
@@ -263,11 +287,17 @@ class TransportTable extends React.Component {
     };
 
     handleChangePage = (event, page) => {
-        this.setState({ page });
+        this.setState({ page }, () => {
+            //console.log(this.state.page, 'pagestatechanged');
+            this.ApiHandler();
+        });
     };
 
     handleChangeRowsPerPage = event => {
-        this.setState({ rowsPerPage: event.target.value });
+        this.setState({ rowsPerPage: event.target.value }, () => {
+            // console.log(this.state.rowsPerPage, 'rowsperpagestatechanged');
+            this.ApiHandler();
+        });
     };
 
     isSelected = id => this.state.selected.indexOf(id) !== -1;
@@ -287,7 +317,7 @@ class TransportTable extends React.Component {
 
             this.state.isLoading ?
             <Paper className={classes.root}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <EnhancedTableToolbar DeleteFunction={this.DeleteFunction} numSelected={selected} />
                 <div style={refreshIcon}
                      onClick={this.RefreshFunction}>
                     <Tooltip title="Refresh">
@@ -307,8 +337,8 @@ class TransportTable extends React.Component {
                         />
                         <TableBody>
                             {data
-                                .sort(getSorting(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                              /*  .sort(getSorting(order, orderBy))
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)*/
                                 .map(n => {
                                     const isSelected = this.isSelected(n.bindingID);
                                     const transportLine = n.transport.map((v,i) => {

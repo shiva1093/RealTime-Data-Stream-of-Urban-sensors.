@@ -40,6 +40,8 @@ public class ConditionCheckJob implements Runnable, ApplicationContextAware {
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " UpdateWeatherJob executing .....");
         try {
+            objFactory.getRabbitUtil().configure(objFactory.getRabbitUtil().getConnection());
+            
             List<RabbitMessage> subs = objFactory.getRabbitMessageRepository().findAll();
             for (RabbitMessage rabbitMessage : subs) {
                 log(rabbitMessage, "Weather conditon is changed. Updating the client for the updated weather using RabbitMQ.");
@@ -52,7 +54,7 @@ public class ConditionCheckJob implements Runnable, ApplicationContextAware {
                     if (conditionNewVal != rabbitMessage.getStatus()) {
                         log(rabbitMessage, "Weather conditon is changed. Updating the client for the updated weather using RabbitMQ.");
                         rabbitMessage.setStatus(conditionNewVal);
-                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, env.getRequiredProperty("rabbitmq.routing_key_begin"), new Gson().toJson(rabbitMessage));
+                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, env.getRequiredProperty("rabbitmq.queue_name.weather"), new Gson().toJson(rabbitMessage));
                     } else {
                         log(rabbitMessage, "Weather conditon did not change. Continuing without doing any further action.");
                     }
@@ -63,7 +65,7 @@ public class ConditionCheckJob implements Runnable, ApplicationContextAware {
                     boolean conditionNewVal = objFactory.getConditionUtil().checkCondition(sunInfo, rabbitMessage.getCondition().get(0).toString());
                     if (conditionNewVal != rabbitMessage.getStatus()) {
                         log(rabbitMessage, "Weather conditon is changed. Updating the client for the updated weather using RabbitMQ.");
-                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, env.getRequiredProperty("rabbitmq.routing_key_begin"), new Gson().toJson(sunInfo));
+                        objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, env.getRequiredProperty("rabbitmq.queue_name.day_info"), new Gson().toJson(sunInfo));
                     } else {
                         log(rabbitMessage, "Weather conditon did not change. Continuing without doing any further action.");
                     }

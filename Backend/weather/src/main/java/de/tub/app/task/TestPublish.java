@@ -31,7 +31,7 @@ public class TestPublish implements Runnable, ApplicationContextAware {
     @Autowired
     private ObjFactory objFactory;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+//    @Scheduled(cron = "0 0/1 * * * ?")
     @Override
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " TestPublish executing .....");

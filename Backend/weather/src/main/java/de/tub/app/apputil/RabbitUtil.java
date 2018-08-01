@@ -1,5 +1,6 @@
 package de.tub.app.apputil;
 
+import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import java.io.IOException;
@@ -36,7 +37,15 @@ public class RabbitUtil {
         }
 
         Connection connection = factory.newConnection();
+        configure(connection);
 
         return connection;
+    }
+
+    public void configure(Connection connection) throws IOException, TimeoutException {
+        Channel channel = connection.createChannel();
+
+        channel.queueDeclareNoWait(env.getRequiredProperty("rabbitmq.queue_name.weather"), true, false, false, null);
+        channel.queueDeclareNoWait(env.getRequiredProperty("rabbitmq.queue_name.day_info"), true, false, false, null);
     }
 }

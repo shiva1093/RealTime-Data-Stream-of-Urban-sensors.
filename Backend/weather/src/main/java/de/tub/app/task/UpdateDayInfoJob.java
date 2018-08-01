@@ -24,7 +24,7 @@ public class UpdateDayInfoJob implements Runnable, ApplicationContextAware {
     @Autowired
     private ObjFactory objFactory;
 
-    @Scheduled(cron = "0 0/3 * * * ?")
+//    @Scheduled(cron = "0 0/3 * * * ?")
     @Override
     public void run() {
         System.out.println(DateUtil.getInstance().getDateTimeAsString(Calendar.getInstance().getTime()) + " UpdateWeatherJob executing .....");

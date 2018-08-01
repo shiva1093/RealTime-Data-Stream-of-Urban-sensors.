@@ -175,6 +175,7 @@ public class CustomMessageListener {
     }
 
     private void pushBack(String queueName, String message) throws IOException, TimeoutException {
+        objFactory.getRabbitUtil().configure(objFactory.getRabbitUtil().getConnection());
         objFactory.getRabbitTemplate().convertAndSend(Constants.EXCHANGE_NAME, queueName, message);
         System.out.println(" [x] Sent '" + message + "'");
     }

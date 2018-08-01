@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  *
@@ -21,18 +24,28 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @Order(-20) // Very important
 @PropertySource("classpath:application.properties")
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter { 
     @Autowired
     private Environment env;
 
-    @Override
+//    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/**").permitAll();
     }
 
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE").allowedOrigins("*")
+                        .allowedHeaders("*");
+            }
+        };
+    }
+    /*
     @Bean
     CorsConfigurationSource getCorsConfigurationSource() {
         System.out.println("<<<<<<<<<<<<<<<<<<< Adding cors info >>>>>>>>>>>>>>>>>>>>>");
@@ -55,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             if (cors != null && !cors.isEmpty()) {
                 config.setAllowedOrigins(cors);
 
+                System.out.println("Count total CORS " + cors.size());
                 System.out.println("CORS Added " + properties);
             } else {
                 System.out.println("CORS Not Added as List is emptry");
@@ -63,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             System.out.println("CORS Not Added as no input given");
         }
 
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowCredentials(Boolean.TRUE); //If this is not set then notification system can not work
@@ -72,4 +86,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
+*/
 }

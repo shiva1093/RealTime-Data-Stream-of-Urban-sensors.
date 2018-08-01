@@ -216,7 +216,7 @@ class TransportTable extends React.Component {
     }
 
     ApiHandler(){
-        GenericAPIHandler("http://localhost:18099/bvg?pageSize="+this.state.rowsPerPage+"&pageNumber="+this.state.page+"&sortCriteria="+this.state.orderBy+"&sortType="+this.state.order).then((res) => {
+        GenericAPIHandler("http://localhost:18099/bvg/pageSize="+this.state.rowsPerPage+"&pageNumber="+this.state.page+"&sortCriteria="+this.state.orderBy+"&sortType="+this.state.order).then((res) => {
             var results = res.data.ruleListFactory;
             var totalRules = res.data.rulesAmount;
             this.setState({data: results, isLoading:true,totalConditions:totalRules});

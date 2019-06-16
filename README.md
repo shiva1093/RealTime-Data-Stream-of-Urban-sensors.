@@ -1,4 +1,4 @@
-## For Frontend and Backend developing 
+## For Frontend and Backend 
 
 Branch Name: Dev-branch: Done by Siva Rajendran
 
